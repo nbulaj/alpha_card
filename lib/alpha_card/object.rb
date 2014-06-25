@@ -1,3 +1,8 @@
+# Object class needed to implement some nice
+# active_support features for projects, that
+# doesn't need active_support.
+#
+# Use-case: standalone Ruby scripts
 class Object
   def blank?
     respond_to?(:empty?) ? !!empty? : !self
