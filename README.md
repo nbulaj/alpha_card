@@ -34,7 +34,7 @@ gem install alpha_card
 Dependencies required:
 
 *   ruby >= 1.9.3
-*   curb (for Curl)
+*   rest_client
 *   virtus (for nice OOP objects of AlphaCard)
 
 ## Objects
@@ -196,6 +196,20 @@ _Note_: take a look to the _amount_ of the Order. It's format must be 'xx.xx'. A
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
 Naming convention of attributes (such as "ccexp" or "orderid") was saved due to compatibility with AlphaCard API.
+
+To raise exceptions do the next:
+
+*   to cause a declined message, pass an amount less than 1.00;
+*   to trigger a fatal error message, pass an invalid card number;
+*   to simulate an AVS match, pass 888 in the address1 field, 77777 for zip;
+*   to simulate a CVV match, pass 999 in the cvv field.
+
+Example exception:
+
+```ruby
+2.1.1 :019 >  sale.create(order, account)
+AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
+```
 
 ## Copyright
 

@@ -3,4 +3,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'virtus'
-gem 'curb'
+gem 'rest_client'

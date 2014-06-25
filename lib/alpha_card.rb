@@ -1,7 +1,7 @@
-require 'curb'
 require 'yaml'
 require 'virtus'
 require 'rack'
+require 'rest_client'
 
 require 'alpha_card/object'
 
@@ -24,25 +24,17 @@ module AlphaCard
     attr_accessor :api_base
   end
 
-  def self.request(params, account)
+  def self.request(params = {}, account)
     unless account.filled?
       raise AlphaCardError.new('You must set credentials to create the sale!')
     end
 
-    auth_params = account.to_query
+    response = RestClient.post(@api_base, params.merge(account.attributes))
 
-    curl = Curl::Easy.new(@api_base)
-    curl.connect_timeout = 15
-    curl.timeout = 15
-    curl.header_in_body = false
-    curl.ssl_verify_peer = false
-    curl.post_body = [auth_params, params].join('&')
-    curl.perform
+    alpha_card_response = AlphaCardResponse.new(response.to_str)
+    handle_errors(alpha_card_response)
 
-    response = AlphaCardResponse.new(curl.body_str)
-    handle_errors(response)
-
-    response
+    alpha_card_response
   end
 
   private
