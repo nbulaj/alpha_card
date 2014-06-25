@@ -1,5 +1,6 @@
 # Ruby lib for creating payments with AlphaCard DirectPost API
 [![Gem Version](https://badge.fury.io/rb/alpha_card.png)](http://badge.fury.io/rb/alpha_card)
+[![Dependency Status](https://gemnasium.com/budev/alpha_card.png)](https://gemnasium.com/budev/alpha_card)
 
 This gem can help your ruby/rails application to integrate with AlphaCard service.
 
