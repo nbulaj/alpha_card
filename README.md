@@ -1,7 +1,13 @@
 # Ruby lib for creating payments with AlphaCard DirectPost API
 
 This gem can help your ruby/rails application to integrate with AlphaCard service.
+
+AlphaCard: 
 http://www.alphacardservices.com/
+     
+Payment Gateway Integration Portal:
+https://secure.alphacardgateway.com/merchants/resources/integration/integration_portal.php
+
 
 ## Installation
 
@@ -43,9 +49,15 @@ order = AlphaCard::Order.new({orderid: 1, orderdescription: 'Test order'})
 order.billing = billing
 order.shipping = shipping
 
-sale = AlphaCard::Sale.new({ccexp: '0117', ccnumber: '4111111111111111', amount: 1.5, cvv: '123'})
+sale = AlphaCard::Sale.new({ccexp: '0117', ccnumber: '4111111111111111', amount: "%.2f" % 1.5 , cvv: '123'})
 sale.create(order, account)
 ```
+
+Format of parameters can be found on Alpha Card Payment Gateway Integration Portal -> 
+Direct Post API -> Documentation -> Transaction Variables
+
+Naming convention of attributes (such as "ccexp" or "orderid") was saved due to
+compatibility with AlphaCard API.
 
 ## Copyright
 

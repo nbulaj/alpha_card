@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = 'alpha_card'
   s.version = '0.1'
   s.date = '2014-06-25'
-  s.summary = "Alpha Card DirectPost API"
+  s.summary = "Alpha Card DirectPost API for Ruby"
   s.description = "Gem for creates sales with Alpha Card DirectPost API"
   s.authors = ["Nikita Bulaj"]
   s.email = 'bulajnikita@gmail.com'
@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   ]
   s.homepage = 'http://github.com/budev/alpha_card'
   s.license = 'MIT'
+  s.required_ruby_version = '>= 1.9.3'
 end
