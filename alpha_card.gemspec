@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name = 'alpha_card'
-  gem.version = '0.1.2'
+  gem.version = '0.1.3'
   gem.date = '2014-06-25'
   gem.summary = 'Alpha Card Services DirectPost API for Ruby'
   gem.description = 'Gem for creating sales with Alpha Card Services DirectPost API'
