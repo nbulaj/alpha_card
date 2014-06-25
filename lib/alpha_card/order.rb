@@ -4,6 +4,7 @@ module AlphaCard
     attribute :orderdescription, String
     attribute :ponumber, String
 
-    attr_accessor :billing, :shipping
+    attribute :billing, AlphaCard::Billing
+    attribute :shipping, AlphaCard::Shipping
   end
 end

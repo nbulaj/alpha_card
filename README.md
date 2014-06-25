@@ -4,7 +4,7 @@
 
 This gem can help your ruby/rails application to integrate with AlphaCard service.
 
-AlphaCard: 
+AlphaCard Services: 
 http://www.alphacardservices.com/
      
 Payment Gateway Integration Portal:
@@ -162,7 +162,7 @@ sale = AlphaCard::Sale.new({})
 sale.create(order, account)
 ```
 
-Method _create_ returns _true_ if sale was created successfully and raise an AlphaCardError 
+Method `create` returns _true_ if sale was created successfully and raise an `AlphaCardError` 
 exception if some of the fields is invalid.
 
 ## Example of usage
@@ -190,23 +190,24 @@ rescue AlphaCard::AlphaCardError => e
 end
 ```
 
-Billing and shipping is an _optional_ parameters and can be not specified.
+`Billing` and `shipping` is an _optional_ parameters and can be not specified.
 
-_Note_: take a look to the _amount_ of the Order. It's format must be 'xx.xx'. All information about formats 
+_Note_: take a look to the `amount` of the Order. It's format must be 'xx.xx'. All information about formats 
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
 Naming convention of attributes (such as "ccexp" or "orderid") was saved due to compatibility with AlphaCard API.
 
-To raise exceptions do the next:
+To raise some exceptions do the next:
 
 *   to cause a declined message, pass an amount less than 1.00;
 *   to trigger a fatal error message, pass an invalid card number;
 *   to simulate an AVS match, pass 888 in the address1 field, 77777 for zip;
 *   to simulate a CVV match, pass 999 in the cvv field.
 
-Example exception:
+Example of exception:
 
 ```ruby
+...
 2.1.1 :019 >  sale.create(order, account)
 AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
 ```

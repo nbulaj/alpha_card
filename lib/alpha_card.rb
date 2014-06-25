@@ -4,16 +4,15 @@ require 'rack'
 require 'rest_client'
 
 require 'alpha_card/object'
-
+require 'alpha_card/alpha_card_object'
 require 'alpha_card/alpha_card_response'
 require 'alpha_card/alpha_card_error'
-require 'alpha_card/alpha_card_object'
 
 require 'alpha_card/account'
+require 'alpha_card/shipping'
 require 'alpha_card/billing'
 require 'alpha_card/order'
 require 'alpha_card/sale'
-require 'alpha_card/shipping'
 
 module AlphaCard
   @api_base = 'https://secure.alphacardgateway.com/api/transact.php'
