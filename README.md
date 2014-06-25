@@ -72,8 +72,9 @@ _Required fields_:
 
 _Unnecessary fields_:
 
-* billing : AlphaCard::Billing
-* shipping : AlphaCard::Shipping
+*   ponumber : String
+*   billing : AlphaCard::Billing
+*   shipping : AlphaCard::Shipping
 
 _Constructor_:
 
@@ -135,7 +136,7 @@ AlphaCard::Shipping.new({field_name: value, ...})
 
 ### Sale
 
-Specify Order payment.
+Specify and process Order payment information.
 
 _Required fields_:
 
