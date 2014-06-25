@@ -170,6 +170,8 @@ exception if some of the fields is invalid.
 Create AlphaCard sale:
 
 ```ruby
+require 'alpha_card'
+
 def create_payment
   account = AlphaCard::Account.new('demo', 'password')
 
@@ -190,8 +192,8 @@ end
 
 Billing and shipping is an _optional_ parameters and can be not specified.
 
-Format of parameters can be found on _Alpha Card Payment Gateway Integration Portal_ -> 
-_Direct Post API_ -> _Documentation_ -> _Transaction Variables_
+_Note_: take a look to the _amount_ of the Order. It's format must be 'xx.xx'. All information about formats 
+can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
 Naming convention of attributes (such as "ccexp" or "orderid") was saved due to compatibility with AlphaCard API.
 
