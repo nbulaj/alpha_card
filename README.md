@@ -212,6 +212,23 @@ Example of exception:
 AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
 ```
 
+## Contributing
+
+You are very welcome to help improve alpha_card if you have suggestions for features that other people can use.
+
+To contribute:
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Make your changes
+4. Add tests
+5. Run `rake` to make sure all tests pass
+6. Commit your changes (`git commit -am 'Add new feature'`)
+7. Push to the branch (`git push origin my-new-feature`)
+8. Create new pull request
+
+Thanks.
+
 ## Copyright
 
 Copyright (c) 2014 Nikita Bulaj (bulajnikita@gmail.com).
