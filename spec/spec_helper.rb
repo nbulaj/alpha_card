@@ -1,6 +1,5 @@
-# Uncomment for coverage statistics
-# require 'simplecov'
-# SimpleCov.start
+require 'coveralls'
+Coveralls.wear!
 
 require 'bundler/setup'
 Bundler.setup

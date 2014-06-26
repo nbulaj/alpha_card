@@ -5,4 +5,4 @@ gemspec
 gem 'virtus'
 gem 'rest_client'
 gem 'rack'
-# gem 'simplecov', :require => false
+gem 'coveralls', require: false
