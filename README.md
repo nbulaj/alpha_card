@@ -2,6 +2,8 @@
 [![Gem Version](https://badge.fury.io/rb/alpha_card.svg)](http://badge.fury.io/rb/alpha_card)
 [![Dependency Status](https://gemnasium.com/budev/alpha_card.png)](https://gemnasium.com/budev/alpha_card)
 [![Code Climate](https://codeclimate.com/github/budev/alpha_card.png)](https://codeclimate.com/github/budev/alpha_card)
+[![Coverage Status](https://coveralls.io/repos/budev/alpha_card/badge.png?branch=master)](https://coveralls.io/r/budev/alpha_card?branch=master)
+[![Build Status](https://secure.travis-ci.org/budev/alpha_card.png?branch=master)][travis]
 
 This gem can help your ruby/rails application to integrate with AlphaCard service.
 
