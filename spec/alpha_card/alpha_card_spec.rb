@@ -69,6 +69,14 @@ describe AlphaCard do
     end
   end
 
+  context 'Without attributes' do
+    let!(:sale) { AlphaCard::Sale.new({}) }
+
+    it 'should raise an Exception' do
+      expect { sale.create(order, account) }.to raise_exception
+    end
+  end
+
   context 'With blank account credentials' do
     let!(:blank_account) { AlphaCard::Account.new(nil, '') }
     let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }

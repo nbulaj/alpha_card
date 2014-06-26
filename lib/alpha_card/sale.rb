@@ -21,7 +21,7 @@ module AlphaCard
     #    sale.create(order, account) #=> true or false
     def create(order, account)
       [:ccexp, :ccnumber, :amount].each do |attr|
-        raise Exception.new("No #{attr.to_s} information provided") if self.send(attr.to_s).blank?
+        raise Exception.new("No #{attr} information provided") if self[attr].blank?
       end
 
       params = self.filled_attributes || {}

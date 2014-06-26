@@ -5,9 +5,9 @@
 [![Coverage Status](https://coveralls.io/repos/budev/alpha_card/badge.png?branch=master)](https://coveralls.io/r/budev/alpha_card?branch=master)
 [![Build Status](https://travis-ci.org/budev/alpha_card.svg?branch=master)](https://travis-ci.org/budev/alpha_card)
 
-This gem can help your ruby/rails application to integrate with AlphaCard service.
+This gem can help your Ruby or Ruby on Rails application to integrate with Alpha Card Service, Inc.
 
-AlphaCard Services: 
+Alpha Card Services: 
 http://www.alphacardservices.com/
      
 Payment Gateway Integration Portal:
@@ -22,13 +22,13 @@ If using bundler, first add 'alpha_card' to your Gemfile:
 gem "alpha_card"
 ```
 
-And run
+And run:
 
 ```sh
 bundle install
 ```
 
-Otherwise simply
+Otherwise simply install the gem:
 
 ```sh
 gem install alpha_card
@@ -36,13 +36,14 @@ gem install alpha_card
 
 Dependencies required:
 
-*   ruby >= 1.9.3
-*   rest_client
-*   virtus (for nice OOP objects of AlphaCard)
+*   ruby >= 1.9.3;
+*   rack;
+*   rest_client;
+*   virtus (for nice OOP objects of AlphaCard).
 
 ## Objects
 
-To create sale with Alpha Card Services you must operate with 5 objects:
+Alpha Card sales operates with next 5 objects:
 
 *   Account
 *   Order
@@ -52,7 +53,8 @@ To create sale with Alpha Card Services you must operate with 5 objects:
 
 ### Account
 
-Specify credentials to access Alpha Card Services, Inc.
+Account represents credentials data to access Alpha Card Services, Inc.
+All sales will be created for the specified account.
 
 _Required fields_:
 
@@ -67,16 +69,14 @@ AlphaCard::Account.new(username, password)
 
 ### Order
 
-Specify Order.
-
-_Required fields_:
-
-*   orderid : String
-*   orderdescription : String
+Order represents itself.
 
 _Unnecessary fields_:
 
+*   orderid : String
+*   orderdescription : String
 *   ponumber : String
+*   tax : String
 *   billing : AlphaCard::Billing
 *   shipping : AlphaCard::Shipping
 
@@ -84,14 +84,6 @@ _Constructor_:
 
 ```ruby
 AlphaCard::Order.new({field_name: value, ...})
-```
-
-Set up billing or shipping:
-
-```ruby
-order = AlphaCard::Order.new({})
-order.shipping = AlphaCard::Shipping.new({})
-order.billing = AlphaCard::Billing.new({})
 ```
 
 ### Billing
@@ -140,7 +132,7 @@ AlphaCard::Shipping.new({field_name: value, ...})
 
 ### Sale
 
-Specify and process Order payment information.
+Sale is the main object of the Alpha Card Services. It processes fees associated with credit cards.
 
 _Required fields_:
 
@@ -157,7 +149,7 @@ _Constructor_:
 AlphaCard::Sale.new({field_name: value, ...})
 ```
 
-To process the sale you must call *create(_alpha_card_order_, _alpha_card_account_)*:
+To create the payment you must call *create(_alpha_card_order_, _alpha_card_account_)* method:
 
 ```ruby
 ...
@@ -165,8 +157,7 @@ sale = AlphaCard::Sale.new({})
 sale.create(order, account)
 ```
 
-Method `create` returns _true_ if sale was created successfully and raise an `AlphaCardError` 
-exception if some of the fields is invalid.
+This method returns _true_ if sale was created successfully and raise an `AlphaCardError` exception if some of the fields is invalid.
 
 ## Example of usage
 
@@ -195,10 +186,10 @@ end
 
 `Billing` and `shipping` is an _optional_ parameters and can be not specified.
 
-_Note_: take a look to the `amount` of the Order. It's format must be 'xx.xx'. All information about formats 
+_Note_: take a look at the `amount` of the Order. It's format must be 'xx.xx'. All information about variables formats 
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
-Naming convention of attributes (such as "ccexp" or "orderid") was saved due to compatibility with AlphaCard API.
+Naming convention of attributes (such as "ccexp" or "orderid") was saved for compatibility with AlphaCard API.
 
 To raise some exceptions do the next:
 
