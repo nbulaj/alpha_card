@@ -37,7 +37,6 @@ gem install alpha_card
 Dependencies required:
 
 *   ruby >= 1.9.3;
-*   rack;
 *   rest_client;
 *   virtus (for nice OOP objects of AlphaCard).
 
