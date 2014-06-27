@@ -1,16 +1,22 @@
 module AlphaCard
+  ##
+  # Parent class for each Alpha Card Gateway object, such as
+  # Order, Billing, Sale and others.
   class AlphaCardObject
     include Virtus.model
 
-    # filled_attributes -> Hash
+    ##
+    # Returns the <code>Hash</code> with only filled attributes
+    # of the <code>AlphaCard::AlphaCardObject</code>.
     #
-    # Returns only filled attributes, not nil ones.
+    # @return [Hash]
+    #   Filled attributes of the <code>AlphaCard::AlphaCardObject</code>.
     #
-    #    order = AlphaCard::Order.new({})
-    #    order.filled_attributes #=> {}
-
-    #    order = AlphaCard::Order.new({orderid: '1'})
-    #    order.filled_attributes #=> {orderid: '1'}
+    # @example
+    #   order = AlphaCard::Order.new({orderid: '1', tax: nil, ponumber: 'PO123'})
+    #   order.filled_attributes
+    #
+    #   #=> {orderid: '1', ponumber: 'PO123'}
     def filled_attributes
       self.attributes.select { |key, value| value.present? }
     end

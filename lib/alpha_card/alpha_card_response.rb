@@ -1,13 +1,20 @@
 module AlphaCard
+  ##
+  # Implementation of Alpha Card Services response.
+  # Contains all the data, that Alpha Card Gateway
+  # returned for the request.
   class AlphaCardResponse
     attr_reader :data
 
+    # Success response code
     APPROVED = '1'
+    # Decline response code
     DECLINED = '2'
+    # Error response code
     ERROR    = '3'
 
     def initialize(request_body)
-      @data = Rack::Utils.parse_nested_query(request_body)
+      @data = AlphaCard::Utils.parse_query(request_body)
     end
 
     def text
