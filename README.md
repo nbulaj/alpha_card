@@ -4,6 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/budev/alpha_card.png)](https://codeclimate.com/github/budev/alpha_card)
 [![Coverage Status](https://coveralls.io/repos/budev/alpha_card/badge.png?branch=master)](https://coveralls.io/r/budev/alpha_card?branch=master)
 [![Build Status](https://travis-ci.org/budev/alpha_card.svg?branch=master)](https://travis-ci.org/budev/alpha_card)
+[![Inline docs](http://inch-ci.org/github/budev/alpha_card.png?branch=master)](http://inch-ci.org/github/budev/alpha_card)
 
 This gem can help your Ruby or Ruby on Rails application to integrate with Alpha Card Service, Inc.
 
