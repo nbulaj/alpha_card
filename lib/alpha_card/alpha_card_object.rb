@@ -18,7 +18,7 @@ module AlphaCard
     #
     #   #=> {orderid: '1', ponumber: 'PO123'}
     def filled_attributes
-      self.attributes.select { |key, value| value.present? }
+      self.attributes.select { |_, value| !value.nil? }
     end
   end
 end

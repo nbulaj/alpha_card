@@ -4,7 +4,6 @@ require 'virtus'
 require 'rest_client'
 
 require 'alpha_card/utils'
-require 'alpha_card/object'
 require 'alpha_card/alpha_card_object'
 require 'alpha_card/alpha_card_response'
 require 'alpha_card/alpha_card_error'

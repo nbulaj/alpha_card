@@ -8,7 +8,7 @@ module AlphaCard
     # @see https://github.com/rack/rack rack gem GitHub
     class << self
       ##
-      # Default separators for query string.
+      # Default separators for the query string.
       DEFAULT_SEP = /[&;] */n
 
       # A part of the rack gem.
@@ -29,10 +29,15 @@ module AlphaCard
           @params[key] = value
         end
 
+        ##
+        # Returns <code>true</code> if the given key is present
+        # in <i>params</i>.
         def key?(key)
           @params.key?(key)
         end
 
+        ##
+        # Converts params to <code>Hash</code> object.
         def to_params_hash
           hash = @params
           hash.keys.each do |key|

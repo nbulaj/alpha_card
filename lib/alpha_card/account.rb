@@ -41,7 +41,8 @@ module AlphaCard
     #
     #   #=> false
     def filled?
-      [self.username, self.password].all?(&:present?)
+      attrs = [username, password]
+      !attrs.empty? && attrs.all? {|attr| attr && !attr.strip.empty? }
     end
   end
 end
