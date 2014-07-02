@@ -40,6 +40,13 @@ module AlphaCard
       # Parse query string to a <code>Hash</code> by breaking it up
       # at the '&' and ';' characters.
       #
+      # @param [String] qs
+      #   query string
+      # @param [String] d
+      #   delimiter for the params
+      # @yieldparam unescaper
+      #   method, that will unescape the param value
+      #
       # @return [Hash] query
       #
       # @example

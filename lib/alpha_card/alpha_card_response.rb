@@ -4,6 +4,8 @@ module AlphaCard
   # Contains all the data, that Alpha Card Gateway
   # returned for the request.
   class AlphaCardResponse
+    # Alpha Card Gateway response as a <code>Hash</code>.
+    # @attr_reader [Hash] data
     attr_reader :data
 
     # Success response code
@@ -13,14 +15,33 @@ module AlphaCard
     # Error response code
     ERROR    = '3'
 
-    def initialize(request_body)
-      @data = AlphaCard::Utils.parse_query(request_body)
+    ##
+    # AlphaCardResponse constructor.
+    #
+    # @param [String] response_body
+    #   Alpha Card Gateway response body text
+    #
+    # @return [AlphaCardResponse] AlphaCardResponse object
+    #
+    # @example
+    #   AlphaCard::AlphaCardResponse.new('response=1&responsetext=Test')
+    #
+    #   #=> #<AlphaCard::AlphaCardResponse:0x00000003f2b568 @data={"response"=>"1", "responsetext"=>"Test"}>
+    def initialize(response_body)
+      @data = AlphaCard::Utils.parse_query(response_body)
     end
 
     ##
     # The text of the Alpha Card Gateway response.
     #
     # @return [String] text of the response
+    #
+    # @example
+    #
+    #   r = AlphaCardResponse.new("response=1&responsetext=Test")
+    #   r.text
+    #
+    #   #=> 'Test'
     def text
       @data['responsetext']
     end
@@ -30,6 +51,13 @@ module AlphaCard
     # refund operation.
     #
     # @return [String] transaction ID
+    #
+    # @example
+    #
+    #   r = AlphaCardResponse.new("response=1&transactionid=123")
+    #   r.transaction_id
+    #
+    #   #=> '123'
     def transaction_id
       @data['transactionid']
     end
@@ -38,6 +66,13 @@ module AlphaCard
     # The code of the Alpha Card Gateway response.
     #
     # @return [String] code of the response
+    #
+    # @example
+    #
+    #   r = AlphaCardResponse.new("response=1&response_code=100")
+    #   r.code
+    #
+    #   #=> '100'
     def code
       @data['response_code']
     end
@@ -53,6 +88,7 @@ module AlphaCard
     #
     #   r = AlphaCardResponse.new("response=1")
     #   r.success?
+    #
     #   #=> true
     def success?
       @data['response'] == APPROVED
@@ -69,6 +105,7 @@ module AlphaCard
     #
     #   r = AlphaCardResponse.new("response=2")
     #   r.declined?
+    #
     #   #=> true
     def declined?
       @data['response'] == DECLINED
@@ -85,6 +122,7 @@ module AlphaCard
     #
     #   r = AlphaCardResponse.new("response=3")
     #   r.error?
+    #
     #   #=> true
     def error?
       @data['response'] == ERROR
