@@ -11,29 +11,29 @@ module AlphaCard
       # Default separators for the query string.
       DEFAULT_SEP = /[&;] */n
 
-      if defined?(::Encoding)
-        ##
-        # Unescapes a URI escaped string with +encoding+. +encoding+ will be the
-        # target encoding of the string returned, and it defaults to UTF-8
-        #
-        # @return [String] URI encoded string
-        #
-        # @raise [ArgumentError] if invalid Encoding is passed
-        #
-        # @example
-        #
-        #   unescape('Test%20str')
-        #   #=> "Test str"
-        #
-        #   unescape('Test%20str', Encoding::WINDOWS_31J)
-        #   #=> "Test str"
-        def unescape(s, encoding = Encoding::UTF_8)
-          URI.decode_www_form_component(s, encoding)
-        end
-      else
-        def unescape(s, encoding = nil)
-          URI.decode_www_form_component(s, encoding)
-        end
+      ##
+      # Unescapes a URI escaped string with +encoding+. +encoding+ will be the
+      # target encoding of the string returned, and it defaults to UTF-8
+      #
+      # @param [String] s
+      #   String to unescape.
+      #
+      # @param [Encoding] encoding
+      #   Type of <code>Encoding</code>.
+      #
+      # @return [String] URI encoded string
+      #
+      # @raise [ArgumentError] if invalid Encoding is passed
+      #
+      # @example
+      #
+      #   unescape('Test%20str')
+      #   #=> "Test str"
+      #
+      #   unescape('Test%20str', Encoding::WINDOWS_31J)
+      #   #=> "Test str"
+      def unescape(s, encoding = Encoding::UTF_8)
+        URI.decode_www_form_component(s, encoding)
       end
 
       ##
