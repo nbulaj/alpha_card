@@ -25,7 +25,7 @@ module AlphaCard
   # Global Payment Systems (NDC) Credit Card Authorization Codes
   #
   # @see http://floristwiki.ftdi.com/images/c/ce/Appendix_A_-_Credit_Card_Authorization_Codes.pdf Credit Card Authorization Codes
-  CREDIT_CARD_CODES = YAML.load_file(File.expand_path('../alpha_card/data/codes.yml', __FILE__)) unless defined? CREDIT_CARD_CODES
+  CREDIT_CARD_CODES ||= YAML.load_file(File.expand_path('../alpha_card/data/codes.yml', __FILE__))
 
   class << self
 	# @return [String] Alpha Card Gateway DirectPost API URL.
@@ -35,7 +35,7 @@ module AlphaCard
   ##
   # Send the POST request to the AlphaCard Gateway from the
   # specified account. Request must contains params - Alpha Card
-  # transcation variables.
+  # transaction variables.
   #
   # @param [Hash] params
   #   Alpha Card transaction variables.

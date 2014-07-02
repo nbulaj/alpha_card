@@ -11,51 +11,22 @@ module AlphaCard
       # Default separators for the query string.
       DEFAULT_SEP = /[&;] */n
 
-      # A part of the rack gem.
-      class KeySpaceConstrainedParams
-        def initialize(limit = 65536)
-          @limit = limit
-          @size = 0
-          @params = {}
-        end
-
-        def [](key)
-          @params[key]
-        end
-
-        def []=(key, value)
-          @size += key.size if key && !@params.key?(key)
-          raise RangeError, 'exceeded available parameter key space' if @size > @limit
-          @params[key] = value
-        end
-
-        ##
-        # Returns <code>true</code> if the given key is present
-        # in <i>params</i>.
-        def key?(key)
-          @params.key?(key)
-        end
-
-        ##
-        # Converts params to <code>Hash</code> object.
-        def to_params_hash
-          hash = @params
-          hash.keys.each do |key|
-            value = hash[key]
-            if value.kind_of?(self.class)
-              hash[key] = value.to_params_hash
-            elsif value.kind_of?(Array)
-              value.map! { |x| x.kind_of?(self.class) ? x.to_params_hash : x }
-            end
-          end
-          hash
-        end
-      end
-
-      ##
-      # Unescapes a URI escaped string with +encoding+. +encoding+ will be the
-      # target encoding of the string returned, and it defaults to UTF-8
       if defined?(::Encoding)
+        ##
+        # Unescapes a URI escaped string with +encoding+. +encoding+ will be the
+        # target encoding of the string returned, and it defaults to UTF-8
+        #
+        # @return [String] URI encoded string
+        #
+        # @raise [ArgumentError] if invalid Encoding is passed
+        #
+        # @example
+        #
+        #   unescape('Test%20str')
+        #   #=> "Test str"
+        #
+        #   unescape('Test%20str', Encoding::WINDOWS_31J)
+        #   #=> "Test str"
         def unescape(s, encoding = Encoding::UTF_8)
           URI.decode_www_form_component(s, encoding)
         end
@@ -66,12 +37,22 @@ module AlphaCard
       end
 
       ##
-      # Parses a query string to a Hash by breaking it up
+      # Parse query string to a <code>Hash</code> by breaking it up
       # at the '&' and ';' characters.
+      #
+      # @return [Hash] query
+      #
+      # @example
+      #
+      #   query = AlphaCard::Utils.parse_query("param1=value1&params2=")
+      #   #=> {"param1"=>"value1", "params2"=>""}
+      #
+      #   query = AlphaCard::Utils.parse_query("cars[]=Saab&cars[]=Audi")
+      #   #=> {"cars[]"=>["Saab", "Audi"]}
       def parse_query(qs, d = nil, &unescaper)
         unescaper ||= method(:unescape)
 
-        params = KeySpaceConstrainedParams.new
+        params = {}
 
         (qs || '').split(d ? /[#{d}] */n : DEFAULT_SEP).each do |p|
           next if p.empty?
@@ -88,7 +69,7 @@ module AlphaCard
           end
         end
 
-        params.to_params_hash
+        params
       end
     end
   end
