@@ -80,7 +80,7 @@ module AlphaCard
     ##
     # Indicate the state of the request to the
     # Alpha Card Gateway. Returns <i>true</i> if
-    # response was <i>approved</i>.
+    # request was <i>approved</i>.
     #
     # @return [Bool] true if request if successful
     #
@@ -97,7 +97,7 @@ module AlphaCard
     ##
     # Indicate the state of the request to the
     # Alpha Card Gateway. Returns <i>true</i> if
-    # response was <i>declined</i>.
+    # request was <i>declined</i>.
     #
     # @return [Bool] true if request was declined
     #
@@ -114,7 +114,7 @@ module AlphaCard
     ##
     # Indicate the state of the request to the
     # Alpha Card Gateway. Returns <i>true</i> if
-    # response has some <i>errors</i>.
+    # request has some <i>errors</i>.
     #
     # @return [Bool] true if request has some errors
     #

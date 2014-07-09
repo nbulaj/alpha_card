@@ -93,20 +93,20 @@ describe AlphaCard do
     let!(:socket_error) { SocketError.new }
     let!(:unclassified_error) { StandardError.new('Some error') }
 
-    it 'should raise an Exception if Rest Client Error' do
-      expect { AlphaCard.handle_connection_errors(rest_client_error) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+    it 'should raise an APIConnectionError if Rest Client Error' do
+      expect { AlphaCard.handle_connection_errors(rest_client_error) }.to raise_error(AlphaCard::APIConnectionError) do |e|
         expect(e.message).to include('Could not connect to Alpha Card Gateway')
       end
     end
 
-    it 'should raise an Exception if Socket Error' do
-      expect { AlphaCard.handle_connection_errors(socket_error) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+    it 'should raise an APIConnectionError if Socket Error' do
+      expect { AlphaCard.handle_connection_errors(socket_error) }.to raise_error(AlphaCard::APIConnectionError) do |e|
         expect(e.message).to include('Unexpected error communicating when trying to connect to Alpha Card Gateway')
       end
     end
 
-    it 'should raise an Exception if Unclassified Error' do
-      expect { AlphaCard.handle_connection_errors(unclassified_error) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+    it 'should raise an APIConnectionError if Unclassified Error' do
+      expect { AlphaCard.handle_connection_errors(unclassified_error) }.to raise_error(AlphaCard::APIConnectionError) do |e|
         expect(e.message).to include('Unexpected error communicating with Alpha Card Gateway')
       end
     end

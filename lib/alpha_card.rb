@@ -6,7 +6,9 @@ require 'rest_client'
 require 'alpha_card/utils'
 require 'alpha_card/alpha_card_object'
 require 'alpha_card/alpha_card_response'
-require 'alpha_card/alpha_card_error'
+
+require 'alpha_card/errors/alpha_card_error'
+require 'alpha_card/errors/api_connection_error'
 
 require 'alpha_card/account'
 require 'alpha_card/shipping'
@@ -25,10 +27,10 @@ module AlphaCard
   # Global Payment Systems (NDC) Credit Card Authorization Codes
   #
   # @see http://floristwiki.ftdi.com/images/c/ce/Appendix_A_-_Credit_Card_Authorization_Codes.pdf Credit Card Authorization Codes
-  CREDIT_CARD_CODES ||= YAML.load_file(File.expand_path('../alpha_card/data/codes.yml', __FILE__))
+  CREDIT_CARD_CODES ||= YAML.load_file(File.expand_path('../alpha_card/data/credit_card_codes.yml', __FILE__))
 
   class << self
-	# @return [String] Alpha Card Gateway DirectPost API URL.
+	  # @return [String] Alpha Card Gateway DirectPost API URL.
     attr_accessor :api_base
   end
 
@@ -99,7 +101,7 @@ module AlphaCard
   #   Alpha Card Services response text.
   def self.handle_alpha_card_errors(response)
     code = response.text
-    raise AlphaCardError.new(CREDIT_CARD_CODES[code] || code) unless response.success?
+    raise AlphaCardError.new(CREDIT_CARD_CODES[code] || code, response) unless response.success?
   end
 
   ##
@@ -126,7 +128,7 @@ module AlphaCard
         message = 'Unexpected error communicating with Alpha Card Gateway.'
     end
 
-    raise AlphaCardError.new(message + "\n\n(Network error: #{e.message})")
+    raise APIConnectionError.new(message + "\n\n(Network error: #{e.message})")
   end
 end
 
