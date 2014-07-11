@@ -41,7 +41,8 @@ Dependencies required:
 *   rest_client;
 *   virtus (for nice OOP objects of AlphaCard).
 
-## Objects
+
+## Alpha Card Objects
 
 Alpha Card sales operates with next 5 objects:
 
@@ -51,9 +52,11 @@ Alpha Card sales operates with next 5 objects:
     - Shipping
 *   Sale
 
+Let us consider each of them.
+
 ### Account
 
-Account represents credentials data to access Alpha Card Services, Inc.
+Account represents credentials data to access Alpha Card Gateway.
 All sales will be created for the specified account.
 
 _Required fields_:
@@ -77,6 +80,7 @@ _Unnecessary fields_:
 *   orderdescription : String
 *   ponumber : String
 *   tax : String
+*   ipaddress : String
 *   billing : AlphaCard::Billing
 *   shipping : AlphaCard::Shipping
 
@@ -95,6 +99,7 @@ _Unnecessary fields_:
 *   firstname : String
 *   lastname : String
 *   email : String
+*   fax : String
 *   phone : String
 *   company : String
 *   address1 : String
@@ -117,11 +122,15 @@ Specify Shipping information for Order.
 
 _Unnecessary fields_:
 
+*   firstname : String
+*   lastname : String
+*   company : String
 *   address_1 : String
 *   address_2 : String
 *   city : String
 *   state : String
 *   zip_code : String
+*   country : String
 *   email : String
 
 _Constructor_:
@@ -176,7 +185,8 @@ def create_payment
   order.billing = billing
   order.shipping = shipping
 
-  sale = AlphaCard::Sale.new({ccexp: '0117', ccnumber: '4111111111111111', amount: "%.2f" % 1.5 , cvv: '123'})
+  # Format of amount: "XX.XX" ("%.2f" % Float)
+  sale = AlphaCard::Sale.new({ccexp: '0117', ccnumber: '4111111111111111', amount: "1.50", cvv: '123'})
   sale.create(order, account)
 rescue AlphaCard::AlphaCardError => e
   puts e.message
@@ -184,7 +194,7 @@ rescue AlphaCard::AlphaCardError => e
 end
 ```
 
-`Billing` and `shipping` is an _optional_ parameters and can be not specified.
+`Billing` and `Shipping` is an _optional_ parameters and can be not specified.
 
 _Note_: take a look at the `amount` of the Order. It's format must be 'xx.xx'. All information about variables formats 
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_

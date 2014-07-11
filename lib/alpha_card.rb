@@ -65,6 +65,18 @@ module AlphaCard
   #       "responsetext"=>"SUCCESS", "authcode"=>"123", "transactionid"=>"123",
   #       "avsresponse"=>"", "cvvresponse"=>"N", "orderid"=>"", "type"=>"",
   #       "response_code"=>"100"}>
+  #
+  #   account = AlphaCard::Account.new('demo', 'password')
+  #   response = AlphaCard.request(
+  #     {
+  #       cexp: '0720',
+  #       ccnumber: '123',
+  #       amount: '10.00'
+  #     },
+  #     account
+  #   )
+  #
+  #   #=> AlphaCard::AlphaCardError: AlphaCard::AlphaCardError
   def self.request(params = {}, account)
     unless account.filled?
       raise AlphaCardError.new('You must set credentials to create the sale!')

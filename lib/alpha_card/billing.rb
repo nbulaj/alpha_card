@@ -14,6 +14,7 @@ module AlphaCard
     attribute :state, String
     attribute :zip, String
     attribute :country, String
+    attribute :fax, String
     attribute :website, String
   end
 end
