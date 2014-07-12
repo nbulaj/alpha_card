@@ -3,13 +3,18 @@ require 'yaml'
 require 'virtus'
 require 'rest_client'
 
+# Version
+require 'alpha_card/version'
+
 require 'alpha_card/utils'
 require 'alpha_card/alpha_card_object'
 require 'alpha_card/alpha_card_response'
 
+# Errors
 require 'alpha_card/errors/alpha_card_error'
 require 'alpha_card/errors/api_connection_error'
 
+# Alpha Card Resources
 require 'alpha_card/account'
 require 'alpha_card/shipping'
 require 'alpha_card/billing'
@@ -30,7 +35,7 @@ module AlphaCard
   CREDIT_CARD_CODES ||= YAML.load_file(File.expand_path('../alpha_card/data/credit_card_codes.yml', __FILE__))
 
   class << self
-	  # @return [String] Alpha Card Gateway DirectPost API URL.
+    # @return [String] Alpha Card Gateway DirectPost API URL.
     attr_accessor :api_base
   end
 

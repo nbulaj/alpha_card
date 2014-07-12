@@ -1,6 +1,10 @@
+$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+
+require 'alpha_card/version'
+
 Gem::Specification.new do |gem|
   gem.name = 'alpha_card'
-  gem.version = '0.2.1'
+  gem.version = AlphaCard::VERSION
   gem.date = '2014-07-11'
   gem.summary = 'Alpha Card Services DirectPost API for Ruby'
   gem.description = 'Gem for creating sales with Alpha Card Services DirectPost API'
