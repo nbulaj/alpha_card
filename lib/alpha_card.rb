@@ -83,9 +83,7 @@ module AlphaCard
   #
   #   #=> AlphaCard::AlphaCardError: AlphaCard::AlphaCardError
   def self.request(params = {}, account)
-    unless account.filled?
-      raise AlphaCardError.new('You must set credentials to create the sale!')
-    end
+    fail AlphaCardError, 'You must set credentials to create the sale!' unless account.filled?
 
     begin
       response = RestClient.post(@api_base, params.merge(account.attributes))
@@ -130,22 +128,21 @@ module AlphaCard
   #
   # @raise [AlphaCard::AlphaCardError]
   #   AlphaCardError Exception.
-  def self.handle_connection_errors(e)
-    case e
-      when RestClient::ServerBrokeConnection, RestClient::RequestTimeout
-        message = "Could not connect to Alpha Card Gateway (#{@api_base}). " +
-            'Please check your internet connection and try again. ' +
-            'If this problem persists, you should check Alpha Card services status.'
+  def self.handle_connection_errors(error)
+    case error
+    when RestClient::ServerBrokeConnection, RestClient::RequestTimeout
+      message = "Could not connect to Alpha Card Gateway (#{@api_base}). " \
+          'Please check your internet connection and try again. ' \
+          'If this problem persists, you should check Alpha Card services status.'
 
-      when SocketError
-        message = 'Unexpected error communicating when trying to connect to Alpha Card Gateway. ' +
-            'You may be seeing this message because your DNS is not working.'
+    when SocketError
+      message = 'Unexpected error communicating when trying to connect to Alpha Card Gateway. ' \
+          'You may be seeing this message because your DNS is not working.'
 
-      else
-        message = 'Unexpected error communicating with Alpha Card Gateway.'
+    else
+      message = 'Unexpected error communicating with Alpha Card Gateway.'
     end
 
-    raise APIConnectionError.new(message + "\n\n(Network error: #{e.message})")
+    raise APIConnectionError, "#{message}\n\n(Network error: #{error.message})"
   end
 end
-

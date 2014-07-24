@@ -40,7 +40,7 @@ module AlphaCard
       # Parse query string to a <code>Hash</code> by breaking it up
       # at the '&' and ';' characters.
       #
-      # @param [String] qs
+      # @param [String] query
       #   query string
       # @param [String] d
       #   delimiter for the params
@@ -56,12 +56,12 @@ module AlphaCard
       #
       #   query = AlphaCard::Utils.parse_query("cars[]=Saab&cars[]=Audi")
       #   #=> {"cars[]"=>["Saab", "Audi"]}
-      def parse_query(qs, d = nil, &unescaper)
+      def parse_query(query, d = nil, &unescaper)
         unescaper ||= method(:unescape)
 
         params = {}
 
-        (qs || '').split(d ? /[#{d}] */n : DEFAULT_SEP).each do |p|
+        (query || '').split(d ? /[#{d}] */n : DEFAULT_SEP).each do |p|
           next if p.empty?
           k, v = p.split('=', 2).map(&unescaper)
 

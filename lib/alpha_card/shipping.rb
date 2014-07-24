@@ -16,7 +16,7 @@ module AlphaCard
 
     ##
     # Overloaded <code>filled_attributes</code> method from
-    # <code>AlphaCard::AlphaCardObject</code>. All attributes of
+    # <code>AlphaCard::AlphaCardObject</code>. All attribute names of
     # the Alpha Card Shipping object must start with "shipping_"
     # prefix.
     #
@@ -29,7 +29,7 @@ module AlphaCard
     #
     #   #=> {shipping_firstname: 'John', shipping_state: 'NY'}
     def filled_attributes
-      Hash[super.map {|k, v| ["shipping_#{k}".to_sym, v] }]
+      Hash[super.map { |k, v| ["shipping_#{k}".to_sym, v] }]
     end
   end
 end

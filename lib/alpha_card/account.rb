@@ -1,7 +1,7 @@
 module AlphaCard
   ##
   # Implementation of Alpha Card Services account object.
-  # Contains credentials (username and password) for 
+  # Contains credentials (username and password) for
   # the Alpha Card Gateway API access.
   class Account < AlphaCardObject
     attribute :username, String
@@ -42,7 +42,7 @@ module AlphaCard
     #   #=> false
     def filled?
       attrs = [username, password]
-      !attrs.empty? && attrs.all? {|attr| attr && !attr.strip.empty? }
+      !attrs.empty? && attrs.all? { |attr| attr && !attr.strip.empty? }
     end
   end
 end

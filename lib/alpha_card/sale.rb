@@ -41,11 +41,13 @@ module AlphaCard
     #   #=> true
     def create(order, account)
       [:ccexp, :ccnumber, :amount].each do |attr|
-        raise Exception.new("No #{attr} information provided") if self[attr].nil? || self[attr].empty?
+        fail Exception, "No #{attr} information provided" if self[attr].nil? || self[attr].empty?
       end
 
-      params = self.filled_attributes || {}
-      [order, order.billing, order.shipping].compact.each { |obj| params.merge!(obj ? obj.filled_attributes : {}) }
+      params = filled_attributes || {}
+      [order, order.billing, order.shipping].compact.each do |obj|
+        params.merge!(obj ? obj.filled_attributes : {})
+      end
 
       AlphaCard.request(params, account).success?
     end
