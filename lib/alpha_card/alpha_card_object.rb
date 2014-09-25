@@ -18,7 +18,7 @@ module AlphaCard
     #
     #   #=> {orderid: '1', ponumber: 'PO123'}
     def filled_attributes
-      attributes.select { |_, value| !value.nil? }
+      attributes.compact
     end
   end
 end
