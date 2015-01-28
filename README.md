@@ -1,4 +1,4 @@
-# Ruby lib for creating payments with AlphaCard DirectPost API
+# Ruby lib for creating payments with Alpha Card Services
 [![Gem Version](https://badge.fury.io/rb/alpha_card.svg)](http://badge.fury.io/rb/alpha_card)
 [![Dependency Status](https://gemnasium.com/budev/alpha_card.png)](https://gemnasium.com/budev/alpha_card)
 [![Code Climate](https://codeclimate.com/github/budev/alpha_card.png)](https://codeclimate.com/github/budev/alpha_card)
@@ -38,15 +38,13 @@ gem install alpha_card
 Dependencies required:
 
 *   ruby >= 1.9.3;
-*   rest_client;
-*   virtus (for nice OOP objects of AlphaCard).
 
 
 ## Alpha Card Objects
 
-Alpha Card sales operates with next 5 objects:
+Alpha Card operates with next 5 objects:
 
-*   Account
+*   Account (represent your Alpha Card credentials)
 *   Order
     - Billing
     - Shipping
@@ -178,15 +176,13 @@ require 'alpha_card'
 def create_payment
   account = AlphaCard::Account.new('demo', 'password')
 
-  billing = AlphaCard::Billing.new({email: 'test@example.com', phone: '+801311313111'})
-  shipping = AlphaCard::Shipping.new({address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132'})
+  billing = AlphaCard::Billing.new({ email: 'test@example.com', phone: '+801311313111' })
+  shipping = AlphaCard::Shipping.new({ address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132' })
 
-  order = AlphaCard::Order.new({orderid: 1, orderdescription: 'Test order'})
-  order.billing = billing
-  order.shipping = shipping
+  order = AlphaCard::Order.new({ orderid: 1, orderdescription: 'Test order' })
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
-  sale = AlphaCard::Sale.new({ccexp: '0117', ccnumber: '4111111111111111', amount: "1.50", cvv: '123'})
+  sale = AlphaCard::Sale.new({ ccexp: '0117', ccnumber: '4111111111111111', amount: "1.50", cvv: '123' })
   sale.create(order, account)
 rescue AlphaCard::AlphaCardError => e
   puts e.message
