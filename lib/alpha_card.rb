@@ -15,11 +15,11 @@ require 'alpha_card/errors/alpha_card_error'
 require 'alpha_card/errors/api_connection_error'
 
 # Alpha Card Resources
-require 'alpha_card/account'
-require 'alpha_card/shipping'
-require 'alpha_card/billing'
-require 'alpha_card/order'
-require 'alpha_card/sale'
+require 'alpha_card/objects/account'
+require 'alpha_card/objects/shipping'
+require 'alpha_card/objects/billing'
+require 'alpha_card/objects/order'
+require 'alpha_card/objects/sale'
 
 ##
 # AlphaCard is a library for processing payments with Alpha Card Services, Inc.
@@ -32,7 +32,7 @@ module AlphaCard
   # Global Payment Systems (NDC) Credit Card Authorization Codes
   #
   # @see http://floristwiki.ftdi.com/images/c/ce/Appendix_A_-_Credit_Card_Authorization_Codes.pdf Credit Card Authorization Codes
-  CREDIT_CARD_CODES ||= YAML.load_file(File.expand_path('../alpha_card/data/credit_card_codes.yml', __FILE__))
+  CREDIT_CARD_CODES = YAML.load_file(File.expand_path('../alpha_card/data/credit_card_codes.yml', __FILE__))
 
   class << self
     # @return [String] Alpha Card Gateway DirectPost API URL.
