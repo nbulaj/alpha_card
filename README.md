@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/nbulaj/alpha_card.svg?branch=master)](https://travis-ci.org/nbulaj/alpha_card)
 [![Inline docs](http://inch-ci.org/github/nbulaj/alpha_card.png?branch=master)](http://inch-ci.org/github/nbulaj/alpha_card)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](#license)
+[![Gem](https://img.shields.io/gem/dt/alpha_card.svg)]()
 
 This gem can help your Ruby or Ruby on Rails application to integrate with Alpha Card Service, Inc.
 
@@ -235,4 +236,5 @@ Thanks.
 ## License
 
 Alpha Card gem is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+
 Copyright (c) 2014-2015 Nikita Bulaj (bulajnikita@gmail.com).
