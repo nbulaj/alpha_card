@@ -1,6 +1,6 @@
 # Ruby lib for creating payments with Alpha Card Services
 [![Gem Version](https://badge.fury.io/rb/alpha_card.svg)](http://badge.fury.io/rb/alpha_card)
-[![Dependency Status](https://gemnasium.com/budev/alpha_card.png)](https://gemnasium.com/budev/alpha_card)
+[![Dependency Status](https://gemnasium.com/nbulaj/alpha_card.svg)](https://gemnasium.com/nbulaj/alpha_card)
 [![Code Climate](https://codeclimate.com/github/nbulaj/alpha_card/badges/gpa.svg)](https://codeclimate.com/github/nbulaj/alpha_card)
 [![Coverage Status](https://coveralls.io/repos/nbulaj/alpha_card/badge.svg)](https://coveralls.io/r/nbulaj/alpha_card)
 [![Build Status](https://travis-ci.org/nbulaj/alpha_card.svg?branch=master)](https://travis-ci.org/nbulaj/alpha_card)
