@@ -1,12 +1,12 @@
 # encoding:utf-8
 require 'yaml'
 require 'virtus'
-require 'rest_client'
+require 'rest-client'
+require 'rack/utils'
 
 # Version
 require 'alpha_card/version'
 
-require 'alpha_card/utils'
 require 'alpha_card/alpha_card_object'
 require 'alpha_card/alpha_card_response'
 

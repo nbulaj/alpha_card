@@ -28,7 +28,7 @@ module AlphaCard
     #
     #   #=> #<AlphaCard::AlphaCardResponse:0x00000003f2b568 @data={"response"=>"1", "responsetext"=>"Test"}>
     def initialize(response_body)
-      @data = AlphaCard::Utils.parse_query(response_body)
+      @data = Rack::Utils.parse_query(response_body)
     end
 
     ##

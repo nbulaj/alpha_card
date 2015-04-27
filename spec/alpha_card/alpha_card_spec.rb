@@ -110,5 +110,16 @@ describe AlphaCard do
         expect(e.message).to include('Unexpected error communicating with Alpha Card Gateway')
       end
     end
+
+    context 'With request exception' do
+      let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
+
+      it 'should handle an error' do
+        AlphaCard.api_base = 'https://google.com' # todo: some other service
+        expect { sale.create(order, account) }.to raise_error(AlphaCard::APIConnectionError)
+
+        AlphaCard.api_base = 'https://secure.alphacardgateway.com/api/transact.php'
+      end
+    end
   end
 end

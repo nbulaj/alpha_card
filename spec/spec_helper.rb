@@ -1,3 +1,5 @@
+require 'rack/test'
+
 require 'coveralls'
 Coveralls.wear!
 
