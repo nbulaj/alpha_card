@@ -41,7 +41,7 @@ module AlphaCard
     #   #=> true
     def create(order, account)
       [:ccexp, :ccnumber, :amount].each do |attr|
-        fail Exception, "No #{attr} information provided!" if self[attr].nil? || self[attr].empty?
+        fail ArgumentError, "No #{attr} information provided!" if self[attr].nil? || self[attr].empty?
       end
 
       params = filled_attributes || {}

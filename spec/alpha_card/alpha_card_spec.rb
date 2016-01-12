@@ -73,7 +73,7 @@ describe AlphaCard do
     let!(:sale) { AlphaCard::Sale.new({}) }
 
     it 'should raise an Exception' do
-      expect { sale.create(order, account) }.to raise_exception
+      expect { sale.create(order, account) }.to raise_error(ArgumentError)
     end
   end
 

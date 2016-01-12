@@ -4,5 +4,8 @@ gemspec
 
 gem 'virtus'
 gem 'rest-client'
-gem 'coveralls', require: false
-gem 'rack-test', require: false
+
+group :test do
+  gem 'coveralls', require: false
+  gem 'rack-test', require: false
+end

@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.license = 'MIT'
   gem.required_ruby_version = '>= 1.9.3'
 
-  gem.add_dependency 'virtus', '~> 1.0'
+  gem.add_dependency 'virtus', '~> 1.0.5'
   gem.add_dependency 'rest-client', '~> 1.8'
 
   gem.add_development_dependency 'rspec', '~> 3'
