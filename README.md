@@ -87,7 +87,7 @@ _Unnecessary fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Order.new({field_name: value, ...})
+AlphaCard::Order.new(field_name: value, ...)
 ```
 
 ### Billing
@@ -113,7 +113,7 @@ _Unnecessary fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Billing.new({field_name: value, ...})
+AlphaCard::Billing.new(field_name: value, ...)
 ```
 
 ### Shipping
@@ -136,7 +136,7 @@ _Unnecessary fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Shipping.new({field_name: value, ...})
+AlphaCard::Shipping.new(field_name: value, ...)
 ```
 
 ### Sale
@@ -155,14 +155,14 @@ _Unnecessary fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Sale.new({field_name: value, ...})
+AlphaCard::Sale.new(field_name: value, ...)
 ```
 
 To create the payment you must call *create(_alpha_card_order_, _alpha_card_account_)* method:
 
 ```ruby
 ...
-sale = AlphaCard::Sale.new({})
+sale = AlphaCard::Sale.new(amount: 10)
 sale.create(order, account)
 ```
 
@@ -237,4 +237,4 @@ Thanks.
 
 Alpha Card gem is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
-Copyright (c) 2014-2015 Nikita Bulaj (bulajnikita@gmail.com).
+Copyright (c) 2014-2016 Nikita Bulaj (bulajnikita@gmail.com).

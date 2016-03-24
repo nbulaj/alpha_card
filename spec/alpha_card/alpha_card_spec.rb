@@ -8,8 +8,6 @@ describe AlphaCard do
   let!(:order) { AlphaCard::Order.new({orderid: '1', billing: billing, shipping: shipping}) }
   let!(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
 
-  #TODO: Create rest client mock to imitate requests, normal tests for error exceptions
-
   context 'With valid attributes' do
     let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
 
@@ -89,12 +87,12 @@ describe AlphaCard do
   end
 
   context 'With connection errors' do
-    let!(:rest_client_error) { RestClient::RequestTimeout.new }
+    let!(:timeout_error) { Timeout::Error.new }
     let!(:socket_error) { SocketError.new }
     let!(:unclassified_error) { StandardError.new('Some error') }
 
-    it 'should raise an APIConnectionError if Rest Client Error' do
-      expect { AlphaCard.handle_connection_errors(rest_client_error) }.to raise_error(AlphaCard::APIConnectionError) do |e|
+    it 'should raise an APIConnectionError if Timeout Error' do
+      expect { AlphaCard.handle_connection_errors(timeout_error) }.to raise_error(AlphaCard::APIConnectionError) do |e|
         expect(e.message).to include('Could not connect to Alpha Card Gateway')
       end
     end
@@ -115,7 +113,7 @@ describe AlphaCard do
       let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
 
       it 'should handle an error' do
-        AlphaCard.api_base = 'https://google.com' # todo: some other service
+        AlphaCard.api_base = 'https://not-existing.com' # todo: some other service
         expect { sale.create(order, account) }.to raise_error(AlphaCard::APIConnectionError)
 
         AlphaCard.api_base = 'https://secure.alphacardgateway.com/api/transact.php'

@@ -9,11 +9,11 @@ module AlphaCard
     attr_reader :data
 
     # Success response code
-    APPROVED = '1'
+    APPROVED = '1'.freeze
     # Decline response code
-    DECLINED = '2'
+    DECLINED = '2'.freeze
     # Error response code
-    ERROR    = '3'
+    ERROR    = '3'.freeze
 
     ##
     # AlphaCardResponse constructor.

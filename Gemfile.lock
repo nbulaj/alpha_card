@@ -1,9 +1,8 @@
 PATH
   remote: .
   specs:
-    alpha_card (0.2.5)
-      rest-client (~> 1.8)
-      virtus (~> 1.0.5)
+    alpha_card (0.2.6)
+      virtus (~> 1.0, >= 1.0.5)
 
 GEM
   remote: https://rubygems.org/
@@ -80,9 +79,8 @@ DEPENDENCIES
   alpha_card!
   coveralls
   rack-test
-  rest-client
   rspec (~> 3)
   virtus
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

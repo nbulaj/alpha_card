@@ -44,12 +44,29 @@ module AlphaCard
         fail ArgumentError, "No #{attr} information provided!" if self[attr].nil? || self[attr].empty?
       end
 
+      AlphaCard.request(account, params_with(order)).success?
+    end
+
+    private
+
+    ##
+    # Return params for Alpha Card merged with
+    # params of another object passed through arguments
+    #
+    # @param [AlphaCard::Order] order
+    #    An <code>AlphaCard::Order</code> object.
+    #
+    # @return [Hash]
+    #   Params of *self* object merged with params
+    #   of another object (<code>AlphaCard::Order</code>)
+    def params_with(order)
       params = filled_attributes || {}
+
       [order, order.billing, order.shipping].compact.each do |obj|
         params.merge!(obj ? obj.filled_attributes : {})
       end
 
-      AlphaCard.request(params, account).success?
+      params
     end
   end
 end
