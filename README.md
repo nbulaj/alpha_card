@@ -178,13 +178,13 @@ require 'alpha_card'
 def create_payment
   account = AlphaCard::Account.new('demo', 'password')
 
-  billing = AlphaCard::Billing.new({ email: 'test@example.com', phone: '+801311313111' })
-  shipping = AlphaCard::Shipping.new({ address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132' })
+  billing = AlphaCard::Billing.new(email: 'test@example.com', phone: '+801311313111')
+  shipping = AlphaCard::Shipping.new(address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132')
 
-  order = AlphaCard::Order.new({ orderid: 1, orderdescription: 'Test order' })
+  order = AlphaCard::Order.new(orderid: 1, orderdescription: 'Test order')
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
-  sale = AlphaCard::Sale.new({ ccexp: '0117', ccnumber: '4111111111111111', amount: "1.50", cvv: '123' })
+  sale = AlphaCard::Sale.new(ccexp: '0117', ccnumber: '4111111111111111', amount: '1.50', cvv: '123')
   sale.create(order, account)
 rescue AlphaCard::AlphaCardError => e
   puts e.message
