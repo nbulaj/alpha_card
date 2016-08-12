@@ -22,7 +22,7 @@ https://secure.alphacardgateway.com/merchants/resources/integration/integration_
 If using bundler, first add 'alpha_card' to your Gemfile:
 
 ```ruby
-gem "alpha_card"
+gem 'alpha_card'
 ```
 
 And run:
@@ -46,7 +46,7 @@ Dependencies required:
 
 Alpha Card operates with next 5 objects:
 
-*   Account (represent your Alpha Card credentials)
+*   Account
 *   Order
     - Billing
     - Shipping
@@ -194,7 +194,7 @@ end
 
 `Billing` and `Shipping` is an _optional_ parameters and can be not specified.
 
-_Note_: take a look at the `amount` of the Order. It's format must be 'xx.xx'. All information about variables formats 
+_Note_: take a look at the `amount` of the Order. It's format must be 'xx.xx'. All the information about variables formats 
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
 Naming convention of attributes (such as "ccexp" or "orderid") was saved for compatibility with AlphaCard API.
