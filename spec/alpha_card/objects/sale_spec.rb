@@ -1,15 +1,19 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe AlphaCard do
+describe AlphaCard::Sale do
   # Shared objects
-  let!(:account) { AlphaCard::Account.new('demo', 'password') }
-  let!(:billing) { AlphaCard::Billing.new({email: 'test@example.com'}) }
-  let!(:shipping) { AlphaCard::Shipping.new({address_1: '22 N str.'}) }
-  let!(:order) { AlphaCard::Order.new({orderid: '1', billing: billing, shipping: shipping}) }
+  let(:account) { AlphaCard::Account.new('demo', 'password') }
+  let!(:billing) { AlphaCard::Billing.new(email: 'test@example.com') }
+  let!(:shipping) { AlphaCard::Shipping.new(address_1: '22 N str.') }
+  let!(:order) { AlphaCard::Order.new(orderid: '1', billing: billing, shipping: shipping) }
   let!(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
 
   context 'With valid attributes' do
-    let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
+    let(:sale) { AlphaCard::Sale.new(ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00') }
+
+    it 'should have valid request params' do
+      expect(sale.type).to eq('sale')
+    end
 
     it 'should successfully create the sale' do
       expect(sale.create(order, account)).to be_truthy
@@ -17,7 +21,7 @@ describe AlphaCard do
   end
 
   context 'With invalid Card number' do
-    let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: 'Invalid', amount: '5.00'}) }
+    let!(:sale) { AlphaCard::Sale.new(ccexp: card_exp, ccnumber: 'Invalid', amount: '5.00') }
 
     it 'should raise an AlphaCardError' do
       expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
@@ -27,7 +31,7 @@ describe AlphaCard do
   end
 
   context 'With invalid amount' do
-    let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '0.00'}) }
+    let!(:sale) { AlphaCard::Sale.new(ccexp: card_exp, ccnumber: '4111111111111111', amount: '0.00') }
 
     it 'should raise an AlphaCardError' do
       expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
@@ -37,7 +41,7 @@ describe AlphaCard do
   end
 
   context 'With invalid Card expiration date' do
-    let!(:sale) { AlphaCard::Sale.new({ccexp: 'Invalid', ccnumber: '4111111111111111', amount: '5.00'}) }
+    let!(:sale) { AlphaCard::Sale.new(ccexp: 'Invalid', ccnumber: '4111111111111111', amount: '5.00') }
 
     it 'should raise an AlphaCardError' do
       expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
@@ -47,7 +51,7 @@ describe AlphaCard do
   end
 
   context 'With invalid Card CVV' do
-    let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, cvv: 'Invalid', ccnumber: '4111111111111111', amount: '5.00'}) }
+    let!(:sale) { AlphaCard::Sale.new(ccexp: card_exp, cvv: 'Invalid', ccnumber: '4111111111111111', amount: '5.00') }
 
     it 'should raise an AlphaCardError' do
       expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
@@ -58,7 +62,7 @@ describe AlphaCard do
 
   context 'With invalid account credentials' do
     let!(:invalid_account) { AlphaCard::Account.new('demo', 'Invalid password') }
-    let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
+    let!(:sale) { AlphaCard::Sale.new(ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00') }
 
     it 'should raise an AlphaCardError' do
       expect { sale.create(order, invalid_account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
@@ -68,16 +72,16 @@ describe AlphaCard do
   end
 
   context 'Without attributes' do
-    let!(:sale) { AlphaCard::Sale.new({}) }
+    let(:sale) { AlphaCard::Sale.new }
 
     it 'should raise an Exception' do
-      expect { sale.create(order, account) }.to raise_error(ArgumentError)
+      expect { sale.create(order, account) }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end
 
   context 'With blank account credentials' do
     let!(:blank_account) { AlphaCard::Account.new(nil, '') }
-    let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
+    let!(:sale) { AlphaCard::Sale.new(ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00') }
 
     it 'should raise an AlphaCardError' do
       expect { sale.create(order, blank_account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
@@ -87,9 +91,9 @@ describe AlphaCard do
   end
 
   context 'With connection errors' do
-    let!(:timeout_error) { Timeout::Error.new }
-    let!(:socket_error) { SocketError.new }
-    let!(:unclassified_error) { StandardError.new('Some error') }
+    let(:timeout_error) { Timeout::Error.new }
+    let(:socket_error) { SocketError.new }
+    let(:unclassified_error) { StandardError.new('Some error') }
 
     it 'should raise an APIConnectionError if Timeout Error' do
       expect { AlphaCard.handle_connection_errors(timeout_error) }.to raise_error(AlphaCard::APIConnectionError) do |e|
@@ -110,10 +114,10 @@ describe AlphaCard do
     end
 
     context 'With request exception' do
-      let!(:sale) { AlphaCard::Sale.new({ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00'}) }
+      let(:sale) { AlphaCard::Sale.new(ccexp: card_exp, ccnumber: '4111111111111111', amount: '5.00') }
 
       it 'should handle an error' do
-        AlphaCard.api_base = 'https://not-existing.com' # todo: some other service
+        AlphaCard.api_base = 'https://not-existing.com'
         expect { sale.create(order, account) }.to raise_error(AlphaCard::APIConnectionError)
 
         AlphaCard.api_base = 'https://secure.alphacardgateway.com/api/transact.php'

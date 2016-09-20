@@ -24,10 +24,10 @@ module AlphaCard
     #   Only filled attributes of Shipping resource with "shipping_" prefix.
     #
     # @example
-    #   shipping = AlphaCard::Shipping.new({firstname: 'John', state: 'NY'})
+    #   shipping = AlphaCard::Shipping.new(firstname: 'John', state: 'NY')
     #   shipping.filled_attributes
     #
-    #   #=> {shipping_firstname: 'John', shipping_state: 'NY'}
+    #   #=> { shipping_firstname: 'John', shipping_state: 'NY' }
     def filled_attributes
       Hash[super.map { |k, v| ["shipping_#{k}".to_sym, v] }]
     end

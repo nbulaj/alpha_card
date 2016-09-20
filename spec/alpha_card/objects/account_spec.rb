@@ -1,8 +1,8 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe AlphaCard::Account do
-  let!(:valid_account) { AlphaCard::Account.new('demo', 'password') }
-  let!(:invalid_account) { AlphaCard::Account.new('', '') }
+  let(:valid_account) { AlphaCard::Account.new('demo', 'password') }
+  let(:invalid_account) { AlphaCard::Account.new('', '') }
 
   context 'with valid credentials' do
     it 'should return true if credentials are filled' do

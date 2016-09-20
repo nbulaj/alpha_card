@@ -44,13 +44,16 @@ Dependencies required:
 
 ## Alpha Card Objects
 
-Alpha Card operates with next 5 objects:
+Alpha Card operates with next objects:
 
 *   Account
 *   Order
     - Billing
     - Shipping
 *   Sale
+*   Refund
+*   Void
+*   Capture
 
 Let us consider each of them.
 
@@ -74,7 +77,7 @@ AlphaCard::Account.new(username, password)
 
 Order represents itself.
 
-_Unnecessary fields_:
+_Optional fields_:
 
 *   orderid : String
 *   orderdescription : String
@@ -94,7 +97,7 @@ AlphaCard::Order.new(field_name: value, ...)
 
 Specify Billing information for Order.
 
-_Unnecessary fields_:
+_Optional fields_:
 
 *   firstname : String
 *   lastname : String
@@ -120,7 +123,7 @@ AlphaCard::Billing.new(field_name: value, ...)
 
 Specify Shipping information for Order.
 
-_Unnecessary fields_:
+_Optional fields_:
 
 *   firstname : String
 *   lastname : String
@@ -145,12 +148,12 @@ Sale is the main object of the Alpha Card Services. It processes fees associated
 
 _Required fields_:
 
-*   ccexp : String
-*   ccnumber : String
-*   amount : String
+*  ccexp : String
+*  ccnumber : String
+*  amount : String
 
-_Unnecessary fields_:
-*   cvv : String
+_Optional fields_:
+*  cvv : String
 
 _Constructor_:
 
@@ -167,6 +170,58 @@ sale.create(order, account)
 ```
 
 This method returns _true_ if sale was created successfully and raise an `AlphaCardError` exception if some of the fields is invalid.
+
+### Refund
+
+Represents refund transaction.
+
+_Required fields_:
+
+*  transactionid : String
+
+_Optional fields_:
+*  acount : String
+
+_Constructor_:
+
+```ruby
+AlphaCard::Refund.new(field_name: value, ...)
+```
+
+To create the refund you must call *create(_alpha_card_account_)* method.
+
+### Void
+
+Represents void transaction.
+
+_Required fields_:
+
+*  transactionid : String
+
+_Constructor_:
+
+```ruby
+AlphaCard::Void.new(field_name: value, ...)
+```
+
+To create the void transaction you must call *create(_alpha_card_account_)* method.
+
+### Capture
+
+Represents capture transaction.
+
+_Required fields_:
+
+*  transactionid : String
+*  amount  String
+
+_Constructor_:
+
+```ruby
+AlphaCard::Capture.new(field_name: value, ...)
+```
+
+To create the capture transaction you must call *create(_alpha_card_account_)* method.
 
 ## Example of usage
 

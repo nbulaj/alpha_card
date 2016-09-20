@@ -5,13 +5,14 @@ module AlphaCard
   # such as CVV, number, expiration date, etc.
   # Process the Alpha Card Services payment.
   class Sale < AlphaCardObject
+    # Format: MMYY
     attribute :ccexp, String
     attribute :ccnumber, String
     attribute :amount, String
     attribute :cvv, String
 
     ##
-    # Not writable attribute, defines the type of transaction (default is 'sale')
+    # Transaction type (default is 'sale')
     #
     # @attribute [r] type
     attribute :type, String, default: 'sale', writer: :private
@@ -34,24 +35,21 @@ module AlphaCard
     #
     # @example
     #   account = AlphaCard::Account.new('demo', 'password')
-    #   order = AlphaCard::Order.new({orderid: 1, orderdescription: 'Test order'})
-    #   sale = AlphaCard::Sale.new({ccexp: '0117', ccnumber: '4111111111111111', amount: "5.00" })
+    #   order = AlphaCard::Order.new(orderid: 1, orderdescription: 'Test order')
+    #   sale = AlphaCard::Sale.new(ccexp: '0117', ccnumber: '4111111111111111', amount: "5.00" )
     #   sale.create(order, account)
     #
     #   #=> true
     def create(order, account)
-      [:ccexp, :ccnumber, :amount].each do |attr|
-        fail ArgumentError, "No #{attr} information provided!" if self[attr].nil? || self[attr].empty?
-      end
+      abort_if_attributes_blank!(:ccexp, :ccnumber, :amount)
 
-      AlphaCard.request(account, params_with(order)).success?
+      AlphaCard.request(account, order_params(order)).success?
     end
 
     private
 
     ##
-    # Return params for Alpha Card merged with
-    # params of another object passed through arguments
+    # Return params for Alpha Card Sale request
     #
     # @param [AlphaCard::Order] order
     #    An <code>AlphaCard::Order</code> object.
@@ -59,11 +57,11 @@ module AlphaCard
     # @return [Hash]
     #   Params of *self* object merged with params
     #   of another object (<code>AlphaCard::Order</code>)
-    def params_with(order)
+    def order_params(order)
       params = filled_attributes || {}
 
       [order, order.billing, order.shipping].compact.each do |obj|
-        params.merge!(obj ? obj.filled_attributes : {})
+        params.merge!(obj.filled_attributes)
       end
 
       params

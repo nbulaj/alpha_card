@@ -7,6 +7,7 @@ module AlphaCard
     attribute :orderdescription, String
     attribute :ponumber, String
     attribute :tax, String
+    # Format: xxx.xxx.xxx.xxx
     attribute :ipaddress, String
 
     attribute :billing, AlphaCard::Billing

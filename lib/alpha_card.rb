@@ -14,12 +14,16 @@ require 'alpha_card/alpha_card_response'
 # Errors
 require 'alpha_card/errors/alpha_card_error'
 require 'alpha_card/errors/api_connection_error'
+require 'alpha_card/errors/invalid_object_error'
 
 # Alpha Card Resources
 require 'alpha_card/objects/account'
-require 'alpha_card/objects/shipping'
 require 'alpha_card/objects/billing'
+require 'alpha_card/objects/capture'
+require 'alpha_card/objects/shipping'
 require 'alpha_card/objects/order'
+require 'alpha_card/objects/void'
+require 'alpha_card/objects/refund'
 require 'alpha_card/objects/sale'
 
 ##
@@ -83,10 +87,10 @@ module AlphaCard
     #
     #   #=> AlphaCard::AlphaCardError: AlphaCard::AlphaCardError
     def request(account, params = {})
-      fail AlphaCardError, 'You must set credentials to create the sale!' unless account.filled?
+      raise AlphaCardError, 'You must set credentials to create the sale!' unless account.filled?
 
       begin
-        response = http_request(@api_base, params.merge(account.attributes))
+        response = http_post_request(@api_base, params.merge(account.attributes))
       rescue => e
         handle_connection_errors(e)
       end
@@ -121,7 +125,7 @@ module AlphaCard
     # Raises an exception if a network error occurs. It
     # could be request timeout, socket error or anything else.
     #
-    # @param [Exception]
+    # @param [StandardError]
     #   Exception object.
     #
     # @raise [AlphaCard::AlphaCardError]
@@ -155,7 +159,7 @@ module AlphaCard
     #
     # @return [HTTPResponse]
     #   Response of the request as HTTPResponse object
-    def http_request(url, params)
+    def http_post_request(url, params)
       uri = URI.parse(url)
 
       http = Net::HTTP.new(uri.host, uri.port)

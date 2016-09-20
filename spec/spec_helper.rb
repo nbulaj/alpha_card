@@ -1,7 +1,7 @@
 require 'rack/test'
 
-require 'coveralls'
-Coveralls.wear!
+require 'simplecov'
+SimpleCov.start
 
 require 'bundler/setup'
 Bundler.setup
