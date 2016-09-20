@@ -1,12 +1,11 @@
 # Ruby lib for creating payments with Alpha Card Services
 [![Gem Version](https://badge.fury.io/rb/alpha_card.svg)](http://badge.fury.io/rb/alpha_card)
+[![Build Status](https://travis-ci.org/nbulaj/alpha_card.svg?branch=master)](https://travis-ci.org/nbulaj/alpha_card)
 [![Dependency Status](https://gemnasium.com/nbulaj/alpha_card.svg)](https://gemnasium.com/nbulaj/alpha_card)
 [![Code Climate](https://codeclimate.com/github/nbulaj/alpha_card/badges/gpa.svg)](https://codeclimate.com/github/nbulaj/alpha_card)
 [![Coverage Status](https://coveralls.io/repos/nbulaj/alpha_card/badge.svg)](https://coveralls.io/r/nbulaj/alpha_card)
-[![Build Status](https://travis-ci.org/nbulaj/alpha_card.svg?branch=master)](https://travis-ci.org/nbulaj/alpha_card)
 [![Inline docs](http://inch-ci.org/github/nbulaj/alpha_card.png?branch=master)](http://inch-ci.org/github/nbulaj/alpha_card)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg)](#license)
-[![Gem](https://img.shields.io/gem/dt/alpha_card.svg)]()
 
 This gem can help your Ruby or Ruby on Rails application to integrate with Alpha Card Service, Inc.
 
@@ -15,7 +14,6 @@ http://www.alphacardservices.com/
      
 Payment Gateway Integration Portal:
 https://secure.alphacardgateway.com/merchants/resources/integration/integration_portal.php
-
 
 ## Installation
 
@@ -39,21 +37,20 @@ gem install alpha_card
 
 Dependencies required:
 
-*   ruby >= 1.9.3;
-
+*  ruby >= 1.9.3;
 
 ## Alpha Card Objects
 
 Alpha Card operates with next objects:
 
-*   Account
-*   Order
+*  Account
+*  Order
     - Billing
     - Shipping
-*   Sale
-*   Refund
-*   Void
-*   Capture
+*  Sale
+*  Refund
+*  Void
+*  Capture
 
 Let us consider each of them.
 
@@ -64,8 +61,8 @@ All sales will be created for the specified account.
 
 _Required fields_:
 
-*   username : String
-*   password : String
+*  username : String
+*  password : String
 
 _Constructor_:
 
@@ -79,13 +76,13 @@ Order represents itself.
 
 _Optional fields_:
 
-*   orderid : String
-*   orderdescription : String
-*   ponumber : String
-*   tax : String
-*   ipaddress : String
-*   billing : AlphaCard::Billing
-*   shipping : AlphaCard::Shipping
+*  orderid : String
+*  orderdescription : String
+*  ponumber : String
+*  tax : String
+*  ipaddress : String
+*  billing : AlphaCard::Billing
+*  shipping : AlphaCard::Shipping
 
 _Constructor_:
 
@@ -99,19 +96,19 @@ Specify Billing information for Order.
 
 _Optional fields_:
 
-*   firstname : String
-*   lastname : String
-*   email : String
-*   fax : String
-*   phone : String
-*   company : String
-*   address1 : String
-*   address2 : String
-*   city : String
-*   state : String
-*   zip : String
-*   country : String
-*   website : String
+*  firstname : String
+*  lastname : String
+*  email : String
+*  fax : String
+*  phone : String
+*  company : String
+*  address1 : String
+*  address2 : String
+*  city : String
+*  state : String
+*  zip : String
+*  country : String
+*  website : String
 
 _Constructor_:
 
@@ -125,16 +122,16 @@ Specify Shipping information for Order.
 
 _Optional fields_:
 
-*   firstname : String
-*   lastname : String
-*   company : String
-*   address_1 : String
-*   address_2 : String
-*   city : String
-*   state : String
-*   zip_code : String
-*   country : String
-*   email : String
+*  firstname : String
+*  lastname : String
+*  company : String
+*  address_1 : String
+*  address_2 : String
+*  city : String
+*  state : String
+*  zip_code : String
+*  country : String
+*  email : String
 
 _Constructor_:
 
@@ -256,10 +253,10 @@ Naming convention of attributes (such as "ccexp" or "orderid") was saved for com
 
 To raise some exceptions do the next:
 
-*   to cause a declined message, pass an amount less than 1.00;
-*   to trigger a fatal error message, pass an invalid card number;
-*   to simulate an AVS match, pass 888 in the address1 field, 77777 for zip;
-*   to simulate a CVV match, pass 999 in the cvv field.
+*  to cause a declined message, pass an amount less than 1.00;
+*  to trigger a fatal error message, pass an invalid card number;
+*  to simulate an AVS match, pass 888 in the address1 field, 77777 for zip;
+*  to simulate a CVV match, pass 999 in the cvv field.
 
 Example of exception:
 
