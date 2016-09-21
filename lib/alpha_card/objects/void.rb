@@ -1,10 +1,8 @@
 module AlphaCard
   ##
-  # Implementation of Alpha Card Services Void object.
+  # Implementation of Alpha Card Services Void transaction.
   class Void < AlphaCardObject
     attribute :transactionid, String
-    # Format: xx.xx
-    attribute :amount, String
 
     ##
     # Transaction type (default is 'void')
@@ -13,16 +11,16 @@ module AlphaCard
     attribute :type, String, default: 'void', writer: :private
 
     ##
-    # Creates refund with the <code>AlphaCard::Account</code> credentials.
+    # Creates void transaction with the <code>AlphaCard::Account</code> credentials.
     #
     # @param [AlphaCard::Account] account
     #   An <code>AlphaCard::Account</code> object.
     #
     # @return [Boolean]
-    #   True if refund was created successfully.
+    #   True if transaction was created successfully.
     #   Raise an AlphaCardError exception if some error occurred.
     #
-    # @raise [Exception]
+    # @raise [AlphaCard::InvalidObjectError]
     #   Exception if one of required attributes doesn't specified.
     #
     # @example

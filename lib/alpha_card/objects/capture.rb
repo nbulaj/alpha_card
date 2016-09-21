@@ -1,6 +1,6 @@
 module AlphaCard
   ##
-  # Implementation of Alpha Card Services Capture object.
+  # Implementation of Alpha Card Services Capture transaction.
   class Capture < AlphaCardObject
     attribute :transactionid, String
     # Format: xx.xx

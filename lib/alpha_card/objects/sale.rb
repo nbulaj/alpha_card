@@ -1,6 +1,6 @@
 module AlphaCard
   ##
-  # Implementation of Alpha Card Services Sale object.
+  # Implementation of Alpha Card Services Sale transaction.
   # Contains all the information about Customer Credit Card,
   # such as CVV, number, expiration date, etc.
   # Process the Alpha Card Services payment.
@@ -10,6 +10,13 @@ module AlphaCard
     attribute :ccnumber, String
     attribute :amount, String
     attribute :cvv, String
+    # Values: 'true' or 'false'
+    attribute :customer_receipt, String
+
+    ##
+    # Payment type.
+    # Values: 'creditcard' or 'check'
+    attribute :payment, String, default: 'creditcard'
 
     ##
     # Transaction type (default is 'sale')
@@ -30,7 +37,7 @@ module AlphaCard
     #   True if sale was created successfully.
     #   Raise an AlphaCardError exception if some error occurred.
     #
-    # @raise [Exception]
+    # @raise [AlphaCard::InvalidObjectError]
     #   Exception if one of required attributes doesn't specified.
     #
     # @example
@@ -43,7 +50,7 @@ module AlphaCard
     def create(order, account)
       abort_if_attributes_blank!(:ccexp, :ccnumber, :amount)
 
-      AlphaCard.request(account, order_params(order)).success?
+      AlphaCard.request(account, params_for_sale(order)).success?
     end
 
     private
@@ -57,14 +64,14 @@ module AlphaCard
     # @return [Hash]
     #   Params of *self* object merged with params
     #   of another object (<code>AlphaCard::Order</code>)
-    def order_params(order)
-      params = filled_attributes || {}
+    def params_for_sale(order)
+      request_params = filled_attributes || {}
 
       [order, order.billing, order.shipping].compact.each do |obj|
-        params.merge!(obj.filled_attributes)
+        request_params.merge!(obj.filled_attributes)
       end
 
-      params
+      request_params
     end
   end
 end

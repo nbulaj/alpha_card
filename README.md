@@ -61,8 +61,8 @@ All sales will be created for the specified account.
 
 _Required fields_:
 
-*  username : String
-*  password : String
+*  username : `String`
+*  password : `String`
 
 _Constructor_:
 
@@ -76,13 +76,13 @@ Order represents itself.
 
 _Optional fields_:
 
-*  orderid : String
-*  orderdescription : String
-*  ponumber : String
-*  tax : String
-*  ipaddress : String
-*  billing : AlphaCard::Billing
-*  shipping : AlphaCard::Shipping
+*  orderid : `String`
+*  orderdescription : `String`
+*  ponumber : `String`
+*  tax : `String`
+*  ipaddress : `String` (format: `xxx.xxx.xxx.xxx`)
+*  billing : `AlphaCard::Billing`
+*  shipping : `AlphaCard::Shipping`
 
 _Constructor_:
 
@@ -96,19 +96,19 @@ Specify Billing information for Order.
 
 _Optional fields_:
 
-*  firstname : String
-*  lastname : String
-*  email : String
-*  fax : String
-*  phone : String
-*  company : String
-*  address1 : String
-*  address2 : String
-*  city : String
-*  state : String
-*  zip : String
-*  country : String
-*  website : String
+*  firstname : `String`
+*  lastname : `String`
+*  email : `String`
+*  fax : `String`
+*  phone : `String`
+*  company : `String`
+*  address1 : `String`
+*  address2 : `String`
+*  city : `String`
+*  state : `String` (format: `CC`)
+*  zip : `String`
+*  country : `String` (format: `CC`. Country codes are as shown in ISO 3166)
+*  website : `String`
 
 _Constructor_:
 
@@ -122,16 +122,16 @@ Specify Shipping information for Order.
 
 _Optional fields_:
 
-*  firstname : String
-*  lastname : String
-*  company : String
-*  address_1 : String
-*  address_2 : String
-*  city : String
-*  state : String
-*  zip_code : String
-*  country : String
-*  email : String
+*  firstname : `String`
+*  lastname : `String`
+*  company : `String`
+*  address_1 : `String`
+*  address_2 : `String`
+*  city : `String`
+*  state : `String` (format: `CC`)
+*  zip_code : `String`
+*  country : `String` (format: `CC`. Country codes are as shown in ISO 3166)
+*  email : `String`
 
 _Constructor_:
 
@@ -145,12 +145,14 @@ Sale is the main object of the Alpha Card Services. It processes fees associated
 
 _Required fields_:
 
-*  ccexp : String
-*  ccnumber : String
-*  amount : String
+*  ccexp : `String` (format: `MMYY`)
+*  ccnumber : `String`
+*  amount : `String` (format: `x.xx`)
 
 _Optional fields_:
-*  cvv : String
+*  cvv : `String`
+*  payment : `String` (default: `'creditcard'`, values: `'creditcard'` or `'check'`)
+*  customer_receipt : `String` (values `'true'` or `'false'`)
 
 _Constructor_:
 
@@ -174,10 +176,10 @@ Represents refund transaction.
 
 _Required fields_:
 
-*  transactionid : String
+*  transactionid : `String`
 
 _Optional fields_:
-*  acount : String
+*  acount : `String` (format: `x.xx`)
 
 _Constructor_:
 
@@ -193,7 +195,7 @@ Represents void transaction.
 
 _Required fields_:
 
-*  transactionid : String
+*  transactionid : `String`
 
 _Constructor_:
 
@@ -209,8 +211,8 @@ Represents capture transaction.
 
 _Required fields_:
 
-*  transactionid : String
-*  amount  String
+*  transactionid : `String`
+*  amount : `String` (format: `x.xx`)
 
 _Constructor_:
 
@@ -219,6 +221,46 @@ AlphaCard::Capture.new(field_name: value, ...)
 ```
 
 To create the capture transaction you must call *create(_alpha_card_account_)* method.
+
+### Update
+
+Represents update transaction.
+
+_Required fields_:
+
+*  transactionid : `String`
+
+_Optional fields_:
+*  shipping: `String`
+*  shipping_postal: `String`
+*  ship_from_postal: `String`
+*  shipping_country: `String` 
+*  shipping_carrier: `String` (values: `'ups'`, `'fedex'`, `'dhl'` or `'usps'`)
+*  shipping_date: `String` (format: `YYYYMMDD`)
+*  order_description: `String`
+*  order_date: `String`
+*  customer_receipt: `String` (values: `'true'` or `'false'`)
+*  ponumber: `String`
+*  summary_commodity_code: `String`
+*  duty_amount: `String` (format: `x.xx`)
+*  discount_amount: `String` (format: `x.xx`)
+*  tax: `String` (format: `x.xx`)
+*  national_tax_amount: `String` (format: `x.xx`)
+*  alternate_tax_amount: `String` (format: `x.xx`)
+*  alternate_tax_id: `String`
+*  vat_tax_amount: `String`
+*  vat_tax_rate: `String`
+*  vat_invoice_reference_number: `String`
+*  customer_vat_registration: `String`
+*  merchant_vat_registration: `String`
+
+_Constructor_:
+
+```ruby
+AlphaCard::Update.new(field_name: value, ...)
+```
+
+To create update transaction you must call *create(_alpha_card_account_)* method.
 
 ## Example of usage
 

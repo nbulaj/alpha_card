@@ -25,6 +25,7 @@ require 'alpha_card/objects/order'
 require 'alpha_card/objects/void'
 require 'alpha_card/objects/refund'
 require 'alpha_card/objects/sale'
+require 'alpha_card/objects/update'
 
 ##
 # AlphaCard is a library for processing payments with Alpha Card Services, Inc.
