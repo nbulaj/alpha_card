@@ -2,18 +2,25 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services Capture transaction.
   class Capture < AlphaCardObject
-    attribute :transactionid, String
+    attribute :transaction_id, String
     # Format: xx.xx
     attribute :amount, String
     attribute :tracking_number, String
     attribute :shipping_carrier, String
-    attribute :orderid, String
+    attribute :order_id, String
 
     ##
     # Transaction type (default is 'capture')
     #
     # @attribute [r] type
     attribute :type, String, default: 'capture', writer: :private
+
+    ##
+    # Original AlphaCard transaction variables names
+    ORIGIN_TRANSACTION_VARIABLES = {
+      transaction_id: :transactionid,
+      order_id: :orderid
+    }.freeze
 
     ##
     # Creates a Capture with the <code>AlphaCard::Account</code> credentials.
@@ -30,12 +37,12 @@ module AlphaCard
     #
     # @example
     #   account = AlphaCard::Account.new('demo', 'password')
-    #   capture = AlphaCard::Capture.new(transactionid: '981562', amount: '10.05')
+    #   capture = AlphaCard::Capture.new(transaction_id: '981562', amount: '10.05')
     #   capture.create(account)
     #
     #   #=> true
     def create(account)
-      abort_if_attributes_blank!(:amount, :transactionid)
+      abort_if_attributes_blank!(:amount, :transaction_id)
 
       AlphaCard.request(account, filled_attributes)
     end

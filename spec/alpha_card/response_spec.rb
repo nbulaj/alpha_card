@@ -16,15 +16,15 @@ describe AlphaCard::AlphaCardResponse do
   context 'successful request' do
     let(:response) { AlphaCard::AlphaCardResponse.new(successful_response_mock) }
 
-    it 'should be success' do
+    it 'success? = true' do
       expect(response.success?).to be_truthy
     end
 
-    it 'should return responce code' do
+    it 'returns response code' do
       expect(response.code).to eq('100')
     end
 
-    it 'should return transaction id' do
+    it 'returns transaction id' do
       expect(response.transaction_id).to eq('2303767426')
     end
   end
@@ -32,15 +32,15 @@ describe AlphaCard::AlphaCardResponse do
   context 'declined request' do
     let(:response) { AlphaCard::AlphaCardResponse.new(declined_response_mock) }
 
-    it 'should be declined' do
+    it 'declined? = true' do
       expect(response.declined?).to be_truthy
     end
 
-    it 'should return responce code' do
+    it 'returns responce code' do
       expect(response.code).to eq('220')
     end
 
-    it 'should return transaction id' do
+    it 'returns transaction id' do
       expect(response.transaction_id).to eq('2302720045')
     end
   end
@@ -48,15 +48,15 @@ describe AlphaCard::AlphaCardResponse do
   context 'error request' do
     let(:response) { AlphaCard::AlphaCardResponse.new(error_response_mock) }
 
-    it 'should be error' do
+    it 'error? = true' do
       expect(response.error?).to be_truthy
     end
 
-    it 'should return responce code' do
+    it 'returns responce code' do
       expect(response.code).to eq('220')
     end
 
-    it 'should return transaction id' do
+    it 'returns transaction id' do
       expect(response.transaction_id).to eq('2302620041')
     end
   end

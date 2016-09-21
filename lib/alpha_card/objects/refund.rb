@@ -10,5 +10,11 @@ module AlphaCard
     #
     # @attribute [r] type
     attribute :type, String, default: 'refund', writer: :private
+
+    ##
+    # Original AlphaCard transaction variables names
+    ORIGIN_TRANSACTION_VARIABLES = {
+      transaction_id: :transactionid
+    }.freeze
   end
 end

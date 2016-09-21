@@ -37,9 +37,9 @@ gem install alpha_card
 
 Dependencies required:
 
-*  ruby >= 1.9.3;
+*  ruby >= 2.0.0;
 
-## Alpha Card Objects
+## Alpha Card Objects & Transactions
 
 Alpha Card operates with next objects:
 
@@ -51,6 +51,7 @@ Alpha Card operates with next objects:
 *  Refund
 *  Void
 *  Capture
+*  Update
 
 Let us consider each of them.
 
@@ -76,11 +77,11 @@ Order represents itself.
 
 _Optional fields_:
 
-*  orderid : `String`
-*  orderdescription : `String`
-*  ponumber : `String`
+*  id : `String`
+*  description : `String`
+*  po_number : `String`
 *  tax : `String`
-*  ipaddress : `String` (format: `xxx.xxx.xxx.xxx`)
+*  ip_address : `String` (format: `xxx.xxx.xxx.xxx`)
 *  billing : `AlphaCard::Billing`
 *  shipping : `AlphaCard::Shipping`
 
@@ -96,18 +97,18 @@ Specify Billing information for Order.
 
 _Optional fields_:
 
-*  firstname : `String`
-*  lastname : `String`
+*  first_name : `String`
+*  last_name : `String`
 *  email : `String`
 *  fax : `String`
 *  phone : `String`
 *  company : `String`
-*  address1 : `String`
-*  address2 : `String`
+*  address_1 : `String`
+*  address_2 : `String`
 *  city : `String`
 *  state : `String` (format: `CC`)
 *  zip : `String`
-*  country : `String` (format: `CC`. Country codes are as shown in ISO 3166)
+*  country : `String` (format: `CC`. Country codes are as shown in [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166))
 *  website : `String`
 
 _Constructor_:
@@ -122,15 +123,15 @@ Specify Shipping information for Order.
 
 _Optional fields_:
 
-*  firstname : `String`
-*  lastname : `String`
+*  first_name : `String`
+*  last_name : `String`
 *  company : `String`
 *  address_1 : `String`
 *  address_2 : `String`
 *  city : `String`
 *  state : `String` (format: `CC`)
 *  zip_code : `String`
-*  country : `String` (format: `CC`. Country codes are as shown in ISO 3166)
+*  country : `String` (format: `CC`. Country codes are as shown in [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166))
 *  email : `String`
 
 _Constructor_:
@@ -145,8 +146,8 @@ Sale is the main object of the Alpha Card Services. It processes fees associated
 
 _Required fields_:
 
-*  ccexp : `String` (format: `MMYY`)
-*  ccnumber : `String`
+*  card_expiration_date : `String` (format: `MMYY`)
+*  card_number : `String`
 *  amount : `String` (format: `x.xx`)
 
 _Optional fields_:
@@ -163,7 +164,7 @@ AlphaCard::Sale.new(field_name: value, ...)
 To create the payment you must call *create(_alpha_card_order_, _alpha_card_account_)* method:
 
 ```ruby
-...
+# ...
 sale = AlphaCard::Sale.new(amount: 10)
 sale.create(order, account)
 ```
@@ -176,10 +177,10 @@ Represents refund transaction.
 
 _Required fields_:
 
-*  transactionid : `String`
+*  transaction_id : `String`
 
 _Optional fields_:
-*  acount : `String` (format: `x.xx`)
+*  amount : `String` (format: `x.xx`)
 
 _Constructor_:
 
@@ -195,7 +196,7 @@ Represents void transaction.
 
 _Required fields_:
 
-*  transactionid : `String`
+*  transaction_id : `String`
 
 _Constructor_:
 
@@ -211,7 +212,7 @@ Represents capture transaction.
 
 _Required fields_:
 
-*  transactionid : `String`
+*  transaction_id : `String`
 *  amount : `String` (format: `x.xx`)
 
 _Constructor_:
@@ -228,7 +229,7 @@ Represents update transaction.
 
 _Required fields_:
 
-*  transactionid : `String`
+*  transaction_id : `String`
 
 _Optional fields_:
 *  shipping: `String`
@@ -240,7 +241,7 @@ _Optional fields_:
 *  order_description: `String`
 *  order_date: `String`
 *  customer_receipt: `String` (values: `'true'` or `'false'`)
-*  ponumber: `String`
+*  po_number: `String`
 *  summary_commodity_code: `String`
 *  duty_amount: `String` (format: `x.xx`)
 *  discount_amount: `String` (format: `x.xx`)
@@ -275,10 +276,10 @@ def create_payment
   billing = AlphaCard::Billing.new(email: 'test@example.com', phone: '+801311313111')
   shipping = AlphaCard::Shipping.new(address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132')
 
-  order = AlphaCard::Order.new(orderid: 1, orderdescription: 'Test order')
+  order = AlphaCard::Order.new(id: 1, description: 'Test order', billing: billing, shipping: shipping)
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
-  sale = AlphaCard::Sale.new(ccexp: '0117', ccnumber: '4111111111111111', amount: '1.50', cvv: '123')
+  sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
   sale.create(order, account)
 rescue AlphaCard::AlphaCardError => e
   puts e.message

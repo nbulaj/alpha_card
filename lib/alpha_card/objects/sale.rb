@@ -6,8 +6,8 @@ module AlphaCard
   # Process the Alpha Card Services payment.
   class Sale < AlphaCardObject
     # Format: MMYY
-    attribute :ccexp, String
-    attribute :ccnumber, String
+    attribute :card_expiration_date, String
+    attribute :card_number, String
     attribute :amount, String
     attribute :cvv, String
     # Values: 'true' or 'false'
@@ -23,6 +23,15 @@ module AlphaCard
     #
     # @attribute [r] type
     attribute :type, String, default: 'sale', writer: :private
+
+    ##
+    # Original AlphaCard transaction variables names
+    ORIGIN_TRANSACTION_VARIABLES = {
+      card_expiration_date: :ccexp,
+      card_number: :ccnumber
+    }.freeze
+
+    deprecate_old_variables!
 
     ##
     # Creates the sale for the specified <code>AlphaCard::Order</code>
@@ -42,13 +51,13 @@ module AlphaCard
     #
     # @example
     #   account = AlphaCard::Account.new('demo', 'password')
-    #   order = AlphaCard::Order.new(orderid: 1, orderdescription: 'Test order')
-    #   sale = AlphaCard::Sale.new(ccexp: '0117', ccnumber: '4111111111111111', amount: "5.00" )
+    #   order = AlphaCard::Order.new(id: 1, description: 'Test order')
+    #   sale = AlphaCard::Sale.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '5.00' )
     #   sale.create(order, account)
     #
     #   #=> true
     def create(order, account)
-      abort_if_attributes_blank!(:ccexp, :ccnumber, :amount)
+      abort_if_attributes_blank!(:card_expiration_date, :card_number, :amount)
 
       AlphaCard.request(account, params_for_sale(order)).success?
     end
@@ -56,7 +65,8 @@ module AlphaCard
     private
 
     ##
-    # Return params for Alpha Card Sale request
+    # Returns all the necessary attributes with it's original
+    # names that must be passed with Sale transaction.
     #
     # @param [AlphaCard::Order] order
     #    An <code>AlphaCard::Order</code> object.
@@ -65,13 +75,7 @@ module AlphaCard
     #   Params of *self* object merged with params
     #   of another object (<code>AlphaCard::Order</code>)
     def params_for_sale(order)
-      request_params = filled_attributes || {}
-
-      [order, order.billing, order.shipping].compact.each do |obj|
-        request_params.merge!(obj.filled_attributes)
-      end
-
-      request_params
+      attributes_for_request.merge(order.attributes_for_request)
     end
   end
 end

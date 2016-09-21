@@ -4,25 +4,30 @@ describe AlphaCard::Void do
   let(:account) { AlphaCard::Account.new('demo', 'password') }
 
   context 'with invalid attributes' do
-    let(:void) { AlphaCard::Void.new(transactionid: 'Some ID') }
+    let(:void) { AlphaCard::Void.new(transaction_id: 'Some ID') }
 
-    it 'should response with error' do
+    it 'response with error' do
       expect { void.create(account) }.to raise_error(AlphaCard::AlphaCardError)
     end
   end
 
   context 'with valid attributes' do
-    let(:void) { AlphaCard::Void.new(transactionid: 'Some ID') }
+    let(:void) { AlphaCard::Void.new(transaction_id: 'Some ID') }
 
-    it 'should have valid request params' do
-      expect(void.type).to eq('void')
+    it 'has valid request params' do
+      expected_params = {
+        transactionid: 'Some ID',
+        type: 'void'
+      }
+
+      expect(void.attributes_for_request).to eq(expected_params)
     end
   end
 
   context 'with blank attributes' do
     let(:void) { AlphaCard::Void.new }
 
-    it 'should raise an InvalidObject error' do
+    it 'raises an InvalidObject error' do
       expect { void.create(account) }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end

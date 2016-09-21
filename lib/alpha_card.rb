@@ -146,7 +146,7 @@ module AlphaCard
         message = 'Unexpected error communicating with Alpha Card Gateway.'
       end
 
-      fail APIConnectionError, "#{message}\n\n(Network error: #{error.message})"
+      raise APIConnectionError, "#{message}\n\n(Network error: #{error.message})"
     end
 
     ##

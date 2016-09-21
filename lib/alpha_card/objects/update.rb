@@ -19,7 +19,7 @@ module AlphaCard
     attribute :order_date, String
     # Values: 'true' or 'false'
     attribute :customer_receipt, String
-    attribute :ponumber, String
+    attribute :po_number, String
     attribute :summary_commodity_code, String
     # Format: x.xx
     attribute :duty_amount, String
@@ -37,5 +37,18 @@ module AlphaCard
     attribute :vat_invoice_reference_number, String
     attribute :customer_vat_registration, String
     attribute :merchant_vat_registration, String
+
+    ##
+    # Transaction type (default is 'update')
+    #
+    # @attribute [r] type
+    attribute :type, String, default: 'update', writer: :private
+
+    ##
+    # Original AlphaCard transaction variables names
+    ORIGIN_TRANSACTION_VARIABLES = {
+      transaction_id: :transactionid,
+      po_number: :ponumber
+    }.freeze
   end
 end

@@ -4,8 +4,8 @@ require 'alpha_card/version'
 
 Gem::Specification.new do |gem|
   gem.name = 'alpha_card'
-  gem.version = AlphaCard::VERSION
-  gem.date = '2016-03-24'
+  gem.version = AlphaCard.gem_version
+  gem.date = '2016-09-22'
   gem.summary = 'Alpha Card Services API for Ruby'
   gem.description = 'Gem for creating sales with Alpha Card Services'
   gem.authors = ['Nikita Bulaj']
