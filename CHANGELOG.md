@@ -2,9 +2,9 @@
 
 Reverse Chronological Order:
 
-## `0.3.0` (????)
+## `0.3.0` (2016-09-22)
 
-https://github.com/nbulaj/alpha_card/compare/0.2.5...0.3.0
+https://github.com/nbulaj/alpha_card/compare/0.2.6...0.3.0
 
 * Dropped support of Ruby 1.9.3
 * New AlphaCard transactions: `Void`, `Refund`, `Capture`, `Update`
@@ -17,7 +17,7 @@ https://github.com/nbulaj/alpha_card/compare/0.2.5...0.3.0
 
 ## `0.2.6` (2016-03-24)
 
-https://github.com/nbulaj/alpha_card/compare/0.2.5...0.2.6
+https://github.com/nbulaj/alpha_card/compare/0.2.4...0.2.6
 
 * Documentation improvements
 * `rest-client` removed from gem dependencies
