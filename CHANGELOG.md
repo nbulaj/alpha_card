@@ -6,7 +6,7 @@ Reverse Chronological Order:
 
 https://github.com/nbulaj/alpha_card/compare/0.2.6...0.3.0
 
-* Dropped support of Ruby 1.9.3
+* Dropped support of Ruby 1.9.3 and jruby-1.7
 * New AlphaCard transactions: `Void`, `Refund`, `Capture`, `Update`
 * New AlphaCard transactions variables
 * New AlphaCard transactions variables naming (**old is deprecated**)
@@ -44,9 +44,9 @@ https://github.com/nbulaj/alpha_card/compare/0.2.4...0.2.6
 ## `0.1.9` (2014-07-02)
 
 * Errors handling
-* COde refactoring
-* Specs
+* Code refactoring
 * Documentation improvements
+* Specs
 * Fixes
 
 ## `0.1.0` (2014-06-25)
