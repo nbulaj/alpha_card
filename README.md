@@ -37,7 +37,7 @@ gem install alpha_card
 
 Dependencies required:
 
-*  ruby >= 2.0.0 or jruby >= 9.0.0.0;
+*  ruby >= 2.0.0 or jruby >= 9.0.5.0;
 
 ## Alpha Card Objects & Transactions
 
