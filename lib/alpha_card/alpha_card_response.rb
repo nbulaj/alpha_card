@@ -15,6 +15,15 @@ module AlphaCard
     # Error response code
     ERROR    = '3'.freeze
 
+    # Messages for CVV response codes
+    CVV_RESPONSES = YAML.load_file(File.expand_path('../data/cvv_responses.yml', __FILE__)).freeze
+
+    # Messages for AVS response codes
+    AVS_RESPONSES = YAML.load_file(File.expand_path('../data/avs_responses.yml', __FILE__)).freeze
+
+    # AlphaCard response messages
+    RESPONSE_MESSAGES = YAML.load_file(File.expand_path('../data/response_messages.yml', __FILE__)).freeze
+
     ##
     # AlphaCardResponse constructor.
     #
@@ -32,14 +41,14 @@ module AlphaCard
     end
 
     ##
-    # The text of the Alpha Card Gateway response.
+    # Textual response of the Alpha Card Gateway.
     #
     # @return [String] text of the response
     #
     # @example
     #
-    #   r = AlphaCardResponse.new("response=1&responsetext=Test")
-    #   r.text
+    #   response = AlphaCardResponse.new("response=1&responsetext=Test")
+    #   response.text
     #
     #   #=> 'Test'
     def text
@@ -47,15 +56,29 @@ module AlphaCard
     end
 
     ##
-    # The ID of the transaction. Can be used to process
-    # refund operation.
+    # Response message by response code.
+    #
+    # @return [String] response message
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("response_code=>300")
+    #   response.message
+    #
+    #   #=> 'Transaction was rejected by gateway'
+    def message
+      RESPONSE_MESSAGES[code]
+    end
+
+    ##
+    # Payment gateway transaction ID.
     #
     # @return [String] transaction ID
     #
     # @example
     #
-    #   r = AlphaCardResponse.new("response=1&transactionid=123")
-    #   r.transaction_id
+    #   response = AlphaCardResponse.new("response=1&transactionid=123")
+    #   response.transaction_id
     #
     #   #=> '123'
     def transaction_id
@@ -63,18 +86,48 @@ module AlphaCard
     end
 
     ##
-    # The code of the Alpha Card Gateway response.
+    # The original order id passed in the transaction request.
+    #
+    # @return [String] Order ID
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("response=1&orderid=123")
+    #   response.order_id
+    #
+    #   #=> '123'
+    def order_id
+      @data['orderid']
+    end
+
+    ##
+    # Numeric mapping of processor responses.
     #
     # @return [String] code of the response
     #
     # @example
     #
-    #   r = AlphaCardResponse.new("response=1&response_code=100")
-    #   r.code
+    #   response = AlphaCardResponse.new("response=1&response_code=100")
+    #   response.code
     #
     #   #=> '100'
     def code
       @data['response_code']
+    end
+
+    ##
+    # Transaction authorization code.
+    #
+    # @return [String] auth code
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("response=1&authcode=083319")
+    #   response.code
+    #
+    #   #=> '083319'
+    def auth_code
+      @data['authcode']
     end
 
     ##
@@ -86,8 +139,8 @@ module AlphaCard
     #
     # @example
     #
-    #   r = AlphaCardResponse.new("response=1")
-    #   r.success?
+    #   response = AlphaCardResponse.new("response=1")
+    #   response.success?
     #
     #   #=> true
     def success?
@@ -103,8 +156,8 @@ module AlphaCard
     #
     # @example
     #
-    #   r = AlphaCardResponse.new("response=2")
-    #   r.declined?
+    #   response = AlphaCardResponse.new("response=2")
+    #   response.declined?
     #
     #   #=> true
     def declined?
@@ -120,12 +173,42 @@ module AlphaCard
     #
     # @example
     #
-    #   r = AlphaCardResponse.new("response=3")
-    #   r.error?
+    #   response = AlphaCardResponse.new("response=3")
+    #   response.error?
     #
     #   #=> true
     def error?
       @data['response'] == ERROR
+    end
+
+    ##
+    # CVV response message.
+    #
+    # @return [String] CVV response message
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("cvvresponse=M")
+    #   response.cvv_response
+    #
+    #   #=> 'CVV2/CVC2 match'
+    def cvv_response
+      CVV_RESPONSES[@data['cvvresponse']]
+    end
+
+    ##
+    # AVS response message.
+    #
+    # @return [String] AVS response message
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("avsresponse=A")
+    #   response.avs_response
+    #
+    #   #=> 'Address match only'
+    def avs_response
+      AVS_RESPONSES[@data['avsresponse']]
     end
   end
 end

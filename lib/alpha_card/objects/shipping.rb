@@ -3,8 +3,8 @@ module AlphaCard
   # Implementation of Alpha Card Services order shipping information.
   # Contains all the shipping information (address, city, zip, etc).
   class Shipping < AlphaCardObject
-    attribute :firstname, String
-    attribute :lastname, String
+    attribute :first_name, String
+    attribute :last_name, String
     attribute :company, String
     attribute :address_1, String
     attribute :address_2, String
@@ -13,6 +13,17 @@ module AlphaCard
     attribute :zip_code, String
     attribute :country, String
     attribute :email, String
+
+    ##
+    # Original AlphaCard transaction variables names
+    ORIGIN_TRANSACTION_VARIABLES = {
+      first_name: :firstname,
+      last_name: :lastname,
+      address_1: :address1,
+      address_2: :address2
+    }.freeze
+
+    deprecate_old_variables!
 
     ##
     # Overloaded <code>filled_attributes</code> method from
@@ -24,10 +35,10 @@ module AlphaCard
     #   Only filled attributes of Shipping resource with "shipping_" prefix.
     #
     # @example
-    #   shipping = AlphaCard::Shipping.new({firstname: 'John', state: 'NY'})
+    #   shipping = AlphaCard::Shipping.new(firstname: 'John', state: 'NY')
     #   shipping.filled_attributes
     #
-    #   #=> {shipping_firstname: 'John', shipping_state: 'NY'}
+    #   #=> { shipping_firstname: 'John', shipping_state: 'NY' }
     def filled_attributes
       Hash[super.map { |k, v| ["shipping_#{k}".to_sym, v] }]
     end

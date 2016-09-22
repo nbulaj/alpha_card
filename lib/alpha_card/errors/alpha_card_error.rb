@@ -12,7 +12,7 @@ module AlphaCard
     ##
     # <code>AlphaCard::AlphaCardError</code> constructor.
     #
-    # @param [String] response
+    # @param [String] message
     #   Error message
     # @param [AlphaCard::AlphaCardResponse] response
     #   AlphaCard Gateway response

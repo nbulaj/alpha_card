@@ -1,0 +1,5 @@
+/coverage
+/.yardoc
+/doc
+/.idea
+/*.gem
