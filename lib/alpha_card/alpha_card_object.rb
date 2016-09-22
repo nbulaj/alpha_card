@@ -31,22 +31,6 @@ module AlphaCard
       end
     end
 
-    ##
-    # Deprecate old transaction variables names.
-    def self.deprecate_old_variables!
-      self::ORIGIN_TRANSACTION_VARIABLES.each do |new_attr, old_attr|
-        define_method "#{old_attr}=" do |value|
-          warn "[DEPRECATION] #{old_attr}= is deprecated! Please, use #{new_attr}= instead"
-          self[new_attr] = value
-        end
-
-        define_method old_attr do
-          warn "[DEPRECATION] #{old_attr} is deprecated! Please, use #{new_attr} instead"
-          self[new_attr]
-        end
-      end
-    end
-
     protected
 
     ##

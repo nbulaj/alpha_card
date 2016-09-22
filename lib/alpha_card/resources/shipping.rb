@@ -23,7 +23,7 @@ module AlphaCard
       address_2: :address2
     }.freeze
 
-    deprecate_old_variables!
+    protected
 
     ##
     # Overloaded <code>filled_attributes</code> method from
@@ -35,7 +35,7 @@ module AlphaCard
     #   Only filled attributes of Shipping resource with "shipping_" prefix.
     #
     # @example
-    #   shipping = AlphaCard::Shipping.new(firstname: 'John', state: 'NY')
+    #   shipping = AlphaCard::Shipping.new(first_name: 'John', state: 'NY')
     #   shipping.filled_attributes
     #
     #   #=> { shipping_firstname: 'John', shipping_state: 'NY' }

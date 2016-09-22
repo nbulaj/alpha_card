@@ -16,7 +16,7 @@ describe AlphaCard::Capture do
 
     let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
     let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
-    let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
+    let(:auth) { AlphaCard::Auth.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'has valid request params' do
       expected_params = {
@@ -31,8 +31,7 @@ describe AlphaCard::Capture do
     end
 
     it 'processed successfully' do
-      allow_any_instance_of(AlphaCard::Sale).to receive(:type).and_return('auth')
-      success, response = sale.create(order, account)
+      success, response = auth.create(order, account)
       expect(success).to be_truthy
       expect(response.transaction_id).not_to be_nil
 

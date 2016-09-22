@@ -25,7 +25,5 @@ module AlphaCard
       address_1: :address1,
       address_2: :address2
     }.freeze
-
-    deprecate_old_variables!
   end
 end

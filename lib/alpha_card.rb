@@ -17,15 +17,18 @@ require 'alpha_card/errors/api_connection_error'
 require 'alpha_card/errors/invalid_object_error'
 
 # Alpha Card Resources
-require 'alpha_card/objects/account'
-require 'alpha_card/objects/billing'
-require 'alpha_card/objects/capture'
-require 'alpha_card/objects/shipping'
-require 'alpha_card/objects/order'
-require 'alpha_card/objects/void'
-require 'alpha_card/objects/refund'
-require 'alpha_card/objects/sale'
-require 'alpha_card/objects/update'
+require 'alpha_card/resources/account'
+require 'alpha_card/resources/billing'
+require 'alpha_card/resources/shipping'
+require 'alpha_card/resources/order'
+
+# Alpha Card Transactions
+require 'alpha_card/transactions/capture'
+require 'alpha_card/transactions/void'
+require 'alpha_card/transactions/refund'
+require 'alpha_card/transactions/sale'
+require 'alpha_card/transactions/update'
+require 'alpha_card/transactions/auth'
 
 ##
 # AlphaCard is a library for processing payments with Alpha Card Services, Inc.

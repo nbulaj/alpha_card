@@ -31,8 +31,6 @@ module AlphaCard
       card_number: :ccnumber
     }.freeze
 
-    deprecate_old_variables!
-
     ##
     # Creates the sale for the specified <code>AlphaCard::Order</code>
     # with the <code>AlphaCard::Account</code> credentials.
