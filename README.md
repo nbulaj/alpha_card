@@ -230,6 +230,12 @@ _Required fields_:
 *  transaction_id : `String`
 *  amount : `String` (format: `x.xx`)
 
+_Optional fields_:
+
+*  tracking_number : `String`
+*  shipping_carrier : `String`
+*  order_id : `String`
+
 _Constructor_:
 
 ```ruby
