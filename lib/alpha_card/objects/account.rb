@@ -42,7 +42,7 @@ module AlphaCard
     #   #=> false
     def filled?
       attrs = [username, password]
-      !attrs.empty? && attrs.all? { |attr| attr && !attr.strip.empty? }
+      attrs.all? { |attr| attr && !attr.strip.empty? }
     end
   end
 end

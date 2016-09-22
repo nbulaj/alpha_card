@@ -9,7 +9,8 @@ https://github.com/nbulaj/alpha_card/compare/0.2.6...0.3.0
 * Dropped support of Ruby 1.9.3
 * New AlphaCard transactions: `Void`, `Refund`, `Capture`, `Update`
 * New AlphaCard transactions variables
-* New AlphaCard transaction variables naming (**old is deprecated**)
+* New AlphaCard transactions variables naming (**old is deprecated**)
+* Improved transactions `.create` method to return response (not only the success indicator)
 * Sale transaction request params fix
 * Code refactoring
 * Specs improvements

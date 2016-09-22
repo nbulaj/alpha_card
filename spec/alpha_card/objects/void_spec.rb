@@ -12,15 +12,29 @@ describe AlphaCard::Void do
   end
 
   context 'with valid attributes' do
-    let(:void) { AlphaCard::Void.new(transaction_id: 'Some ID') }
+    let(:void) { AlphaCard::Void.new(transaction_id: '2303767426') }
+
+    let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
+    let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
+    let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'has valid request params' do
       expected_params = {
-        transactionid: 'Some ID',
+        transactionid: '2303767426',
         type: 'void'
       }
 
       expect(void.attributes_for_request).to eq(expected_params)
+    end
+
+    it 'processed successfully' do
+      success, response = sale.create(order, account)
+      expect(success).to be_truthy
+      expect(response.transaction_id).not_to be_nil
+
+      success, response = AlphaCard::Void.new(transaction_id: response.transaction_id).create(account)
+      expect(success).to be_truthy
+      expect(response.text).to eq('Transaction Void Successful')
     end
   end
 

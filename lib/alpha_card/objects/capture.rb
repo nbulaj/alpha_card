@@ -40,11 +40,12 @@ module AlphaCard
     #   capture = AlphaCard::Capture.new(transaction_id: '981562', amount: '10.05')
     #   capture.create(account)
     #
-    #   #=> true
+    #   #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
     def create(account)
       abort_if_attributes_blank!(:amount, :transaction_id)
 
-      AlphaCard.request(account, filled_attributes)
+      response = AlphaCard.request(account, attributes_for_request)
+      [response.success?, response]
     end
   end
 end

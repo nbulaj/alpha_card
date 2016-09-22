@@ -1,0 +1,5 @@
+"M": 'CVV2/CVC2 match'
+"N": 'CVV2/CVC2 no match'
+"P": 'Not processed'
+"S": 'Merchant has indicated that CVV2/CVC2 is not present on card'
+"U": 'Issuer is not certified and/or has not provided Visa encryption keys'

@@ -20,7 +20,7 @@ https://secure.alphacardgateway.com/merchants/resources/integration/integration_
 If using bundler, first add 'alpha_card' to your Gemfile:
 
 ```ruby
-gem 'alpha_card'
+gem 'alpha_card', '~> 0.3'
 ```
 
 And run:
@@ -58,7 +58,7 @@ Let us consider each of them.
 ### Account
 
 Account represents credentials data to access Alpha Card Gateway.
-All sales will be created for the specified account.
+All transactions (`sale`, `refund`, etc) will be created for the specified account.
 
 _Required fields_:
 
@@ -166,7 +166,9 @@ To create the payment you must call *create(_alpha_card_order_, _alpha_card_acco
 ```ruby
 # ...
 sale = AlphaCard::Sale.new(amount: 10)
-sale.create(order, account)
+success, alpha_card_response = sale.create(order, account)
+
+# => [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
 ```
 
 This method returns _true_ if sale was created successfully and raise an `AlphaCardError` exception if some of the fields is invalid.
@@ -180,6 +182,7 @@ _Required fields_:
 *  transaction_id : `String`
 
 _Optional fields_:
+
 *  amount : `String` (format: `x.xx`)
 
 _Constructor_:
@@ -188,7 +191,13 @@ _Constructor_:
 AlphaCard::Refund.new(field_name: value, ...)
 ```
 
-To create the refund you must call *create(_alpha_card_account_)* method.
+To create the refund transaction you must call *create(_alpha_card_account_)* method:
+
+```ruby
+# ...
+refund = AlphaCard::Refund.new(transaction_id: '12312312', amount: 10)
+refund.create(account)
+```
 
 ### Void
 
@@ -204,7 +213,13 @@ _Constructor_:
 AlphaCard::Void.new(field_name: value, ...)
 ```
 
-To create the void transaction you must call *create(_alpha_card_account_)* method.
+To create the void transaction you must call *create(_alpha_card_account_)* method:
+
+```ruby
+# ...
+void = AlphaCard::Void.new(transaction_id: '12312312')
+void.create(account)
+```
 
 ### Capture
 
@@ -221,7 +236,13 @@ _Constructor_:
 AlphaCard::Capture.new(field_name: value, ...)
 ```
 
-To create the capture transaction you must call *create(_alpha_card_account_)* method.
+To create the capture transaction you must call *create(_alpha_card_account_)* method:
+
+```ruby
+# ...
+capture = AlphaCard::Capture.new(transaction_id: '12312312', amount: '5.05')
+capture.create(account)
+```
 
 ### Update
 
@@ -261,11 +282,17 @@ _Constructor_:
 AlphaCard::Update.new(field_name: value, ...)
 ```
 
-To create update transaction you must call *create(_alpha_card_account_)* method.
+To create update transaction you must call *create(_alpha_card_account_)* method:
+
+```ruby
+# ...
+update = AlphaCard::Update.new(tax: '10.02', shipping_carrier: 'ups', transaction_id: '66928')
+update.create(account)
+```
 
 ## Example of usage
 
-Create AlphaCard sale:
+Create AlphaCard sale (pay for the order):
 
 ```ruby
 require 'alpha_card'
@@ -280,9 +307,13 @@ def create_payment
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
   sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
-  sale.create(order, account)
+  success, response = sale.create(order, account)
+  #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
+  puts "Order payed successfully: transaction ID = #{response.transaction_id} if success
 rescue AlphaCard::AlphaCardError => e
-  puts e.message
+  puts "Error message: #{e.response.message}"
+  puts "CVV response: #{e.response.cvv_response}"
+  puts "AVS response: #{e.response.avs_response}"
   false
 end
 ```
@@ -308,6 +339,20 @@ Example of exception:
 2.1.1 :019 >  sale.create(order, account)
 AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
 ```
+
+## AlphaCard Response
+
+`AlphaCardResponse` contains all the necessary information about Alpha Card Gateway response. You can use the following API:
+
+*  `.text` — textual response of the Alpha Card Gateway;
+*  `.message` — response message be response code;
+*  `.transaction_id` — payment gateway transaction ID;
+*  `.order_id` — original order ID passed in the transaction request;
+*  `.code` — numeric mapping of processor responses;
+*  `.auth_code` — transaction authorization code;
+*  `.success?`, `.error?`, `.declined?` — state of the request;
+*  `.cvv_response` — CVV response message;
+*  `.avs_response` — AVS response message.
 
 ## Contributing
 

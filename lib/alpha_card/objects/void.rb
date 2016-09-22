@@ -34,11 +34,12 @@ module AlphaCard
     #   void = AlphaCard::Void.new(transaction_id: '981562')
     #   void.create(account)
     #
-    #   #=> true
+    #   #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
     def create(account)
       abort_if_attributes_blank!(:transaction_id)
 
-      AlphaCard.request(account, attributes_for_request)
+      response = AlphaCard.request(account, attributes_for_request)
+      [response.success?, response]
     end
   end
 end
