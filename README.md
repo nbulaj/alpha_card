@@ -73,22 +73,6 @@ Alpha Card operates with next objects:
 
 Let us consider each of them.
 
-### Account
-
-Account represents credentials data to access Alpha Card Gateway.
-All transactions (`sale`, `refund`, etc) will be created for the specified account.
-
-_Required fields_:
-
-*  username : `String`
-*  password : `String`
-
-_Constructor_:
-
-```ruby
-AlphaCard::Account.new(username, password)
-```
-
 ### Order
 
 Order represents itself.
@@ -322,7 +306,9 @@ Create AlphaCard sale (pay for the order):
 require 'alpha_card'
 
 def create_payment
-  account = AlphaCard::Account.new('demo', 'password')
+  # Setup merhcnat account credentials
+  AlphaCard::Account.username = 'demo'
+  AlphaCard::Account.password = 'password'
 
   billing = AlphaCard::Billing.new(email: 'test@example.com', phone: '+801311313111')
   shipping = AlphaCard::Shipping.new(address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132')
@@ -331,14 +317,17 @@ def create_payment
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
   sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
-  success, response = sale.create(order, account)
-  #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
-  puts "Order payed successfully: transaction ID = #{response.transaction_id} if success
-rescue AlphaCard::AlphaCardError => e
-  puts "Error message: #{e.response.message}"
-  puts "CVV response: #{e.response.cvv_response}"
-  puts "AVS response: #{e.response.avs_response}"
-  false
+  response = sale.create(order, account)
+  #=> #<AlphaCard::Response:0x1a0fda ...>
+  if response.success?
+    puts "Order payed successfully: transaction ID = #{response.transaction_id}
+    true
+  else
+    puts "Error message: #{e.response.message}"
+    puts "CVV response: #{e.response.cvv_response}"
+    puts "AVS response: #{e.response.avs_response}"
+    false
+  end
 end
 ```
 
@@ -347,22 +336,12 @@ end
 _Note_: take a look at the `amount` of the Order. It's format must be 'xx.xx'. All the information about variables formats 
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
-Naming convention of attributes (such as "ccexp" or "orderid") was saved for compatibility with AlphaCard API.
-
-To raise some exceptions do the next:
+To simulate request that returns an error do the next:
 
 *  to cause a declined message, pass an amount less than 1.00;
 *  to trigger a fatal error message, pass an invalid card number;
 *  to simulate an AVS match, pass 888 in the address1 field, 77777 for zip;
 *  to simulate a CVV match, pass 999 in the cvv field.
-
-Example of exception:
-
-```ruby
-...
-2.1.1 :019 >  sale.create(order, account)
-AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
-```
 
 ## AlphaCard Response
 

@@ -13,7 +13,6 @@ require 'alpha_card/resource'
 require 'alpha_card/response'
 
 # Errors
-require 'alpha_card/errors/alpha_card_error'
 require 'alpha_card/errors/api_connection_error'
 require 'alpha_card/errors/invalid_object_error'
 
@@ -54,8 +53,9 @@ module AlphaCard
     #
     # @param [Hash] params
     #   Alpha Card transaction variables.
-    # @param [AlphaCard::Account] account
-    #   An <code>AlphaCard::Account</code> credentials object.
+    #
+    # @param [Hash] credentials
+    #   Alpha Card merchant account credentials.
     #
     # @return [AlphaCard::Response]
     #   Response from Alpha Card Gateway.
@@ -64,13 +64,15 @@ module AlphaCard
     #   AlphaCardError Exception if request failed.
     #
     # @example
-    #   account = AlphaCard::Account.new('demo', 'password')
     #   response = AlphaCard.request(
-    #     account,
     #     {
     #       cexp: '0720',
     #       ccnumber: '4111111111111111',
     #       amount: '10.00'
+    #     },
+    #     {
+    #       username: 'demo',
+    #       password: 'password'
     #     }
     #   )
     #
@@ -79,13 +81,15 @@ module AlphaCard
     #       "avsresponse"=>"", "cvvresponse"=>"N", "orderid"=>"", "type"=>"",
     #       "response_code"=>"100"}>
     #
-    #   account = AlphaCard::Account.new('demo', 'password')
     #   response = AlphaCard.request(
-    #     account,
     #     {
     #       cexp: '0720',
     #       ccnumber: '123',
     #       amount: '10.00'
+    #     },
+    #     {
+    #       username: 'demo',
+    #       password: 'password'
     #     }
     #   )
     #
@@ -99,30 +103,7 @@ module AlphaCard
         handle_connection_errors(e)
       end
 
-      alpha_card_response = Response.new(response.body)
-      handle_alpha_card_errors(alpha_card_response)
-
-      alpha_card_response
-    end
-
-    ##
-    # Raises an exception if Alpha Card Gateway return an error or
-    # decline code for the request. Message is taken from the Global
-    # Payment Systems Credit Card Authorization Codes (codes.yml).
-    # If code wasn't found in <code>CREDIT_CARD_CODES</code>, then
-    # message = Alpha Card response text.
-    #
-    # @param [AlphaCard::Response] response
-    #   Alpha Card Response object.
-    #
-    # @raise [AlphaCard::AlphaCardError]
-    #   AlphaCardError Exception if request failed.
-    #
-    # @return [String]
-    #   Alpha Card Services response text.
-    def handle_alpha_card_errors(response)
-      code = response.text
-      raise AlphaCardError.new(CREDIT_CARD_CODES[code] || code, response) unless response.success?
+      Response.new(response.body)
     end
 
     ##

@@ -3,9 +3,11 @@ require 'spec_helper'
 describe AlphaCard::Void do
   context 'with invalid attributes' do
     let(:void) { AlphaCard::Void.new(transaction_id: 'Some ID') }
+    let(:response) { void.create }
 
     it 'response with error' do
-      expect { void.create }.to raise_error(AlphaCard::AlphaCardError)
+      expect(response.error?).to be_truthy
+      expect(response.message).to eq('Transaction was rejected by gateway')
     end
   end
 
@@ -26,12 +28,12 @@ describe AlphaCard::Void do
     end
 
     it 'processed successfully' do
-      success, response = sale.create(order)
-      expect(success).to be_truthy
+      response = sale.create(order)
+      expect(response.success?).to be_truthy
       expect(response.transaction_id).not_to be_nil
 
-      success, response = AlphaCard::Void.new(transaction_id: response.transaction_id).create
-      expect(success).to be_truthy
+      response = AlphaCard::Void.new(transaction_id: response.transaction_id).process
+      expect(response.success?).to be_truthy
       expect(response.text).to eq('Transaction Void Successful')
     end
   end

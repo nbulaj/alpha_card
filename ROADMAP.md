@@ -7,6 +7,7 @@
     - values: `['1', '2']`
     - coerce ?
 * ~~Configuration with `Account` setup~~
-    -~~all objects can use global or local account~~
+    - ~~all objects can use global or local account~~
 * Add new transactions:
     - ~~Authorization~~/Credit/Validate/Offline
+* ~~Change all resources return value to AlphaCard::Response~~

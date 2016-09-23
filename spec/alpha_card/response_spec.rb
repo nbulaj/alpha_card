@@ -47,6 +47,10 @@ describe AlphaCard::Response do
     it 'returns auth code' do
       expect(response.auth_code).to eq('083319')
     end
+
+    it 'returns credit card authorization message' do
+      expect(response.credit_card_auth_message).to eq('Approved or completed successfully')
+    end
   end
 
   context 'declined request' do

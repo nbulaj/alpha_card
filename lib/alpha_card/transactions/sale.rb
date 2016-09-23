@@ -32,33 +32,30 @@ module AlphaCard
     }.freeze
 
     ##
-    # Creates the sale for the specified <code>AlphaCard::Order</code>
-    # with the <code>AlphaCard::Account</code> credentials.
+    # Creates the sale transaction for the specified <code>AlphaCard::Order</code>.
     #
     # @param [AlphaCard::Order] order
     #    An <code>AlphaCard::Order</code> object.
-    # @param [Hash] credentials
-    #   Alpha Card Merchant account credentials.
     #
-    # @return [Boolean]
-    #   True if sale was created successfully.
-    #   Raise an AlphaCardError exception if some error occurred.
+    # @param [Hash] credentials
+    #   Alpha Card merchant account credentials.
+    #
+    # @return [AlphaCard::Response]
+    #   AlphaCard Gateway response with all the information about transaction.
     #
     # @raise [AlphaCard::InvalidObjectError]
     #   Exception if one of required attributes doesn't specified.
     #
     # @example
-    #   account = AlphaCard::Account.new('demo', 'password')
     #   order = AlphaCard::Order.new(id: 1, description: 'Test order')
     #   sale = AlphaCard::Sale.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '5.00' )
-    #   sale.create(order, account)
+    #   sale.create(order)
     #
     #   #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
     def process(order, credentials = Account.credentials)
       abort_if_attributes_blank!(:card_expiration_date, :card_number, :amount)
 
-      response = AlphaCard.request(params_for_sale(order), credentials)
-      [response.success?, response]
+      AlphaCard.request(params_for_sale(order), credentials)
     end
 
     alias create process

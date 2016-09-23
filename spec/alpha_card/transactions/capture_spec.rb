@@ -3,9 +3,11 @@ require 'spec_helper'
 describe AlphaCard::Capture do
   context 'with invalid attributes' do
     let(:capture) { AlphaCard::Capture.new(transaction_id: 'Some ID', amount: '10.05') }
+    let(:response) { capture.process }
 
     it 'response with error' do
-      expect { capture.create }.to raise_error(AlphaCard::AlphaCardError)
+      expect(response.error?).to be_truthy
+      expect(response.message).to eq('Transaction was rejected by gateway')
     end
   end
 
@@ -29,12 +31,12 @@ describe AlphaCard::Capture do
     end
 
     it 'processed successfully' do
-      success, response = auth.create(order)
-      expect(success).to be_truthy
+      response = auth.create(order)
+      expect(response.success?).to be_truthy
       expect(response.transaction_id).not_to be_nil
 
-      success, response = AlphaCard::Capture.new(transaction_id: response.transaction_id, amount: '2.00').create
-      expect(success).to be_truthy
+      response = AlphaCard::Capture.new(transaction_id: response.transaction_id, amount: '2.00').create
+      expect(response.success?).to be_truthy
       expect(response.text).to eq('SUCCESS')
     end
   end

@@ -36,51 +36,41 @@ describe AlphaCard::Sale do
 
   context 'with invalid Card number' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: 'Invalid', amount: '5.00') }
+    let(:response) { sale.process(order) }
 
-    it 'raises an AlphaCardError' do
-      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
-        expect(e.message).to include('Card number must contain only digits')
-      end
+    it 'returns an error' do
+      expect(response.error?).to be_truthy
+      expect(response.text).to include('Card number must contain only digits')
     end
   end
 
   context 'with invalid amount' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '0.00') }
+    let(:response) { sale.process(order) }
 
-    it 'raises an AlphaCardError' do
-      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
-        expect(e.message).to include('Invalid amount')
-      end
+    it 'returns an error' do
+      expect(response.error?).to be_truthy
+      expect(response.text).to include('Invalid amount')
     end
   end
 
   context 'with invalid Card expiration date' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: 'Invalid', card_number: '4111111111111111', amount: '5.00') }
+    let(:response) { sale.process(order) }
 
-    it 'raises an AlphaCardError' do
-      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
-        expect(e.message).to include('Card expiration should be in the format')
-      end
+    it 'returns an error' do
+      expect(response.error?).to be_truthy
+      expect(response.text).to include('Card expiration should be in the format')
     end
   end
 
   context 'with invalid Card CVV' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, cvv: 'Invalid', card_number: '4111111111111111', amount: '5.00') }
+    let(:response) { sale.process(order) }
 
-    it 'raises an AlphaCardError' do
-      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
-        expect(e.message).to include('CVV must be')
-      end
-    end
-  end
-
-  context 'with invalid account credentials' do
-    let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
-
-    it 'raises an AlphaCardError' do
-      expect { sale.create(order, username: 'demo', password: 'Invalid password') }.to raise_error(AlphaCard::AlphaCardError) do |e|
-        expect(e.message).to include('Authentication Failed')
-      end
+    it 'returns an error' do
+      expect(response.error?).to be_truthy
+      expect(response.text).to include('CVV must be')
     end
   end
 
@@ -89,6 +79,16 @@ describe AlphaCard::Sale do
 
     it 'raises an InvalidObjectError exception' do
       expect { sale.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
+    end
+  end
+
+  context 'with invalid account credentials' do
+    let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
+    let(:response) { sale.process(order, username: 'demo', password: 'Invalid password') }
+
+    it 'returns an error' do
+      expect(response.error?).to be_truthy
+      expect(response.text).to include('Authentication Failed')
     end
   end
 

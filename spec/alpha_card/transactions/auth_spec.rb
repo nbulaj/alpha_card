@@ -6,8 +6,11 @@ describe AlphaCard::Auth do
   let(:auth) { AlphaCard::Auth.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
   context 'with invalid attributes' do
+    let(:response) { described_class.new(card_expiration_date: '1', card_number: '1', amount: '1').create(order) }
+
     it 'response with error' do
-      expect { described_class.new(card_expiration_date: '1', card_number: '1', amount: '1').create(order) }.to raise_error(AlphaCard::AlphaCardError)
+      expect(response.error?).to be_truthy
+      expect(response.message).to eq('Transaction was rejected by gateway')
     end
   end
 
@@ -25,8 +28,8 @@ describe AlphaCard::Auth do
     end
 
     it 'processed successfully' do
-      success, response = auth.create(order)
-      expect(success).to be_truthy
+      response = auth.create(order)
+      expect(response.success?).to be_truthy
       expect(response.text).to eq('SUCCESS')
     end
   end

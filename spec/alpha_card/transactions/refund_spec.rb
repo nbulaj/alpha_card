@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe AlphaCard::Refund do
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
-
   context 'with invalid attributes' do
     let(:refund) { AlphaCard::Refund.new(transaction_id: 'Some ID', amount: '10.05') }
+    let(:response) { refund.process }
 
     it 'response with error' do
-      expect { refund.create }.to raise_error(AlphaCard::AlphaCardError)
+      expect(response.error?).to be_truthy
+      expect(response.message).to eq('Transaction was rejected by gateway')
     end
   end
 

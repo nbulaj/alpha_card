@@ -130,6 +130,21 @@ module AlphaCard
       @data['authcode']
     end
 
+    # Credit Card Authorization Message based on returned code in accordance with
+    # the Global Payment Systems Credit Card Authorization Codes (codes.yml).
+    #
+    # @return [String] auth message
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("response_text=AP")
+    #   response.credit_card_auth_message
+    #
+    #   #=> 'Approved or completed successfully'
+    def credit_card_auth_message
+      AlphaCard::CREDIT_CARD_CODES[text]
+    end
+
     ##
     # Indicate the state of the request to the
     # Alpha Card Gateway. Returns <i>true</i> if
