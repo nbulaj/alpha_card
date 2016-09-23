@@ -8,8 +8,9 @@ require 'rack/utils'
 # Version
 require 'alpha_card/version'
 
-require 'alpha_card/alpha_card_object'
-require 'alpha_card/alpha_card_response'
+require 'alpha_card/account'
+require 'alpha_card/resource'
+require 'alpha_card/response'
 
 # Errors
 require 'alpha_card/errors/alpha_card_error'
@@ -17,7 +18,6 @@ require 'alpha_card/errors/api_connection_error'
 require 'alpha_card/errors/invalid_object_error'
 
 # Alpha Card Resources
-require 'alpha_card/resources/account'
 require 'alpha_card/resources/billing'
 require 'alpha_card/resources/shipping'
 require 'alpha_card/resources/order'
@@ -57,7 +57,7 @@ module AlphaCard
     # @param [AlphaCard::Account] account
     #   An <code>AlphaCard::Account</code> credentials object.
     #
-    # @return [AlphaCard::AlphaCardResponse]
+    # @return [AlphaCard::Response]
     #   Response from Alpha Card Gateway.
     #
     # @raise [AlphaCard::AlphaCardError]
@@ -74,7 +74,7 @@ module AlphaCard
     #     }
     #   )
     #
-    #   #=> #<AlphaCard::AlphaCardResponse:0x1a0fda8 @data={"response"=>"1",
+    #   #=> #<AlphaCard::Response:0x1a0fda8 @data={"response"=>"1",
     #       "responsetext"=>"SUCCESS", "authcode"=>"123", "transactionid"=>"123",
     #       "avsresponse"=>"", "cvvresponse"=>"N", "orderid"=>"", "type"=>"",
     #       "response_code"=>"100"}>
@@ -90,16 +90,16 @@ module AlphaCard
     #   )
     #
     #   #=> AlphaCard::AlphaCardError: AlphaCard::AlphaCardError
-    def request(account, params = {})
-      raise AlphaCardError, 'You must set credentials to create the sale!' unless account.filled?
+    def request(params = {}, credentials = Account.credentials)
+      raise ArgumentError, 'You must pass a Hash with Account credentials!' unless Account.valid_credentials?(credentials)
 
       begin
-        response = http_post_request(@api_base, params.merge(account.attributes))
+        response = http_post_request(@api_base, params.merge(credentials))
       rescue => e
         handle_connection_errors(e)
       end
 
-      alpha_card_response = AlphaCardResponse.new(response.body)
+      alpha_card_response = Response.new(response.body)
       handle_alpha_card_errors(alpha_card_response)
 
       alpha_card_response
@@ -112,7 +112,7 @@ module AlphaCard
     # If code wasn't found in <code>CREDIT_CARD_CODES</code>, then
     # message = Alpha Card response text.
     #
-    # @param [AlphaCard::AlphaCardResponse] response
+    # @param [AlphaCard::Response] response
     #   Alpha Card Response object.
     #
     # @raise [AlphaCard::AlphaCardError]

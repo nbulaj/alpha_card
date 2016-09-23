@@ -3,7 +3,7 @@ module AlphaCard
   # Common class for Alpha Card Gateway errors and exceptions.
   class AlphaCardError < StandardError
     # Alpha Card Gateway response.
-    # @attr_reader [AlphaCard::AlphaCardResponse] response
+    # @attr_reader [AlphaCard::Response] response
     attr_reader :response
     # Error message.
     # @attr_reader [String] message
@@ -14,7 +14,7 @@ module AlphaCard
     #
     # @param [String] message
     #   Error message
-    # @param [AlphaCard::AlphaCardResponse] response
+    # @param [AlphaCard::Response] response
     #   AlphaCard Gateway response
     #
     # @example

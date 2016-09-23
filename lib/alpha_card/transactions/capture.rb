@@ -1,7 +1,7 @@
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Capture transaction.
-  class Capture < AlphaCardObject
+  class Capture < Resource
     attribute :transaction_id, String
     # Format: xx.xx
     attribute :amount, String
@@ -40,12 +40,14 @@ module AlphaCard
     #   capture = AlphaCard::Capture.new(transaction_id: '981562', amount: '10.05')
     #   capture.create(account)
     #
-    #   #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
-    def create(account)
+    #   #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
+    def process(credentials = Account.credentials)
       abort_if_attributes_blank!(:amount, :transaction_id)
 
-      response = AlphaCard.request(account, attributes_for_request)
+      response = AlphaCard.request(attributes_for_request, credentials)
       [response.success?, response]
     end
+
+    alias create process
   end
 end

@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 describe AlphaCard::Auth do
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
   let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
   let(:auth) { AlphaCard::Auth.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
   context 'with invalid attributes' do
     it 'response with error' do
-      expect { described_class.new(card_expiration_date: '1', card_number: '1', amount: '1').create(order, account) }.to raise_error(AlphaCard::AlphaCardError)
+      expect { described_class.new(card_expiration_date: '1', card_number: '1', amount: '1').create(order) }.to raise_error(AlphaCard::AlphaCardError)
     end
   end
 
@@ -26,7 +25,7 @@ describe AlphaCard::Auth do
     end
 
     it 'processed successfully' do
-      success, response = auth.create(order, account)
+      success, response = auth.create(order)
       expect(success).to be_truthy
       expect(response.text).to eq('SUCCESS')
     end
@@ -34,8 +33,8 @@ describe AlphaCard::Auth do
 
   context 'with blank attributes' do
     it 'raises an InvalidObject error' do
-      expect { AlphaCard::Auth.new.create(order, account) }.to raise_error(AlphaCard::InvalidObjectError)
-      expect { AlphaCard::Auth.new(amount: '1.05').create(order, account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { AlphaCard::Auth.new.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { AlphaCard::Auth.new(amount: '1.05').create(order) }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end
 end

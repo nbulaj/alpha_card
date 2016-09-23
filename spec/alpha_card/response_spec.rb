@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AlphaCard::AlphaCardResponse do
+describe AlphaCard::Response do
   let(:successful_response_mock) do
     'authcode=083319&avsresponse=&cvvresponse=M&orderid=1&response=1&response_code=100&responsetext=AP&transactionid=2303767426&type=sale'
   end
@@ -14,7 +14,7 @@ describe AlphaCard::AlphaCardResponse do
   end
 
   context 'successful request' do
-    let(:response) { AlphaCard::AlphaCardResponse.new(successful_response_mock) }
+    let(:response) { AlphaCard::Response.new(successful_response_mock) }
 
     it '#success? = true' do
       expect(response.success?).to be_truthy
@@ -50,7 +50,7 @@ describe AlphaCard::AlphaCardResponse do
   end
 
   context 'declined request' do
-    let(:response) { AlphaCard::AlphaCardResponse.new(declined_response_mock) }
+    let(:response) { AlphaCard::Response.new(declined_response_mock) }
 
     it '#declined? = true' do
       expect(response.declined?).to be_truthy
@@ -78,7 +78,7 @@ describe AlphaCard::AlphaCardResponse do
   end
 
   context 'error request' do
-    let(:response) { AlphaCard::AlphaCardResponse.new(error_response_mock) }
+    let(:response) { AlphaCard::Response.new(error_response_mock) }
 
     it '#error? = true' do
       expect(response.error?).to be_truthy

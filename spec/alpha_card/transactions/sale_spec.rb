@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe AlphaCard::Sale do
-  # Shared objects
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
   let(:billing) { AlphaCard::Billing.new(email: 'test@example.com', address_1: 'N', address_2: 'Y') }
   let(:shipping) { AlphaCard::Shipping.new(first_name: 'John', last_name: 'Doe', address_1: '22 N str.') }
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test', billing: billing, shipping: shipping) }
@@ -32,7 +30,7 @@ describe AlphaCard::Sale do
     end
 
     it 'successfully creates the sale' do
-      expect(sale.create(order, account)).to be_truthy
+      expect(sale.create(order)).to be_truthy
     end
   end
 
@@ -40,7 +38,7 @@ describe AlphaCard::Sale do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: 'Invalid', amount: '5.00') }
 
     it 'raises an AlphaCardError' do
-      expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
         expect(e.message).to include('Card number must contain only digits')
       end
     end
@@ -50,7 +48,7 @@ describe AlphaCard::Sale do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '0.00') }
 
     it 'raises an AlphaCardError' do
-      expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
         expect(e.message).to include('Invalid amount')
       end
     end
@@ -60,7 +58,7 @@ describe AlphaCard::Sale do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: 'Invalid', card_number: '4111111111111111', amount: '5.00') }
 
     it 'raises an AlphaCardError' do
-      expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
         expect(e.message).to include('Card expiration should be in the format')
       end
     end
@@ -70,18 +68,17 @@ describe AlphaCard::Sale do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, cvv: 'Invalid', card_number: '4111111111111111', amount: '5.00') }
 
     it 'raises an AlphaCardError' do
-      expect { sale.create(order, account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+      expect { sale.create(order) }.to raise_error(AlphaCard::AlphaCardError) do |e|
         expect(e.message).to include('CVV must be')
       end
     end
   end
 
   context 'with invalid account credentials' do
-    let(:invalid_account) { AlphaCard::Account.new('demo', 'Invalid password') }
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'raises an AlphaCardError' do
-      expect { sale.create(order, invalid_account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
+      expect { sale.create(order, username: 'demo', password: 'Invalid password') }.to raise_error(AlphaCard::AlphaCardError) do |e|
         expect(e.message).to include('Authentication Failed')
       end
     end
@@ -91,17 +88,16 @@ describe AlphaCard::Sale do
     let(:sale) { AlphaCard::Sale.new }
 
     it 'raises an InvalidObjectError exception' do
-      expect { sale.create(order, account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { sale.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end
 
   context 'with blank account credentials' do
-    let(:blank_account) { AlphaCard::Account.new(nil, '') }
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'raises an AlphaCardError' do
-      expect { sale.create(order, blank_account) }.to raise_error(AlphaCard::AlphaCardError) do |e|
-        expect(e.message).to include('You must set credentials to create the sale')
+      expect { sale.process(order, username: nil, password: '') }.to raise_error(ArgumentError) do |e|
+        expect(e.message).to include('You must pass a Hash with Account credentials!')
       end
     end
   end
@@ -134,7 +130,7 @@ describe AlphaCard::Sale do
 
       it 'handles an error' do
         AlphaCard.api_base = 'https://not-existing.com'
-        expect { sale.create(order, account) }.to raise_error(AlphaCard::APIConnectionError)
+        expect { sale.create(order) }.to raise_error(AlphaCard::APIConnectionError)
 
         AlphaCard.api_base = 'https://secure.alphacardgateway.com/api/transact.php'
       end

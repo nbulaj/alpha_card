@@ -2,7 +2,7 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services order shipping information.
   # Contains all the shipping information (address, city, zip, etc).
-  class Shipping < AlphaCardObject
+  class Shipping < Resource
     attribute :first_name, String
     attribute :last_name, String
     attribute :company, String

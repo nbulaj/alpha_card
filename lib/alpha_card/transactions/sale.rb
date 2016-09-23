@@ -4,7 +4,7 @@ module AlphaCard
   # Contains all the information about Customer Credit Card,
   # such as CVV, number, expiration date, etc.
   # Process the Alpha Card Services payment.
-  class Sale < AlphaCardObject
+  class Sale < Resource
     # Format: MMYY
     attribute :card_expiration_date, String
     attribute :card_number, String
@@ -35,10 +35,10 @@ module AlphaCard
     # Creates the sale for the specified <code>AlphaCard::Order</code>
     # with the <code>AlphaCard::Account</code> credentials.
     #
-    # @param [AlphaCard::Order] params
+    # @param [AlphaCard::Order] order
     #    An <code>AlphaCard::Order</code> object.
-    # @param [AlphaCard::Account] account
-    #   An <code>AlphaCard::Account</code> object.
+    # @param [Hash] credentials
+    #   Alpha Card Merchant account credentials.
     #
     # @return [Boolean]
     #   True if sale was created successfully.
@@ -53,13 +53,15 @@ module AlphaCard
     #   sale = AlphaCard::Sale.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '5.00' )
     #   sale.create(order, account)
     #
-    #   #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
-    def create(order, account)
+    #   #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
+    def process(order, credentials = Account.credentials)
       abort_if_attributes_blank!(:card_expiration_date, :card_number, :amount)
 
-      response = AlphaCard.request(account, params_for_sale(order))
+      response = AlphaCard.request(params_for_sale(order), credentials)
       [response.success?, response]
     end
+
+    alias create process
 
     private
 

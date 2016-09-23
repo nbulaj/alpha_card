@@ -1,13 +1,11 @@
 require 'spec_helper'
 
 describe AlphaCard::Update do
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
-
   context 'with invalid attributes' do
     let(:update) { AlphaCard::Update.new(transaction_id: 'Some ID') }
 
     it 'response with error' do
-      expect { update.create(account) }.to raise_error(AlphaCard::AlphaCardError)
+      expect { update.process }.to raise_error(AlphaCard::AlphaCardError)
     end
   end
 
@@ -30,7 +28,7 @@ describe AlphaCard::Update do
     let(:update) { AlphaCard::Update.new }
 
     it 'raises an InvalidObject error' do
-      expect { update.create(account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { update.create }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end
 end

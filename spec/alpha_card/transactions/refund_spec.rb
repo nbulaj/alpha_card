@@ -7,7 +7,7 @@ describe AlphaCard::Refund do
     let(:refund) { AlphaCard::Refund.new(transaction_id: 'Some ID', amount: '10.05') }
 
     it 'response with error' do
-      expect { refund.create(account) }.to raise_error(AlphaCard::AlphaCardError)
+      expect { refund.create }.to raise_error(AlphaCard::AlphaCardError)
     end
   end
 
@@ -29,7 +29,7 @@ describe AlphaCard::Refund do
     let(:refund) { AlphaCard::Refund.new }
 
     it 'raises an InvalidObject error' do
-      expect { refund.create(account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { refund.process }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end
 end

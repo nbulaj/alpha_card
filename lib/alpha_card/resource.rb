@@ -1,8 +1,7 @@
 module AlphaCard
   ##
-  # Parent class for each Alpha Card Gateway object, such as
-  # Order, Billing, Sale and others.
-  class AlphaCardObject
+  # Alpha Card resource base class.
+  class Resource
     # Attributes DSL
     include Virtus.model(nullify_blank: true)
 

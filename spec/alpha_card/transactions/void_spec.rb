@@ -1,13 +1,11 @@
 require 'spec_helper'
 
 describe AlphaCard::Void do
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
-
   context 'with invalid attributes' do
     let(:void) { AlphaCard::Void.new(transaction_id: 'Some ID') }
 
     it 'response with error' do
-      expect { void.create(account) }.to raise_error(AlphaCard::AlphaCardError)
+      expect { void.create }.to raise_error(AlphaCard::AlphaCardError)
     end
   end
 
@@ -28,11 +26,11 @@ describe AlphaCard::Void do
     end
 
     it 'processed successfully' do
-      success, response = sale.create(order, account)
+      success, response = sale.create(order)
       expect(success).to be_truthy
       expect(response.transaction_id).not_to be_nil
 
-      success, response = AlphaCard::Void.new(transaction_id: response.transaction_id).create(account)
+      success, response = AlphaCard::Void.new(transaction_id: response.transaction_id).create
       expect(success).to be_truthy
       expect(response.text).to eq('Transaction Void Successful')
     end
@@ -42,7 +40,7 @@ describe AlphaCard::Void do
     let(:void) { AlphaCard::Void.new }
 
     it 'raises an InvalidObject error' do
-      expect { void.create(account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { void.create }.to raise_error(AlphaCard::InvalidObjectError)
     end
   end
 end

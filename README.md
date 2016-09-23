@@ -37,17 +37,35 @@ gem install alpha_card
 
 Dependencies required:
 
-*  ruby >= 2.0.0 or jruby >= 9.0.5.0;
+*  ruby >= 2.0.0 or [jruby](https://github.com/jruby/jruby) >= 9.0.5.0;
+
+## Configure
+
+In order to use Alpha Card Gateway API you need to have a Merchant account credentials such as `username` and `password`.
+
+If your project always uses only one account, then you can configure it as follows:
+
+```ruby
+# config/initializers/alpha_card.rb - for Rails projects
+AlphaCard::Account.username = 'username'
+AlphaCard::Account.password = 'password'
+```
+
+Another way is to pass the credentials when creating some transactions or perform operations:
+
+```ruby
+void = AlphaCard::Void.new(transaction_id: '312110')
+void.process(username: 'demo', password: 'demo')
+```
 
 ## Alpha Card Objects & Transactions
 
 Alpha Card operates with next objects:
 
-*  Account
 *  Order
     - Billing
     - Shipping
-*  Sale
+*  Sale/Authorization/Credit/Validate/Offline
 *  Refund
 *  Void
 *  Capture
@@ -168,7 +186,7 @@ To create the payment you must call *create(_alpha_card_order_, _alpha_card_acco
 sale = AlphaCard::Sale.new(amount: 10)
 success, alpha_card_response = sale.create(order, account)
 
-# => [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
+# => [true, #<AlphaCard::Response:0x1a0fda ...>]
 ```
 
 This method returns _true_ if sale was created successfully and raise an `AlphaCardError` exception if some of the fields is invalid.
@@ -314,7 +332,7 @@ def create_payment
   # Format of amount: "XX.XX" ("%.2f" % Float)
   sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
   success, response = sale.create(order, account)
-  #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
+  #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
   puts "Order payed successfully: transaction ID = #{response.transaction_id} if success
 rescue AlphaCard::AlphaCardError => e
   puts "Error message: #{e.response.message}"
@@ -348,7 +366,7 @@ AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
 
 ## AlphaCard Response
 
-`AlphaCardResponse` contains all the necessary information about Alpha Card Gateway response. You can use the following API:
+`AlphaCard::Response` contains all the necessary information about Alpha Card Gateway response. You can use the following API:
 
 *  `.text` — textual response of the Alpha Card Gateway;
 *  `.message` — response message be response code;
@@ -359,6 +377,16 @@ AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
 *  `.success?`, `.error?`, `.declined?` — state of the request;
 *  `.cvv_response` — CVV response message;
 *  `.avs_response` — AVS response message.
+
+## Testing
+
+It is recommended to mock Alpha Card gem functionality, but if you want to create a "real" specs, then you can use Alpha Card Services testing account:
+
+```ruby
+AlphaCard::Account.use_demo_credentials!
+```
+
+Or you can pass the next credentials with any request: `{ username: 'demo', password: 'password' }`
 
 ## Contributing
 
