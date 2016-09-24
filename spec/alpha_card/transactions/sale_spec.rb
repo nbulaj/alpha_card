@@ -95,7 +95,7 @@ describe AlphaCard::Sale do
   context 'with blank account credentials' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
-    it 'raises an AlphaCardError' do
+    it 'raises an ArgumentError' do
       expect { sale.process(order, username: nil, password: '') }.to raise_error(ArgumentError) do |e|
         expect(e.message).to include('You must pass a Hash with Account credentials!')
       end

@@ -2,6 +2,20 @@
 
 Reverse Chronological Order:
 
+## `0.4.0` (2016-09-22)
+
+https://github.com/nbulaj/alpha_card/compare/0.3.0...0.4.0
+
+### Breaking changes
+* Dropped support of Ruby <= 2.2.2
+* Removed deprecated methods (a.k.a. old transaction variables names)
+* All transactions now returns `AlphaCard::Response` regardless of the operation result (except net errors)
+* `AlphaCard::Account` now works as global Alpha Card Merchant Account configuration (see docs)
+
+### Other changes
+* New AlphaCard transactions: `Auth`, ??
+* Specs and documentation improvements
+
 ## `0.3.0` (2016-09-22)
 
 https://github.com/nbulaj/alpha_card/compare/0.2.6...0.3.0

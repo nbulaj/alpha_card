@@ -20,7 +20,7 @@ https://secure.alphacardgateway.com/merchants/resources/integration/integration_
 If using bundler, first add 'alpha_card' to your Gemfile:
 
 ```ruby
-gem 'alpha_card', '~> 0.3'
+gem 'alpha_card', '~> 0.4'
 ```
 
 And run:
@@ -51,7 +51,7 @@ AlphaCard::Account.username = 'username'
 AlphaCard::Account.password = 'password'
 ```
 
-Another way is to pass the credentials when creating some transactions or perform operations:
+Another way is to pass the credentials as a last argument when creating some transactions or perform operations:
 
 ```ruby
 void = AlphaCard::Void.new(transaction_id: '312110')
@@ -90,7 +90,7 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Order.new(field_name: value, ...)
+AlphaCard::Order.new(property: value, ...)
 ```
 
 ### Billing
@@ -116,12 +116,12 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Billing.new(field_name: value, ...)
+AlphaCard::Billing.new(property: value, ...)
 ```
 
 ### Shipping
 
-Specify Shipping information for Order.
+Contains Shipping information for the Order.
 
 _Optional fields_:
 
@@ -139,7 +139,7 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Shipping.new(field_name: value, ...)
+AlphaCard::Shipping.new(property: value, ...)
 ```
 
 ### Sale
@@ -160,7 +160,7 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Sale.new(field_name: value, ...)
+AlphaCard::Sale.new(property: value, ...)
 ```
 
 To create the payment you must call *create(_alpha_card_order_, _alpha_card_account_)* method:
@@ -170,10 +170,8 @@ To create the payment you must call *create(_alpha_card_order_, _alpha_card_acco
 sale = AlphaCard::Sale.new(amount: 10)
 success, alpha_card_response = sale.create(order, account)
 
-# => [true, #<AlphaCard::Response:0x1a0fda ...>]
+# => #<AlphaCard::Response:0x1a0fda ...>
 ```
-
-This method returns _true_ if sale was created successfully and raise an `AlphaCardError` exception if some of the fields is invalid.
 
 ### Refund
 
@@ -190,7 +188,7 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Refund.new(field_name: value, ...)
+AlphaCard::Refund.new(property: value, ...)
 ```
 
 To create the refund transaction you must call *create(_alpha_card_account_)* method:
@@ -212,7 +210,7 @@ _Required fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Void.new(field_name: value, ...)
+AlphaCard::Void.new(property: value, ...)
 ```
 
 To create the void transaction you must call *create(_alpha_card_account_)* method:
@@ -241,7 +239,7 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Capture.new(field_name: value, ...)
+AlphaCard::Capture.new(property: value, ...)
 ```
 
 To create the capture transaction you must call *create(_alpha_card_account_)* method:
@@ -287,7 +285,7 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Update.new(field_name: value, ...)
+AlphaCard::Update.new(property: value, ...)
 ```
 
 To create update transaction you must call *create(_alpha_card_account_)* method:
@@ -306,7 +304,7 @@ Create AlphaCard sale (pay for the order):
 require 'alpha_card'
 
 def create_payment
-  # Setup merhcnat account credentials
+  # Setup merchant account credentials
   AlphaCard::Account.username = 'demo'
   AlphaCard::Account.password = 'password'
 

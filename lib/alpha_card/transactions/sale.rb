@@ -51,7 +51,7 @@ module AlphaCard
     #   sale = AlphaCard::Sale.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '5.00' )
     #   sale.create(order)
     #
-    #   #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
+    #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(order, credentials = Account.credentials)
       abort_if_attributes_blank!(:card_expiration_date, :card_number, :amount)
 

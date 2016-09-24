@@ -1,5 +1,7 @@
 # TODO
 
+## 0.4.0
+
 * Own `Attribute` class with validations and etc:
     - default value
     - writable: `true` / `false`

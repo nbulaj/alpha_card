@@ -32,7 +32,7 @@ module AlphaCard
     #   void = AlphaCard::Void.new(transaction_id: '981562')
     #   void.create
     #
-    #   #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
+    #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(credentials = Account.credentials)
       abort_if_attributes_blank!(:transaction_id)
 

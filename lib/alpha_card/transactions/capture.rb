@@ -38,7 +38,7 @@ module AlphaCard
     #   capture = AlphaCard::Capture.new(transaction_id: '981562', amount: '10.05')
     #   capture.process
     #
-    #   #=> [true, #<AlphaCard::Response:0x1a0fda ...>]
+    #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(credentials = Account.credentials)
       abort_if_attributes_blank!(:amount, :transaction_id)
 

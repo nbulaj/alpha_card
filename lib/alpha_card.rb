@@ -60,8 +60,7 @@ module AlphaCard
     # @return [AlphaCard::Response]
     #   Response from Alpha Card Gateway.
     #
-    # @raise [AlphaCard::AlphaCardError]
-    #   AlphaCardError Exception if request failed.
+    # @raise [APIConnectionError] HTTP request error
     #
     # @example
     #   response = AlphaCard.request(
@@ -81,19 +80,6 @@ module AlphaCard
     #       "avsresponse"=>"", "cvvresponse"=>"N", "orderid"=>"", "type"=>"",
     #       "response_code"=>"100"}>
     #
-    #   response = AlphaCard.request(
-    #     {
-    #       cexp: '0720',
-    #       ccnumber: '123',
-    #       amount: '10.00'
-    #     },
-    #     {
-    #       username: 'demo',
-    #       password: 'password'
-    #     }
-    #   )
-    #
-    #   #=> AlphaCard::AlphaCardError: AlphaCard::AlphaCardError
     def request(params = {}, credentials = Account.credentials)
       raise ArgumentError, 'You must pass a Hash with Account credentials!' unless Account.valid_credentials?(credentials)
 
@@ -110,11 +96,11 @@ module AlphaCard
     # Raises an exception if a network error occurs. It
     # could be request timeout, socket error or anything else.
     #
-    # @param [StandardError]
+    # @param [Exception]
     #   Exception object.
     #
-    # @raise [AlphaCard::AlphaCardError]
-    #   AlphaCardError Exception.
+    # @raise [APIConnectionError]
+    #   Failed request exception.
     def handle_connection_errors(error)
       case error
       when Timeout::Error, Errno::EINVAL, Errno::ECONNRESET
@@ -134,8 +120,7 @@ module AlphaCard
     end
 
     ##
-    # Send secure HTTP(S) request with params
-    # to requested URL.
+    # Send secure HTTP(S) request with params to requested URL.
     #
     # @param [String] url
     #   URL
