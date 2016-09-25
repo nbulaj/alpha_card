@@ -32,7 +32,7 @@ bundle install
 Otherwise simply install the gem:
 
 ```sh
-gem install alpha_card
+gem install alpha_card -v '0.4'
 ```
 
 Dependencies required:
@@ -43,7 +43,7 @@ Dependencies required:
 
 In order to use Alpha Card Gateway API you need to have a Merchant account credentials such as `username` and `password`.
 
-If your project always uses only one account, then you can configure it as follows:
+If your project will always use only one account, then you can configure gem as follows:
 
 ```ruby
 # config/initializers/alpha_card.rb - for Rails projects
@@ -51,7 +51,7 @@ AlphaCard::Account.username = 'username'
 AlphaCard::Account.password = 'password'
 ```
 
-Another way is to pass the credentials as a last argument when creating some transactions or perform operations:
+Another way is to pass the credentials as a last argument when creating some transactions or perform operations (it can be useful when you need to operate with multiple Alpha Card accounts):
 
 ```ruby
 void = AlphaCard::Void.new(transaction_id: '312110')
