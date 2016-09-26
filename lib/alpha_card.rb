@@ -28,6 +28,7 @@ require 'alpha_card/transactions/refund'
 require 'alpha_card/transactions/sale'
 require 'alpha_card/transactions/update'
 require 'alpha_card/transactions/auth'
+require 'alpha_card/transactions/credit'
 
 ##
 # AlphaCard is a library for processing payments with Alpha Card Services, Inc.

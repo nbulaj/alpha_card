@@ -12,6 +12,15 @@ module AlphaCard
     attribute :cvv, String
     # Values: 'true' or 'false'
     attribute :customer_receipt, String
+    attribute :check_name, String
+    attribute :check_aba, String
+    attribute :check_account, String
+    # Values: 'business' or 'personal'
+    attribute :account_holder_type, String
+    # Values: 'checking' or 'savings'
+    attribute :account_type, String
+    # Values: 'PPD', 'WEB', 'TEL', or 'CCD'
+    attribute :sec_code, String
 
     ##
     # Payment type.
@@ -28,7 +37,10 @@ module AlphaCard
     # Original AlphaCard transaction variables names
     ORIGIN_TRANSACTION_VARIABLES = {
       card_expiration_date: :ccexp,
-      card_number: :ccnumber
+      card_number: :ccnumber,
+      check_name: :checkname,
+      check_aba: :checkaba,
+      check_account: :checkaccount
     }.freeze
 
     ##

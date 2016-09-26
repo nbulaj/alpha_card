@@ -70,6 +70,8 @@ Alpha Card operates with next objects:
 *  Void
 *  Capture
 *  Update
+*  Auth
+*  Credit
 
 Let us consider each of them.
 
@@ -144,7 +146,7 @@ AlphaCard::Shipping.new(property: value, ...)
 
 ### Sale
 
-Sale is the main object of the Alpha Card Services. It processes fees associated with credit cards.
+Sale transaction is the main object of the Alpha Card Services. It is used to processed common payments for orders.
 
 _Required fields_:
 
@@ -156,6 +158,12 @@ _Optional fields_:
 *  cvv : `String`
 *  payment : `String` (default: `'creditcard'`, values: `'creditcard'` or `'check'`)
 *  customer_receipt : `String` (values `'true'` or `'false'`)
+* check_name : `String`
+* check_aba : `String`
+* check_account : `String`
+* account_holder_type : `String` (values: `'business'` or `'personal'`)
+* account_type : `String` (values: `'checking'` or `'savings'`)
+* sec_code : `String` (values: `'PPD'`, `'WEB'`, `'TEL'`, or `'CCD'`)
 
 _Constructor_:
 
@@ -295,6 +303,14 @@ To create update transaction you must call *create(_alpha_card_account_)* method
 update = AlphaCard::Update.new(tax: '10.02', shipping_carrier: 'ups', transaction_id: '66928')
 update.create(account)
 ```
+
+### Auth
+
+The same as `Sale`.
+
+### Credit
+
+TODO
 
 ## Example of usage
 
