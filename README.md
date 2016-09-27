@@ -62,16 +62,14 @@ void.process(username: 'demo', password: 'demo')
 
 Alpha Card operates with next objects:
 
-*  Order
-    - Billing
-    - Shipping
-*  Sale/Authorization/Credit/Validate/Offline
-*  Refund
-*  Void
-*  Capture
-*  Update
-*  Auth
-*  Credit
+*  [Order](#order)
+    - [Billing](#billing)
+    - [Shipping](#shipping)
+*  [Sale](#sale)/[Authorization](#authorization)/[Credit](#credit)/Validate/Offline
+*  [Refund](#refund)
+*  [Void](#void)
+*  [Capture](#capture)
+*  [Update](#update)
 
 Let us consider each of them.
 
@@ -171,12 +169,12 @@ _Constructor_:
 AlphaCard::Sale.new(property: value, ...)
 ```
 
-To create the payment you must call *create(_alpha_card_order_, _alpha_card_account_)* method:
+To create the payment you must call *create(_alpha_card_order_)* method:
 
 ```ruby
 # ...
 sale = AlphaCard::Sale.new(amount: 10)
-success, alpha_card_response = sale.create(order, account)
+response = sale.process(order)
 
 # => #<AlphaCard::Response:0x1a0fda ...>
 ```
@@ -199,12 +197,12 @@ _Constructor_:
 AlphaCard::Refund.new(property: value, ...)
 ```
 
-To create the refund transaction you must call *create(_alpha_card_account_)* method:
+To create the refund transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 refund = AlphaCard::Refund.new(transaction_id: '12312312', amount: 10)
-refund.create(account)
+refund.process
 ```
 
 ### Void
@@ -221,12 +219,12 @@ _Constructor_:
 AlphaCard::Void.new(property: value, ...)
 ```
 
-To create the void transaction you must call *create(_alpha_card_account_)* method:
+To create the void transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 void = AlphaCard::Void.new(transaction_id: '12312312')
-void.create(account)
+void.create
 ```
 
 ### Capture
@@ -250,12 +248,12 @@ _Constructor_:
 AlphaCard::Capture.new(property: value, ...)
 ```
 
-To create the capture transaction you must call *create(_alpha_card_account_)* method:
+To create the capture transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 capture = AlphaCard::Capture.new(transaction_id: '12312312', amount: '5.05')
-capture.create(account)
+capture.create
 ```
 
 ### Update
@@ -296,15 +294,15 @@ _Constructor_:
 AlphaCard::Update.new(property: value, ...)
 ```
 
-To create update transaction you must call *create(_alpha_card_account_)* method:
+To create update transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 update = AlphaCard::Update.new(tax: '10.02', shipping_carrier: 'ups', transaction_id: '66928')
-update.create(account)
+update.process
 ```
 
-### Auth
+### Authorization
 
 The same as `Sale`.
 

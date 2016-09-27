@@ -13,7 +13,8 @@ https://github.com/nbulaj/alpha_card/compare/0.3.0...0.4.0
 * `AlphaCard::Account` now works as global Alpha Card Merchant Account configuration (see docs)
 
 ### Other changes
-* New AlphaCard transactions: `Auth`, ??
+* New AlphaCard transactions: `Auth`, `Credit`
+* Fixed `check` payment (added new transaction variables)
 * Specs and documentation improvements
 
 ## `0.3.0` (2016-09-22)
