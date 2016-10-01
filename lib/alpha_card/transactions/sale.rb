@@ -6,32 +6,32 @@ module AlphaCard
   # Process the Alpha Card Services payment.
   class Sale < Resource
     # Format: MMYY
-    attribute :card_expiration_date, String
-    attribute :card_number, String
-    attribute :amount, String
-    attribute :cvv, String
+    attribute :card_expiration_date
+    attribute :card_number
+    attribute :amount
+    attribute :cvv
     # Values: 'true' or 'false'
-    attribute :customer_receipt, String
-    attribute :check_name, String
-    attribute :check_aba, String
-    attribute :check_account, String
+    attribute :customer_receipt
+    attribute :check_name
+    attribute :check_aba
+    attribute :check_account
     # Values: 'business' or 'personal'
-    attribute :account_holder_type, String
+    attribute :account_holder_type
     # Values: 'checking' or 'savings'
-    attribute :account_type, String
+    attribute :account_type
     # Values: 'PPD', 'WEB', 'TEL', or 'CCD'
-    attribute :sec_code, String
+    attribute :sec_code
 
     ##
     # Payment type.
     # Values: 'creditcard' or 'check'
-    attribute :payment, String, default: 'creditcard'
+    attribute :payment, default: 'creditcard'
 
     ##
     # Transaction type (default is 'sale')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'sale', writer: :private
+    attribute :type, default: 'sale', writeable: false
 
     ##
     # Original AlphaCard transaction variables names

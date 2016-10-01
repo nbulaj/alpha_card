@@ -7,42 +7,42 @@ module AlphaCard
   class Update < Void
     # Total shipping amount.
     # Format: x.xx
-    attribute :shipping, String
-    attribute :shipping_postal, String
-    attribute :ship_from_postal, String
-    attribute :shipping_country, String
+    attribute :shipping
+    attribute :shipping_postal
+    attribute :ship_from_postal
+    attribute :shipping_country
     # Values: 'ups', 'fedex', 'dhl', or 'usps'
-    attribute :shipping_carrier, String
+    attribute :shipping_carrier
     # Format: YYYYMMDD
-    attribute :shipping_date, String
-    attribute :order_description, String
-    attribute :order_date, String
+    attribute :shipping_date
+    attribute :order_description
+    attribute :order_date
     # Values: 'true' or 'false'
-    attribute :customer_receipt, String
-    attribute :po_number, String
-    attribute :summary_commodity_code, String
+    attribute :customer_receipt
+    attribute :po_number
+    attribute :summary_commodity_code
     # Format: x.xx
-    attribute :duty_amount, String
+    attribute :duty_amount
     # Format: x.xx
-    attribute :discount_amount, String
+    attribute :discount_amount
     # Format: x.xx
-    attribute :tax, String
+    attribute :tax
     # Format: x.xx
-    attribute :national_tax_amount, String
+    attribute :national_tax_amount
     # Format: x.xx
-    attribute :alternate_tax_amount, String
-    attribute :alternate_tax_id, String
-    attribute :vat_tax_amount, String
-    attribute :vat_tax_rate, String
-    attribute :vat_invoice_reference_number, String
-    attribute :customer_vat_registration, String
-    attribute :merchant_vat_registration, String
+    attribute :alternate_tax_amount
+    attribute :alternate_tax_id
+    attribute :vat_tax_amount
+    attribute :vat_tax_rate
+    attribute :vat_invoice_reference_number
+    attribute :customer_vat_registration
+    attribute :merchant_vat_registration
 
     ##
     # Transaction type (default is 'update')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'update', writer: :private
+    attribute :type, default: 'update', writable: false
 
     ##
     # Original AlphaCard transaction variables names

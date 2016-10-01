@@ -3,13 +3,13 @@ module AlphaCard
   # Implementation of Alpha Card Services Refund transaction.
   class Refund < Void
     # Format: xx.xx
-    attribute :amount, String
+    attribute :amount
 
     ##
     # Transaction type (default is 'refund')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'refund', writer: :private
+    attribute :type, default: 'refund', writable: false
 
     ##
     # Original AlphaCard transaction variables names

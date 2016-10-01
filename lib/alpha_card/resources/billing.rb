@@ -3,19 +3,19 @@ module AlphaCard
   # Implementation of Alpha Card Services order billing information.
   # Contains all the billing information (customer name, email, email, etc).
   class Billing < Resource
-    attribute :first_name, String
-    attribute :last_name, String
-    attribute :email, String
-    attribute :phone, String
-    attribute :company, String
-    attribute :address_1, String
-    attribute :address_2, String
-    attribute :city, String
-    attribute :state, String
-    attribute :zip, String
-    attribute :country, String
-    attribute :fax, String
-    attribute :website, String
+    attribute :first_name
+    attribute :last_name
+    attribute :email
+    attribute :phone
+    attribute :company
+    attribute :address_1
+    attribute :address_2
+    attribute :city
+    attribute :state
+    attribute :zip
+    attribute :country
+    attribute :fax
+    attribute :website
 
     ##
     # Original AlphaCard transaction variables names

@@ -136,14 +136,44 @@ module AlphaCard
         end
       end
 
+      # Returns attribute value by it's name.
+      #
+      # @param [String, Symbol] name
+      #   Attribute name
+      #
+      # @example
+      #   class User
+      #     include AlphaCard::Attribute
+      #
+      #     attribute :email
+      #   end
+      #
+      #   u = User.new(email: 'john@email.com')
+      #   u[:email]
+      #   #=> 'john@email.com'
+      #
+      def [](name)
+        __send__(name)
+      end
+
       protected
 
       # Set attribute value only if attribute writable
+      #
+      # @param [String, Symbol] name
+      #   attribute name
+      # @param [Object] value
+      #   attribute value
+      #
       def set_attribute_safely(name, value)
         __send__("#{name}=", value) if attribute_writable?(name)
       end
 
       # Checks if attribute is writable by it's options in the Attributes Set.
+      #
+      # @param [String, Symbol] name
+      #   attribute name
+      #
       def attribute_writable?(name)
         attribute_options = self.class.attributes_set[name.to_sym]
         return false if attribute_options.nil?

@@ -1,6 +1,5 @@
 # encoding:utf-8
 require 'yaml'
-require 'virtus'
 require 'net/http'
 require 'uri'
 require 'rack/utils'
@@ -9,9 +8,9 @@ require 'rack/utils'
 require 'alpha_card/version'
 
 require 'alpha_card/account'
+require 'alpha_card/attribute'
 require 'alpha_card/resource'
 require 'alpha_card/response'
-require 'alpha_card/attribute'
 
 # Errors
 require 'alpha_card/errors/api_connection_error'
@@ -31,7 +30,7 @@ require 'alpha_card/transactions/sale'
 require 'alpha_card/transactions/update'
 require 'alpha_card/transactions/auth'
 require 'alpha_card/transactions/credit'
-#require 'alpha_card/transactions/validate'
+require 'alpha_card/transactions/validate'
 
 ##
 # AlphaCard is a library for processing payments with Alpha Card Services, Inc.

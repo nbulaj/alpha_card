@@ -11,7 +11,7 @@ describe AlphaCard::Sale do
 
     it 'has valid request params' do
       expected_params = {
-        ccexp: '09/2017',
+        ccexp: card_exp,
         ccnumber: '4111111111111111',
         amount: '5.00',
         payment: 'creditcard',

@@ -2,6 +2,7 @@ module AlphaCard
   # AlphaCard Account class for global credentials settings
   class Account
     class << self
+      # Global Alpha Card Merchant account credentials
       attr_accessor :username, :password
 
       ##

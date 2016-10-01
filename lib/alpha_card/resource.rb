@@ -3,7 +3,7 @@ module AlphaCard
   # Alpha Card resource base class.
   class Resource
     # Attributes DSL
-    include Virtus.model(nullify_blank: true)
+    include AlphaCard::Attribute
 
     ##
     # Original AlphaCard transaction variables names

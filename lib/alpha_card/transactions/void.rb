@@ -2,13 +2,13 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services Void transaction.
   class Void < Resource
-    attribute :transaction_id, String
+    attribute :transaction_id
 
     ##
     # Transaction type (default is 'void')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'void', writer: :private
+    attribute :type, default: 'void', writable: false
 
     ##
     # Original AlphaCard transaction variables names

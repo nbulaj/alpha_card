@@ -6,6 +6,6 @@ module AlphaCard
     # Transaction type (default is 'auth')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'auth', writer: :private
+    attribute :type, default: 'auth', writable: false
   end
 end

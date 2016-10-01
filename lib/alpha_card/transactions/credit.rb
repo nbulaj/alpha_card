@@ -6,6 +6,6 @@ module AlphaCard
     # Transaction type (default is 'credit')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'credit', writer: :private
+    attribute :type, default: 'credit', writable: false
   end
 end

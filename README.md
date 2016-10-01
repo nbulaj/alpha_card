@@ -329,10 +329,10 @@ def create_payment
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
   sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
-  response = sale.create(order, account)
+  response = sale.create(order)
   #=> #<AlphaCard::Response:0x1a0fda ...>
   if response.success?
-    puts "Order payed successfully: transaction ID = #{response.transaction_id}
+    puts "Order payed successfully: transaction ID = #{response.transaction_id}"
     true
   else
     puts "Error message: #{e.response.message}"

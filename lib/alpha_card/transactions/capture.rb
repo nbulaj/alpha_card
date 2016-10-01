@@ -2,18 +2,18 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services Capture transaction.
   class Capture < Resource
-    attribute :transaction_id, String
+    attribute :transaction_id
     # Format: xx.xx
-    attribute :amount, String
-    attribute :tracking_number, String
-    attribute :shipping_carrier, String
-    attribute :order_id, String
+    attribute :amount
+    attribute :tracking_number
+    attribute :shipping_carrier
+    attribute :order_id
 
     ##
     # Transaction type (default is 'capture')
     #
     # @attribute [r] type
-    attribute :type, String, default: 'capture', writer: :private
+    attribute :type, default: 'capture', writeable: false
 
     ##
     # Original AlphaCard transaction variables names
