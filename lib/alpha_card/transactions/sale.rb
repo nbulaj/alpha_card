@@ -6,7 +6,7 @@ module AlphaCard
   # Process the Alpha Card Services payment.
   class Sale < Resource
     # Format: MMYY
-    attribute :card_expiration_date
+    attribute :card_expiration_date, format: /\d{4}/
     attribute :card_number
     attribute :amount
     attribute :cvv
@@ -16,16 +16,16 @@ module AlphaCard
     attribute :check_aba
     attribute :check_account
     # Values: 'business' or 'personal'
-    attribute :account_holder_type
+    attribute :account_holder_type, values: %w(business personal).freeze
     # Values: 'checking' or 'savings'
-    attribute :account_type
+    attribute :account_type, values: %w(checking savings).freeze
     # Values: 'PPD', 'WEB', 'TEL', or 'CCD'
-    attribute :sec_code
+    attribute :sec_code, values: %w(PPD WEB TEL CCD).freeze
 
     ##
     # Payment type.
     # Values: 'creditcard' or 'check'
-    attribute :payment, default: 'creditcard'
+    attribute :payment, default: 'creditcard', values: %w(creditcard check).freeze
 
     ##
     # Transaction type (default is 'sale')
@@ -46,10 +46,10 @@ module AlphaCard
     ##
     # Creates the sale transaction for the specified <code>AlphaCard::Order</code>.
     #
-    # @param [AlphaCard::Order] order
+    # @param order [AlphaCard::Order]
     #    An <code>AlphaCard::Order</code> object.
     #
-    # @param [Hash] credentials
+    # @param credentials [Hash]
     #   Alpha Card merchant account credentials.
     #
     # @return [AlphaCard::Response]
@@ -78,7 +78,7 @@ module AlphaCard
     # Returns all the necessary attributes with it's original
     # names that must be passed with Sale transaction.
     #
-    # @param [AlphaCard::Order] order
+    # @param order [AlphaCard::Order]
     #    An <code>AlphaCard::Order</code> object.
     #
     # @return [Hash]

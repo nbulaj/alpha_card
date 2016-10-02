@@ -55,7 +55,7 @@ describe AlphaCard::Sale do
   end
 
   context 'with invalid Card expiration date' do
-    let(:sale) { AlphaCard::Sale.new(card_expiration_date: 'Invalid', card_number: '4111111111111111', amount: '5.00') }
+    let(:sale) { AlphaCard::Sale.new(card_expiration_date: '9999', card_number: '4111111111111111', amount: '5.00') }
     let(:response) { sale.process(order) }
 
     it 'returns an error' do

@@ -18,6 +18,7 @@ describe AlphaCard::Attribute do
   class Admin < Moderator
     attribute :role, default: 'admin'
     remove_attribute :status
+	attribute :birthday, format: /^\d{2}-\d{2}-\d{4}$/
   end
 
   context 'User' do
@@ -76,6 +77,10 @@ describe AlphaCard::Attribute do
 
     it 'must remove attributes' do
       expect { Admin.new.status = 'local' }.to raise_error(NoMethodError)
+    end
+	
+	it 'must validate attribute format' do
+      expect { Admin.new.birthday = 'local' }.to raise_error(AlphaCard::InvalidAttributeFormat)
     end
   end
 end

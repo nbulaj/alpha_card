@@ -27,7 +27,7 @@ module AlphaCard
     ##
     # Alpha Card Response constructor.
     #
-    # @param [String] response_body
+    # @param response_body [String]
     #   Alpha Card Gateway response body text
     #
     # @return [Response] Alpha Card Response object

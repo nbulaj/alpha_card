@@ -12,9 +12,9 @@ module AlphaCard
     attribute :ship_from_postal
     attribute :shipping_country
     # Values: 'ups', 'fedex', 'dhl', or 'usps'
-    attribute :shipping_carrier
+    attribute :shipping_carrier, values: %w(ups fedex dhl usps).freeze
     # Format: YYYYMMDD
-    attribute :shipping_date
+    attribute :shipping_date, format: /\d{8}/
     attribute :order_description
     attribute :order_date
     # Values: 'true' or 'false'

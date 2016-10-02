@@ -6,7 +6,7 @@ describe AlphaCard::Auth do
   let(:auth) { AlphaCard::Auth.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
   context 'with invalid attributes' do
-    let(:response) { described_class.new(card_expiration_date: '1', card_number: '1', amount: '1').create(order) }
+    let(:response) { described_class.new(card_expiration_date: '1190', card_number: '1', amount: '1').create(order) }
 
     it 'response with error' do
       expect(response.error?).to be_truthy

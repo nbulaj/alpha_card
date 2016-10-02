@@ -25,7 +25,7 @@ module AlphaCard
     ##
     # Creates a Capture transaction.
     #
-    # @param [Hash] credentials
+    # @param credentials [Hash]
     #   Alpha Card merchant account credentials
     #
     # @return [AlphaCard::Response]

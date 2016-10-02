@@ -16,6 +16,7 @@ require 'alpha_card/response'
 require 'alpha_card/errors/api_connection_error'
 require 'alpha_card/errors/invalid_object_error'
 require 'alpha_card/errors/invalid_attribute_value'
+require 'alpha_card/errors/invalid_attribute_format'
 
 # Alpha Card Resources
 require 'alpha_card/resources/billing'
@@ -54,11 +55,11 @@ module AlphaCard
     # specified account. Request must contains params - Alpha Card
     # transaction variables.
     #
-    # @param [Hash] params
-    #   Alpha Card transaction variables.
+    # @param params [Hash]
+    #   hash with Alpha Card transaction variables and it's values
     #
-    # @param [Hash] credentials
-    #   Alpha Card merchant account credentials.
+    # @param credentials [Hash]
+    #   Alpha Card merchant account credentials
     #
     # @return [AlphaCard::Response]
     #   Response from Alpha Card Gateway.
@@ -124,10 +125,8 @@ module AlphaCard
     ##
     # Send secure HTTP(S) request with params to requested URL.
     #
-    # @param [String] url
-    #   URL
-    # @param [Hash] params
-    #   Hash of params for the request
+    # @param url [String] URL
+    # @param params [Hash] hash of params for the request
     #
     # @return [HTTPResponse]
     #   Response of the request as HTTPResponse object

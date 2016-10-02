@@ -16,7 +16,7 @@ module AlphaCard
 
       AlphaCard.request(params_for_sale(order), credentials)
     end
-    # amount не нужен
+
     alias create process
   end
 end

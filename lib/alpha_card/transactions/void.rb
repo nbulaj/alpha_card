@@ -19,7 +19,7 @@ module AlphaCard
     ##
     # Creates void transaction.
     #
-    # @param [Hash] credentials
+    # @param credentials [Hash]
     #   Alpha Card merchant account credentials.
     #
     # @return [AlphaCard::Response]

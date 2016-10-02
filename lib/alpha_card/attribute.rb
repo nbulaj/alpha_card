@@ -100,9 +100,12 @@ module AlphaCard
       #
       def define_writer(name, options = {})
         values = options[:values]
+        format = options[:format]
 
         define_method("#{name}=") do |value|
           raise InvalidAttributeValue.new(value, values) if values && !values.include?(value)
+
+          raise InvalidAttributeFormat, value if !format.nil? && value !~ format
 
           instance_variable_set(:"@#{name}", value)
         end
