@@ -1,4 +1,5 @@
 module AlphaCard
+  # Attribute DSL for Alpha Card transaction variables
   module Attribute
     # Extends base class with Attributes DSL.
     def self.included(base)
@@ -6,10 +7,17 @@ module AlphaCard
       base.send(:include, InstanceMethods)
     end
 
+    # Attributes class methods
+    #   * attribute
+    #   * remove_attribute
+    #   * attributes_set
+    #
     module ClassMethods
       # Defines Attributes Set for the class.
       # Attributes set contains all the attributes names as key
       # and it's options as the value.
+      #
+      # @return [Hash] attributes set with options
       def attributes_set
         @attributes_set ||= {}
       end
@@ -18,8 +26,8 @@ module AlphaCard
       # Defines reader and writer methods based on options hash.
       # Adds attribute to the global Attributes Set.
       #
-      # @param [Symbol] attribute name
-      # @param [Hash] attribute options
+      # @param name [Symbol] attribute name
+      # @param options [Hash] attribute options
       #
       # @example
       #   class User
@@ -40,7 +48,7 @@ module AlphaCard
 
       # Removes attribute from the class (reader, writer and from Attributes Set).
       #
-      # @param [Symbol] attribute name
+      # @param name [String, Symbol] attribute name
       #
       # @example
       #   class User
@@ -69,17 +77,27 @@ module AlphaCard
       private
 
       # Writes Attributes Set to the superclass on inheritance.
+      #
+      # @param subclass [Class] inherited class
+      #
       def inherited(subclass)
         subclass.instance_variable_set(:@attributes_set, attributes_set.dup)
       end
 
       # Creates a reader method for the attribute.
+      #
+      # @param name [String, Symbol] attribute name
+      #
       def define_reader(name)
         attr_reader name.to_sym
       end
 
       # Creates a writer method for the attribute with validation
       # of setting value if options[:values] was passed.
+      #
+      # @param name [Symbol] attribute name
+      # @param options [Hash] attribute options
+      #
       def define_writer(name, options = {})
         values = options[:values]
 
@@ -91,12 +109,15 @@ module AlphaCard
       end
     end
 
+    # Attributes class methods
+    #   * initialize
+    #   * attributes
+    #   * []
     module InstanceMethods
       # Constructor supports setting attributes when creating a new instance of the class.
       # Sets default values for the attributes if they are present.
       #
-      # @param [Hash] attributes
-      #   object attributes
+      # @param attributes [Hash] attributes hash
       #
       # @example
       #   class User
@@ -106,7 +127,7 @@ module AlphaCard
       #     attribute :name, default: 'John'
       #   end
       #
-      #   User.new()
+      #   User.new
       #   #=> #<User:0x29cca00 @email=nil, @name="John">
       #
       def initialize(attributes = {})
@@ -118,6 +139,8 @@ module AlphaCard
       end
 
       # Returns class instance attributes.
+      #
+      # @return [Hash] attributes of the instance object
       #
       # @example
       #   class User
@@ -138,8 +161,9 @@ module AlphaCard
 
       # Returns attribute value by it's name.
       #
-      # @param [String, Symbol] name
-      #   Attribute name
+      # @param name [String, Symbol] attribute name
+      #
+      # @return [Object] attribute value
       #
       # @example
       #   class User
@@ -160,10 +184,8 @@ module AlphaCard
 
       # Set attribute value only if attribute writable
       #
-      # @param [String, Symbol] name
-      #   attribute name
-      # @param [Object] value
-      #   attribute value
+      # @param name [String, Symbol] attribute name
+      # @param value [Object] attribute value
       #
       def set_attribute_safely(name, value)
         __send__("#{name}=", value) if attribute_writable?(name)
@@ -171,8 +193,9 @@ module AlphaCard
 
       # Checks if attribute is writable by it's options in the Attributes Set.
       #
-      # @param [String, Symbol] name
-      #   attribute name
+      # @param name [String, Symbol] attribute name
+      #
+      # @return [Boolean]
       #
       def attribute_writable?(name)
         attribute_options = self.class.attributes_set[name.to_sym]

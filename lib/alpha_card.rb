@@ -99,8 +99,7 @@ module AlphaCard
     # Raises an exception if a network error occurs. It
     # could be request timeout, socket error or anything else.
     #
-    # @param [Exception]
-    #   Exception object.
+    # @param error [Exception] exception object
     #
     # @raise [APIConnectionError]
     #   Failed request exception.

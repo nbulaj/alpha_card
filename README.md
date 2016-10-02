@@ -65,7 +65,7 @@ Alpha Card operates with next objects:
 *  [Order](#order)
     - [Billing](#billing)
     - [Shipping](#shipping)
-*  [Sale](#sale)/[Authorization](#authorization)/[Credit](#credit)/Validate/Offline
+*  [Sale](#sale)/[Authorization](#authorization)/[Credit](#credit)/[Validate](#validate)/Offline
 *  [Refund](#refund)
 *  [Void](#void)
 *  [Capture](#capture)
@@ -307,6 +307,10 @@ update.process
 The same as `Sale`.
 
 ### Credit
+
+TODO
+
+### Validate
 
 TODO
 
