@@ -33,10 +33,10 @@ module AlphaCard
       #   class User
       #     include AlphaCard::Attribute
       #
-      #     attribute :email
+      #     attribute :id, required: true, writable: false
+      #     attribute :email, required: true
       #     attribute :name, default: 'John'
       #     attribute :role, default: 'admin', values: ['admin', 'regular']
-      #     attribute :id, writable: false
       #   end
       #
       def attribute(name, options = {})
@@ -46,7 +46,7 @@ module AlphaCard
         attributes_set[name.to_sym] = options
       end
 
-      # Removes attribute from the class (reader, writer and from Attributes Set).
+      # Removes attribute from the class (reader, writer and entry in Attributes Set).
       #
       # @param name [String, Symbol] attribute name
       #
@@ -78,6 +78,8 @@ module AlphaCard
 
       # Writes Attributes Set to the superclass on inheritance.
       #
+      # @private
+      #
       # @param subclass [Class] inherited class
       #
       def inherited(subclass)
@@ -85,6 +87,8 @@ module AlphaCard
       end
 
       # Creates a reader method for the attribute.
+      #
+      # @private
       #
       # @param name [String, Symbol] attribute name
       #
@@ -95,20 +99,53 @@ module AlphaCard
       # Creates a writer method for the attribute with validation
       # of setting value if options[:values] was passed.
       #
+      # @private
+      #
       # @param name [Symbol] attribute name
       # @param options [Hash] attribute options
       #
       def define_writer(name, options = {})
-        values = options[:values]
-        format = options[:format]
+        values = extract_values_from(options)
+        format = extract_format_from(options)
 
         define_method("#{name}=") do |value|
           raise InvalidAttributeValue.new(value, values) if values && !values.include?(value)
 
-          raise InvalidAttributeFormat, value if !format.nil? && value !~ format
+          raise InvalidAttributeFormat.new(value, format) if !format.nil? && value !~ format
 
           instance_variable_set(:"@#{name}", value)
         end
+      end
+
+      # Extract and validate possible attribute values from options hash.
+      #
+      # @private
+      #
+      # @param options [Hash] attribute options
+      #
+      # @return [Array] possible attribute values
+      #
+      def extract_values_from(options = {})
+        values = options[:values] || return
+        raise ArgumentError, ':values option must be an Array or respond to .to_a!' unless values.is_a?(Array) || values.respond_to?(:to_a)
+        raise ArgumentError, ":values option can't be empty!" if values.empty?
+
+        values.to_a
+      end
+
+      # Extract and validate attribute value format from options hash.
+      #
+      # @private
+      #
+      # @param options [Hash] attribute options
+      #
+      # @return [Regexp] attribute value format
+      #
+      def extract_format_from(options = {})
+        format = options[:format] || return
+        raise ArgumentError, ':format must be Regexp!' unless format.is_a?(Regexp)
+
+        format
       end
     end
 
@@ -181,6 +218,52 @@ module AlphaCard
       #
       def [](name)
         __send__(name)
+      end
+
+      # Returns names of the attributes that was marked as :required.
+      #
+      # @return [Array] array of attributes names
+      #
+      # @example
+      #   class User
+      #     include AlphaCard::Attribute
+      #
+      #     attribute :id
+      #     attribute :email, required: true
+      #     attribute :name, required: true
+      #   end
+      #
+      #   u = User.new
+      #   u.required_attributes
+      #   #=> [:email, :name]
+      #
+      def required_attributes
+        self.class.attributes_set.select { |_, options| options[:required] }.keys
+      end
+
+      # Indicates if all the attributes with option required: true
+      # are filled with non-nil value.
+      #
+      # @return [Bool]
+      #
+      # @example
+      #   class User
+      #     include AlphaCard::Attribute
+      #
+      #     attribute :email, required: true
+      #     attribute :name
+      #   end
+      #
+      #   u = User.new
+      #   u.required_attributes?
+      #   #=> false
+      #
+      #   u.email = 'john.doe@gmail.com'
+      #   u.required_attributes?
+      #   #=> true
+      #
+      def required_attributes?
+        required_attributes.all? { |attr| !self[attr].nil? }
       end
 
       protected

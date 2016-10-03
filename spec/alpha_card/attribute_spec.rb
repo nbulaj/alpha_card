@@ -17,8 +17,11 @@ describe AlphaCard::Attribute do
 
   class Admin < Moderator
     attribute :role, default: 'admin'
+    attribute :birthday, format: /^\d{2}-\d{2}-\d{4}$/
+
+    attribute :created_at, required: true
+
     remove_attribute :status
-	attribute :birthday, format: /^\d{2}-\d{2}-\d{4}$/
   end
 
   context 'User' do
@@ -78,9 +81,35 @@ describe AlphaCard::Attribute do
     it 'must remove attributes' do
       expect { Admin.new.status = 'local' }.to raise_error(NoMethodError)
     end
-	
-	it 'must validate attribute format' do
-      expect { Admin.new.birthday = 'local' }.to raise_error(AlphaCard::InvalidAttributeFormat)
+
+    it 'must require attributes' do
+      expect(Admin.new.required_attributes?).to be_falsey
+      expect(Admin.new(created_at: Date.today).required_attributes?).to be_truthy
+    end
+
+    it 'must validate attribute format' do
+      error_msg = "'local' does not match the '/^\\d{2}-\\d{2}-\\d{4}$/' format"
+      expect { Admin.new.birthday = 'local' }.to raise_error(AlphaCard::InvalidAttributeFormat, error_msg)
+    end
+
+    it 'must not allow to add invalid attributes' do
+      expect {
+        Admin.class_eval <<-RUBY.strip
+          attribute :some, values: 10
+        RUBY
+      }.to raise_error(ArgumentError)
+
+      expect {
+        Admin.class_eval <<-RUBY.strip
+          attribute :some, values: []
+        RUBY
+      }.to raise_error(ArgumentError)
+
+      expect {
+        Admin.class_eval <<-RUBY.strip
+          attribute :some, format: 10
+        RUBY
+      }.to raise_error(ArgumentError)
     end
   end
 end

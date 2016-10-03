@@ -5,8 +5,8 @@
 * ~~Own `Attribute` class with validations and etc~~:
     - ~~default value~~
     - ~~writable: true` / `false`~~
-    - presence: `true` / `false`
-    - format: regex
+    - ~~required: `true / `false~~
+    - ~~format: regex~~
     - ~~values: ['1', '2']`~~
     - coerce ?
 * ~~Configuration with `Account` setup~~

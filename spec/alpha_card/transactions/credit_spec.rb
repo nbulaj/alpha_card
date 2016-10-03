@@ -22,9 +22,8 @@ describe AlphaCard::Credit do
     end
 
     it 'successfully creates the credit' do
-      resp  = credit.create(order)
-      puts resp.inspect
-      expect(resp.success?).to be_truthy
+      response = credit.create(order)
+      expect(response.success?).to be_truthy
     end
   end
 
