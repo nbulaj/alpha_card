@@ -2,7 +2,7 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services Void transaction.
   class Void < Resource
-    attribute :transaction_id
+    attribute :transaction_id, required: true
 
     ##
     # Transaction type (default is 'void')
@@ -34,7 +34,7 @@ module AlphaCard
     #
     #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(credentials = Account.credentials)
-      abort_if_attributes_blank!(:transaction_id)
+      abort_if_required_blank!
 
       AlphaCard.request(attributes_for_request, credentials)
     end

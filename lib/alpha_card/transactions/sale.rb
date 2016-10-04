@@ -6,9 +6,9 @@ module AlphaCard
   # Process the Alpha Card Services payment.
   class Sale < Resource
     # Format: MMYY
-    attribute :card_expiration_date, format: /\d{4}/
-    attribute :card_number
-    attribute :amount
+    attribute :card_expiration_date, required: true, format: /\A((0[1-9])|(1[0-2]))\/*\d{2}\z/.freeze
+    attribute :card_number, required: true
+    attribute :amount, required: true
     attribute :cvv
     # Values: 'true' or 'false'
     attribute :customer_receipt
@@ -65,7 +65,7 @@ module AlphaCard
     #
     #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(order, credentials = Account.credentials)
-      abort_if_attributes_blank!(:card_expiration_date, :card_number, :amount)
+      abort_if_required_blank!
 
       AlphaCard.request(params_for_sale(order), credentials)
     end

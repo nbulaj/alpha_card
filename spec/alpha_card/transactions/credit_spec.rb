@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AlphaCard::Credit do
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
-  let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
+  let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
 
   context 'with valid attributes' do
     let(:credit) { AlphaCard::Credit.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }

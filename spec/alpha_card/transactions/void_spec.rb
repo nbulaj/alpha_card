@@ -15,7 +15,7 @@ describe AlphaCard::Void do
     let(:void) { AlphaCard::Void.new(transaction_id: '2303767426') }
 
     let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
-    let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
+    let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'has valid request params' do

@@ -3,6 +3,14 @@ module AlphaCard
   class Account
     class << self
       # Global Alpha Card Merchant account credentials
+      #
+      # @return [String] username
+      # @return [String] password
+      #
+      # @example
+      #   AlphaCard::Account.username = 'demo'
+      #   AlphaCard::Account.password = 'password'
+      #
       attr_accessor :username, :password
 
       ##

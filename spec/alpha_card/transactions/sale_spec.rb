@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe AlphaCard::Sale do
-  let(:billing) { AlphaCard::Billing.new(email: 'test@example.com', address_1: 'N', address_2: 'Y') }
-  let(:shipping) { AlphaCard::Shipping.new(first_name: 'John', last_name: 'Doe', address_1: '22 N str.') }
+  let(:billing) { AlphaCard::Billing.new(email: 'test@example.com', address_1: 'N', address_2: 'Y', state: 'MN') }
+  let(:shipping) { AlphaCard::Shipping.new(first_name: 'John', last_name: 'Doe', address_1: '22 N str.', state: 'MN') }
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test', billing: billing, shipping: shipping) }
-  let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
+  let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
 
   context 'with valid attributes' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
@@ -19,11 +19,13 @@ describe AlphaCard::Sale do
         email: 'test@example.com',
         address1: 'N',
         address2: 'Y',
+        state: 'MN',
         orderid: '1',
         orderdescription: 'Test',
         shipping_address_1: '22 N str.',
         shipping_first_name: 'John',
-        shipping_last_name: 'Doe'
+        shipping_last_name: 'Doe',
+        shipping_state: 'MN'
       }
 
       expect(sale.send(:params_for_sale, order)).to eq(expected_params)
@@ -55,10 +57,13 @@ describe AlphaCard::Sale do
   end
 
   context 'with invalid Card expiration date' do
-    let(:sale) { AlphaCard::Sale.new(card_expiration_date: '9999', card_number: '4111111111111111', amount: '5.00') }
-    let(:response) { sale.process(order) }
+    let(:sale) { AlphaCard::Sale.new(card_expiration_date: '1299', card_number: '4111111111111111', amount: '5.00') }
 
     it 'returns an error' do
+      # Override expiration date without writer (to ignore validation)
+      sale.instance_variable_set(:'@card_expiration_date', '9999')
+      response = sale.process(order)
+
       expect(response.error?).to be_truthy
       expect(response.text).to include('Card expiration should be in the format')
     end

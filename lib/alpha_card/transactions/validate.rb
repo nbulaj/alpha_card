@@ -12,7 +12,7 @@ module AlphaCard
     remove_attribute :amount
 
     def process(order, credentials = Account.credentials)
-      abort_if_attributes_blank!(:card_expiration_date, :card_number)
+      abort_if_required_blank!
 
       AlphaCard.request(params_for_sale(order), credentials)
     end

@@ -8,7 +8,7 @@ module AlphaCard
     attribute :po_number
     attribute :tax
     # Format: xxx.xxx.xxx.xxx
-    attribute :ip_address
+    attribute :ip_address, format: /\A(?:[0-9]{1,3}\.){3}[0-9]{1,3}\z/.freeze
 
     attribute :billing
     attribute :shipping

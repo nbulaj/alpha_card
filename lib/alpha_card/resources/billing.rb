@@ -11,9 +11,9 @@ module AlphaCard
     attribute :address_1
     attribute :address_2
     attribute :city
-    attribute :state
+    attribute :state, format: /\A[A-Za-z]{2}\z/.freeze
     attribute :zip
-    attribute :country
+    attribute :country, format: /\A[A-Za-z]{2}\z/.freeze
     attribute :fax
     attribute :website
 

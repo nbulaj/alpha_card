@@ -2,9 +2,9 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services Capture transaction.
   class Capture < Resource
-    attribute :transaction_id
+    attribute :transaction_id, required: true
     # Format: xx.xx
-    attribute :amount
+    attribute :amount, required: true
     attribute :tracking_number
     attribute :shipping_carrier
     attribute :order_id
@@ -40,7 +40,7 @@ module AlphaCard
     #
     #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(credentials = Account.credentials)
-      abort_if_attributes_blank!(:amount, :transaction_id)
+      abort_if_required_blank!
 
       AlphaCard.request(attributes_for_request, credentials)
     end

@@ -50,15 +50,13 @@ module AlphaCard
     end
 
     ##
-    # Validate passed attributes for presence. Raises an exception
+    # Validate required attributes to be filled. Raises an exception
     # if one of the attribute is not specified.
     #
-    # @param attributes [Array] array of attributes to check
+    # @raise [AlphaCard::InvalidObjectError] error if required attributes not set
     #
-    def abort_if_attributes_blank!(*attributes)
-      attributes.each do |attr|
-        raise InvalidObjectError, "#{attr} must be present!" if self[attr].nil? || self[attr].empty?
-      end
+    def abort_if_required_blank!
+      raise InvalidObjectError, 'All the required attributes must be filled' unless required_attributes?
     end
   end
 end

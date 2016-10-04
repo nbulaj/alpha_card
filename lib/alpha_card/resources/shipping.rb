@@ -9,9 +9,11 @@ module AlphaCard
     attribute :address_1
     attribute :address_2
     attribute :city
-    attribute :state
+    # Format: 'CC'
+    attribute :state, format: /\A[A-Za-z]{2}\z/.freeze
     attribute :zip_code
-    attribute :country
+    # Format: 'CC'
+    attribute :country, format: /\A[A-Za-z]{2}\z/.freeze
     attribute :email
 
     ##

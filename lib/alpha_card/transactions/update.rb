@@ -14,7 +14,7 @@ module AlphaCard
     # Values: 'ups', 'fedex', 'dhl', or 'usps'
     attribute :shipping_carrier, values: %w(ups fedex dhl usps).freeze
     # Format: YYYYMMDD
-    attribute :shipping_date, format: /\d{8}/
+    attribute :shipping_date, format: /\A[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|((1|2)[0-9])|3[0-1])\z/.freeze
     attribute :order_description
     attribute :order_date
     # Values: 'true' or 'false'
