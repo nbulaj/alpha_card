@@ -11,12 +11,13 @@ require 'alpha_card/account'
 require 'alpha_card/attribute'
 require 'alpha_card/resource'
 require 'alpha_card/response'
+require 'alpha_card/transaction'
 
 # Errors
 require 'alpha_card/errors/api_connection_error'
-require 'alpha_card/errors/invalid_object_error'
 require 'alpha_card/errors/invalid_attribute_value'
 require 'alpha_card/errors/invalid_attribute_format'
+require 'alpha_card/errors/validation_error'
 
 # Alpha Card Resources
 require 'alpha_card/resources/billing'

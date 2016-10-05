@@ -30,7 +30,7 @@ describe AlphaCard::Update do
     let(:update) { AlphaCard::Update.new }
 
     it 'raises an InvalidObject error' do
-      expect { update.create }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { update.create }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end

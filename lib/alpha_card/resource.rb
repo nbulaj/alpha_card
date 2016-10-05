@@ -55,8 +55,12 @@ module AlphaCard
     #
     # @raise [AlphaCard::InvalidObjectError] error if required attributes not set
     #
-    def abort_if_required_blank!
-      raise InvalidObjectError, 'All the required attributes must be filled' unless required_attributes?
+    def validate_required_attributes!
+      unless required_attributes?
+        blank_attribute = required_attributes.detect { |attr| self[attr].nil? || self[attr].empty? }
+
+        raise ValidationError, "#{blank_attribute} can't be blank"
+      end
     end
   end
 end

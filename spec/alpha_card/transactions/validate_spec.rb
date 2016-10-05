@@ -39,7 +39,7 @@ describe AlphaCard::Validate do
     let(:validate) { described_class.new }
 
     it 'raises an InvalidObjectError exception' do
-      expect { validate.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { validate.create(order) }.to raise_error(AlphaCard::ValidationError)
     end
   end
 

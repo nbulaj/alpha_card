@@ -4,6 +4,13 @@ module AlphaCard
   # Transaction updates can be used to update previous transactions
   # with specific order information, such as a tracking number
   # and shipping carrier.
+  #
+  # @example
+  #   update = AlphaCard::Update.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '1.00')
+  #   update.process(order)
+  #
+  #   #=> #<AlphaCard::Response:0x1a0fda ...>
+  #
   class Update < Void
     # Total shipping amount.
     # Format: x.xx

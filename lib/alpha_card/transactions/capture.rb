@@ -1,7 +1,14 @@
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Capture transaction.
-  class Capture < Resource
+  #
+  # @example
+  #   capture = AlphaCard::Capture.new(transaction_id: '981562', amount: '10.05')
+  #   capture.process
+  #
+  #   #=> #<AlphaCard::Response:0x1a0fda ...>
+  #
+  class Capture < Transaction
     attribute :transaction_id, required: true
     # Format: xx.xx
     attribute :amount, required: true
@@ -21,30 +28,5 @@ module AlphaCard
       transaction_id: :transactionid,
       order_id: :orderid
     }.freeze
-
-    ##
-    # Creates a Capture transaction.
-    #
-    # @param credentials [Hash]
-    #   Alpha Card merchant account credentials
-    #
-    # @return [AlphaCard::Response]
-    #   AlphaCard Gateway response with all the information about transaction.
-    #
-    # @raise [AlphaCard::InvalidObjectError]
-    #   Exception if one of required attributes doesn't specified.
-    #
-    # @example
-    #   capture = AlphaCard::Capture.new(transaction_id: '981562', amount: '10.05')
-    #   capture.process
-    #
-    #   #=> #<AlphaCard::Response:0x1a0fda ...>
-    def process(credentials = Account.credentials)
-      abort_if_required_blank!
-
-      AlphaCard.request(attributes_for_request, credentials)
-    end
-
-    alias create process
   end
 end

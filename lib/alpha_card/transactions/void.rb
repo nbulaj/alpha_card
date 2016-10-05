@@ -1,7 +1,14 @@
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Void transaction.
-  class Void < Resource
+  #
+  # @example
+  #   void = AlphaCard::Void.new(transaction_id: '981562')
+  #   void.create
+  #
+  #   #=> #<AlphaCard::Response:0x1a0fda ...>
+  #
+  class Void < Transaction
     attribute :transaction_id, required: true
 
     ##
@@ -15,30 +22,5 @@ module AlphaCard
     ORIGIN_TRANSACTION_VARIABLES = {
       transaction_id: :transactionid
     }.freeze
-
-    ##
-    # Creates void transaction.
-    #
-    # @param credentials [Hash]
-    #   Alpha Card merchant account credentials.
-    #
-    # @return [AlphaCard::Response]
-    #   AlphaCard Gateway response with all the information about transaction.
-    #
-    # @raise [AlphaCard::InvalidObjectError]
-    #   Exception if one of required attributes doesn't specified.
-    #
-    # @example
-    #   void = AlphaCard::Void.new(transaction_id: '981562')
-    #   void.create
-    #
-    #   #=> #<AlphaCard::Response:0x1a0fda ...>
-    def process(credentials = Account.credentials)
-      abort_if_required_blank!
-
-      AlphaCard.request(attributes_for_request, credentials)
-    end
-
-    alias create process
   end
 end

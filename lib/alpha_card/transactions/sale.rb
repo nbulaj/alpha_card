@@ -4,7 +4,7 @@ module AlphaCard
   # Contains all the information about Customer Credit Card,
   # such as CVV, number, expiration date, etc.
   # Process the Alpha Card Services payment.
-  class Sale < Resource
+  class Sale < Transaction
     # Format: MMYY
     attribute :card_expiration_date, required: true, format: /\A((0[1-9])|(1[0-2]))\/*\d{2}\z/.freeze
     attribute :card_number, required: true
@@ -65,12 +65,12 @@ module AlphaCard
     #
     #   #=> #<AlphaCard::Response:0x1a0fda ...>
     def process(order, credentials = Account.credentials)
-      abort_if_required_blank!
+      validate_required_attributes!
 
       AlphaCard.request(params_for_sale(order), credentials)
     end
 
-    alias create process
+    alias_method :create, :process
 
     private
 

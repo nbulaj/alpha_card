@@ -83,13 +83,13 @@ describe AlphaCard::Sale do
     let(:sale) { AlphaCard::Sale.new }
 
     it 'raises an InvalidObjectError exception' do
-      expect { sale.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { sale.create(order) }.to raise_error(AlphaCard::ValidationError, "card_expiration_date can't be blank")
     end
   end
 
   context 'with invalid account credentials' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
-    let(:response) { sale.process(order, username: 'demo', password: 'Invalid password') }
+    let(:response) { sale.create(order, username: 'demo', password: 'Invalid password') }
 
     it 'returns an error' do
       expect(response.error?).to be_truthy

@@ -29,7 +29,7 @@ describe AlphaCard::Refund do
     let(:refund) { AlphaCard::Refund.new }
 
     it 'raises an InvalidObject error' do
-      expect { refund.process }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { refund.process }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end

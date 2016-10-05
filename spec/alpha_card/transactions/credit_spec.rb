@@ -41,7 +41,7 @@ describe AlphaCard::Credit do
     let(:credit) { AlphaCard::Credit.new }
 
     it 'raises an InvalidObjectError exception' do
-      expect { credit.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { credit.create(order) }.to raise_error(AlphaCard::ValidationError)
     end
   end
 

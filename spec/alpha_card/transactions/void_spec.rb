@@ -42,7 +42,7 @@ describe AlphaCard::Void do
     let(:void) { AlphaCard::Void.new }
 
     it 'raises an InvalidObject error' do
-      expect { void.create }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { void.create }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end

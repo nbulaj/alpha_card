@@ -36,8 +36,8 @@ describe AlphaCard::Auth do
 
   context 'with blank attributes' do
     it 'raises an InvalidObject error' do
-      expect { AlphaCard::Auth.new.create(order) }.to raise_error(AlphaCard::InvalidObjectError)
-      expect { AlphaCard::Auth.new(amount: '1.05').create(order) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { AlphaCard::Auth.new.create(order) }.to raise_error(AlphaCard::ValidationError)
+      expect { AlphaCard::Auth.new(amount: '1.05').create(order) }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end

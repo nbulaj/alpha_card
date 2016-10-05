@@ -43,8 +43,8 @@ describe AlphaCard::Capture do
 
   context 'with blank attributes' do
     it 'raises an InvalidObject error' do
-      expect { AlphaCard::Refund.new.process }.to raise_error(AlphaCard::InvalidObjectError)
-      expect { AlphaCard::Refund.new(amount: '1.05').process }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { AlphaCard::Refund.new.process }.to raise_error(AlphaCard::ValidationError)
+      expect { AlphaCard::Refund.new(amount: '1.05').process }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end
