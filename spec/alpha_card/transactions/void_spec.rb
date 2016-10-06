@@ -12,7 +12,7 @@ describe AlphaCard::Void do
   end
 
   context 'with valid attributes' do
-    let(:void) { AlphaCard::Void.new(transaction_id: '2303767426') }
+    let(:void) { AlphaCard::Void.new(transaction_id: 2303767426) }
 
     let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
     let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
@@ -20,7 +20,7 @@ describe AlphaCard::Void do
 
     it 'has valid request params' do
       expected_params = {
-        transactionid: '2303767426',
+        transactionid: 2303767426,
         type: 'void'
       }
 

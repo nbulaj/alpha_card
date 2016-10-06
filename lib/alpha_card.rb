@@ -17,6 +17,7 @@ require 'alpha_card/transaction'
 require 'alpha_card/errors/api_connection_error'
 require 'alpha_card/errors/invalid_attribute_value'
 require 'alpha_card/errors/invalid_attribute_format'
+require 'alpha_card/errors/invalid_attribute_type'
 require 'alpha_card/errors/validation_error'
 
 # Alpha Card Resources

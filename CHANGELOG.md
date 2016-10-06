@@ -2,21 +2,21 @@
 
 Reverse Chronological Order:
 
-## `0.4.0` (2016-09-22)
+## `0.4.0` (2016-10-06)
 
 https://github.com/nbulaj/alpha_card/compare/0.3.0...0.4.0
 
 ### Breaking changes
 * Dropped support of Ruby <= 2.2.2
 * Removed deprecated methods (a.k.a. old transaction variables names)
-* All transactions now returns `AlphaCard::Response` regardless of the operation result (except net errors)
+* All transactions now returns `AlphaCard::Response` regardless of the operation result (except HTTP errors)
 * `AlphaCard::Account` now works as global Alpha Card Merchant Account configuration (see docs)
 
 ### Other changes
 * New AlphaCard transactions: `Auth`, `Credit`, `Validate`
-* Own Attributes DSL
+* Own Attributes DSL with types, validations and other useful things
 * Dropped `Virtus` dependency
-* Fixed `check` payment (added new transaction variables for those type of operation)
+* Fixed `check` payment (added new transaction variables for this type of operation)
 * Credit Card authorization codes changes (removed dot at the end ot the message, improved `Response` API)
 * Specs and documentation improvements
 

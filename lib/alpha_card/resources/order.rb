@@ -4,14 +4,14 @@ module AlphaCard
   # Contains all the information about order (id, description, etc).
   class Order < Resource
     attribute :id
-    attribute :description
-    attribute :po_number
-    attribute :tax
+    attribute :description, type: String
+    attribute :po_number, type: String
+    attribute :tax, type: String
     # Format: xxx.xxx.xxx.xxx
     attribute :ip_address, format: /\A(?:[0-9]{1,3}\.){3}[0-9]{1,3}\z/.freeze
 
-    attribute :billing
-    attribute :shipping
+    attribute :billing, type: AlphaCard::Billing
+    attribute :shipping, type: AlphaCard::Shipping
 
     ##
     # Original AlphaCard transaction variables names

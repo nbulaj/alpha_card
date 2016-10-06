@@ -3,18 +3,18 @@ module AlphaCard
   # Implementation of Alpha Card Services order shipping information.
   # Contains all the shipping information (address, city, zip, etc).
   class Shipping < Resource
-    attribute :first_name
-    attribute :last_name
-    attribute :company
-    attribute :address_1
-    attribute :address_2
-    attribute :city
+    attribute :first_name, type: String
+    attribute :last_name, type: String
+    attribute :company, type: String
+    attribute :address_1, type: String
+    attribute :address_2, type: String
+    attribute :city, type: String
     # Format: 'CC'
-    attribute :state, format: /\A[A-Za-z]{2}\z/.freeze
-    attribute :zip_code
+    attribute :state, type: String, format: /\A[A-Za-z]{2}\z/.freeze
+    attribute :zip_code, type: String
     # Format: 'CC'
-    attribute :country, format: /\A[A-Za-z]{2}\z/.freeze
-    attribute :email
+    attribute :country, type: String, format: /\A[A-Za-z]{2}\z/.freeze
+    attribute :email, type: String
 
     ##
     # Original AlphaCard transaction variables names

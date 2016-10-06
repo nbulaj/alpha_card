@@ -10,13 +10,13 @@ describe AlphaCard::Attribute do
   end
 
   class Moderator < User
-    attribute :id, default: 11
+    attribute :id, type: Integer, default: 11
     attribute :status, default: 'global', writable: false
     attribute :role, default: 'moderator', writable: false
   end
 
   class Admin < Moderator
-    attribute :role, default: 'admin'
+    attribute :role, default: 'admin', types: [String, Symbol]
     attribute :birthday, format: /^\d{2}-\d{2}-\d{4}$/
 
     attribute :created_at, required: true
@@ -58,6 +58,10 @@ describe AlphaCard::Attribute do
     it 'must override attributes default values' do
       expect(Moderator.new.role).to eq('moderator')
     end
+
+    it 'must validate typed attributes' do
+      expect { Moderator.new.id = '123' }.to raise_error(AlphaCard::InvalidAttributeType)
+    end
   end
 
   context 'Admin' do
@@ -72,10 +76,17 @@ describe AlphaCard::Attribute do
       expect(Admin.new.role).to eq('admin')
     end
 
-    it 'must override superclass attributes options' do
+    it 'must override superclass attributes options (make writable)' do
       admin = Admin.new
       admin.role = 'something_new'
       expect(admin.role).to eq('something_new')
+    end
+
+    it 'must override superclass attributes options (make typable)' do
+      expect(Admin.new(role: 'admin').role).to eq('admin')
+      expect(Admin.new(role: :admin).role).to eq(:admin)
+
+      expect { Admin.new(role: 123) }.to raise_error(AlphaCard::InvalidAttributeType)
     end
 
     it 'must remove attributes' do

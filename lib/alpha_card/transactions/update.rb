@@ -14,20 +14,20 @@ module AlphaCard
   class Update < Void
     # Total shipping amount.
     # Format: x.xx
-    attribute :shipping
-    attribute :shipping_postal
-    attribute :ship_from_postal
-    attribute :shipping_country
+    attribute :shipping, type: String
+    attribute :shipping_postal, type: String
+    attribute :ship_from_postal, type: String
+    attribute :shipping_country, type: String
     # Values: 'ups', 'fedex', 'dhl', or 'usps'
-    attribute :shipping_carrier, values: %w(ups fedex dhl usps).freeze
+    attribute :shipping_carrier, type: String, values: %w(ups fedex dhl usps).freeze
     # Format: YYYYMMDD
-    attribute :shipping_date, format: /\A[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|((1|2)[0-9])|3[0-1])\z/.freeze
-    attribute :order_description
-    attribute :order_date
+    attribute :shipping_date, type: String, format: /\A[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|((1|2)[0-9])|3[0-1])\z/.freeze
+    attribute :order_description, type: String
+    attribute :order_date, type: String
     # Values: 'true' or 'false'
-    attribute :customer_receipt
-    attribute :po_number
-    attribute :summary_commodity_code
+    attribute :customer_receipt, type: String
+    attribute :po_number, type: String
+    attribute :summary_commodity_code, type: String
     # Format: x.xx
     attribute :duty_amount
     # Format: x.xx
@@ -40,10 +40,10 @@ module AlphaCard
     attribute :alternate_tax_amount
     attribute :alternate_tax_id
     attribute :vat_tax_amount
-    attribute :vat_tax_rate
-    attribute :vat_invoice_reference_number
-    attribute :customer_vat_registration
-    attribute :merchant_vat_registration
+    attribute :vat_tax_rate, type: String
+    attribute :vat_invoice_reference_number, type: String
+    attribute :customer_vat_registration, type: String
+    attribute :merchant_vat_registration, type: String
 
     ##
     # Transaction type (default is 'update')

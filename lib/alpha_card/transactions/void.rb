@@ -9,7 +9,7 @@ module AlphaCard
   #   #=> #<AlphaCard::Response:0x1a0fda ...>
   #
   class Void < Transaction
-    attribute :transaction_id, required: true
+    attribute :transaction_id, type: [String, Integer], required: true
 
     ##
     # Transaction type (default is 'void')

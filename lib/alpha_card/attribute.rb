@@ -26,17 +26,18 @@ module AlphaCard
       # Defines reader and writer methods based on options hash.
       # Adds attribute to the global Attributes Set.
       #
-      # @param name [Symbol] attribute name
+      # @param name [Symbol, String] attribute name
       # @param options [Hash] attribute options
       #
       # @example
       #   class User
       #     include AlphaCard::Attribute
       #
-      #     attribute :id, required: true, writable: false
+      #     attribute :id, type: Integer, required: true, writable: false
       #     attribute :email, required: true
       #     attribute :name, default: 'John'
       #     attribute :role, default: 'admin', values: ['admin', 'regular']
+      #     attribute :status, types: [String, Symbol]
       #   end
       #
       def attribute(name, options = {})
@@ -101,17 +102,24 @@ module AlphaCard
       #
       # @private
       #
+      # @raise [InvalidAttributeValue] when value is not included in the possible values list
+      # @raise [InvalidAttributeFormat] when value doesn't match the required format
+      # @raise [InvalidAttributeType] when value is not of valid type
+      #
       # @param name [Symbol] attribute name
       # @param options [Hash] attribute options
       #
       def define_writer(name, options = {})
         values = extract_values_from(options)
         format = extract_format_from(options)
+        types = extract_types_from(options)
 
         define_method("#{name}=") do |value|
           raise InvalidAttributeValue.new(value, values) if values && !values.include?(value)
 
           raise InvalidAttributeFormat.new(value, format) if !format.nil? && value !~ format
+
+          raise InvalidAttributeType.new(value, types) if value && types && types.none? { |klass| value.is_a?(klass) }
 
           instance_variable_set(:"@#{name}", value)
         end
@@ -147,6 +155,23 @@ module AlphaCard
 
         format
       end
+
+      # Extract and validate attribute type class from options hash.
+      #
+      # @private
+      #
+      # @param options [Hash] attribute options
+      #
+      # @return [Object] possible attribute type(s)
+      #
+      def extract_types_from(options = {})
+        types = Array(options[:type] || options[:types])
+        return if types.empty?
+
+        raise ArgumentError, 'attribute type must be a Class!' if types.any? { |type| !type.is_a?(Class) }
+
+        types
+      end
     end
 
     # Attributes class methods
@@ -167,11 +192,11 @@ module AlphaCard
       #     attribute :name, default: 'John'
       #   end
       #
-      #   User.new
-      #   #=> #<User:0x29cca00 @email=nil, @name="John">
+      #   User.new(email: 'john.doe@gmail.com')
+      #   #=> #<User:0x29cca00 @email='john.doe@gmail.com', @name="John">
       #
       def initialize(attributes = {})
-        set_attributes_defaults
+        set_attributes_defaults!
 
         attributes.each do |name, value|
           set_attribute_safely(name, value)
@@ -291,7 +316,7 @@ module AlphaCard
       end
 
       # Sets default values for the attributes, based on Attributes Set.
-      def set_attributes_defaults
+      def set_attributes_defaults!
         self.class.attributes_set.each do |attr_name, options|
           instance_variable_set(:"@#{attr_name}", options[:default])
         end

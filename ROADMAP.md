@@ -8,7 +8,7 @@
     - ~~required: `true / `false~~
     - ~~format: regex~~
     - ~~values: ['1', '2']`~~
-    - coerce ?
+    - ~~type(s)~~
 * ~~Configuration with `Account` setup~~
     - ~~all objects can use global or local account~~
 * Add new transactions:
