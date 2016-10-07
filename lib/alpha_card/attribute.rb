@@ -2,6 +2,14 @@ module AlphaCard
   # Attribute DSL for Alpha Card transaction variables
   module Attribute
     # Extends base class with Attributes DSL.
+    #
+    # @param base [Class] baseclass
+    #
+    # @example
+    #   class User
+    #     include AlphaCard::Attribute
+    #   end
+    #
     def self.included(base)
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
@@ -34,10 +42,13 @@ module AlphaCard
       #     include AlphaCard::Attribute
       #
       #     attribute :id, type: Integer, required: true, writable: false
-      #     attribute :email, required: true
-      #     attribute :name, default: 'John'
+      #     attribute :email, required: true, format: /.+@.+/
+      #     attribute :name, type: String
       #     attribute :role, default: 'admin', values: ['admin', 'regular']
       #     attribute :status, types: [String, Symbol]
+      #
+      #     attribute :metadata, type: Hash
+      #     attribute :additional_info
       #   end
       #
       def attribute(name, options = {})

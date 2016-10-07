@@ -2,7 +2,7 @@
 
 Reverse Chronological Order:
 
-## `0.4.0` (2016-10-06)
+## `0.4.0` (2016-10-07)
 
 https://github.com/nbulaj/alpha_card/compare/0.3.0...0.4.0
 

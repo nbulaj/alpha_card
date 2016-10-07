@@ -65,7 +65,7 @@ Alpha Card operates with next objects:
 *  [Order](#order)
     - [Billing](#billing)
     - [Shipping](#shipping)
-*  [Sale](#sale)/[Authorization](#authorization)/[Credit](#credit)/[Validate](#validate)/Offline
+*  [Sale](#sale)/[Authorization](#authorization)/[Credit](#credit)/[Validate](#validate)
 *  [Refund](#refund)
 *  [Void](#void)
 *  [Capture](#capture)
@@ -77,7 +77,7 @@ Let us consider each of them.
 
 Order represents itself.
 
-_Optional fields_:
+_Optional attributes_:
 
 *  id : `String`
 *  description : `String`
@@ -97,7 +97,7 @@ AlphaCard::Order.new(property: value, ...)
 
 Specify Billing information for Order.
 
-_Optional fields_:
+_Optional attributes_:
 
 *  first_name : `String`
 *  last_name : `String`
@@ -123,7 +123,7 @@ AlphaCard::Billing.new(property: value, ...)
 
 Contains Shipping information for the Order.
 
-_Optional fields_:
+_Optional attributes_:
 
 *  first_name : `String`
 *  last_name : `String`
@@ -146,22 +146,23 @@ AlphaCard::Shipping.new(property: value, ...)
 
 Sale transaction is the main object of the Alpha Card Services. It is used to processed common payments for orders.
 
-_Required fields_:
+_Required attributes_:
 
 *  card_expiration_date : `String` (format: `MMYY`)
 *  card_number : `String`
 *  amount : `String` (format: `x.xx`)
 
-_Optional fields_:
+_Optional attributes_:
+
 *  cvv : `String`
 *  payment : `String` (default: `'creditcard'`, values: `'creditcard'` or `'check'`)
 *  customer_receipt : `String` (values `'true'` or `'false'`)
-* check_name : `String`
-* check_aba : `String`
-* check_account : `String`
-* account_holder_type : `String` (values: `'business'` or `'personal'`)
-* account_type : `String` (values: `'checking'` or `'savings'`)
-* sec_code : `String` (values: `'PPD'`, `'WEB'`, `'TEL'`, or `'CCD'`)
+*  check_name : `String`
+*  check_aba : `String`
+*  check_account : `String`
+*  account_holder_type : `String` (values: `'business'` or `'personal'`)
+*  account_type : `String` (values: `'checking'` or `'savings'`)
+*  sec_code : `String` (values: `'PPD'`, `'WEB'`, `'TEL'`, or `'CCD'`)
 
 _Constructor_:
 
@@ -183,11 +184,11 @@ response = sale.process(order)
 
 Represents refund transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
+*  transaction_id : `String` or `Integer`
 
-_Optional fields_:
+_Optional attributes_:
 
 *  amount : `String` (format: `x.xx`)
 
@@ -209,9 +210,9 @@ refund.process
 
 Represents void transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
+*  transaction_id : `String` or `Integer`
 
 _Constructor_:
 
@@ -231,12 +232,12 @@ void.create
 
 Represents capture transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
-*  amount : `String` (format: `x.xx`)
+*  transaction_id : `String` or `Integer`
+*  amount : `String` (format: `xx.xx`)
 
-_Optional fields_:
+_Optional attributes_:
 
 *  tracking_number : `String`
 *  shipping_carrier : `String`
@@ -260,11 +261,11 @@ capture.create
 
 Represents update transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
+*  transaction_id : `String` or `Integer`
 
-_Optional fields_:
+_Optional attributes_:
 *  shipping: `String`
 *  shipping_postal: `String`
 *  ship_from_postal: `String`
@@ -304,15 +305,15 @@ update.process
 
 ### Authorization
 
-The same as `Sale`.
+Has the same attributes and methods as `Sale` transaction.
 
 ### Credit
 
-TODO
+Has the same attributes and methods as `Sale` transaction.
 
 ### Validate
 
-TODO
+Has the same attributes and methods as `Sale` transaction, except `amount` — there is no need in it.
 
 ## Example of usage
 
