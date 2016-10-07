@@ -5,7 +5,7 @@ require 'alpha_card/version'
 Gem::Specification.new do |gem|
   gem.name = 'alpha_card'
   gem.version = AlphaCard.gem_version
-  gem.date = '2016-09-22'
+  gem.date = '2016-10-07'
   gem.summary = 'Alpha Card Services API for Ruby'
   gem.description = 'Gem for creating sales with Alpha Card Services'
   gem.authors = ['Nikita Bulaj']
@@ -16,7 +16,6 @@ Gem::Specification.new do |gem|
   gem.license = 'MIT'
   gem.required_ruby_version = '>= 2.2.2'
 
-  gem.add_runtime_dependency 'virtus', '~> 1.0', '>= 1.0.5'
   gem.add_runtime_dependency 'rack', '~> 2.0', '>= 2.0'
 
   gem.add_development_dependency 'rspec', '~> 3.5'

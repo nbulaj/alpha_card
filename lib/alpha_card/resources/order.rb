@@ -2,16 +2,16 @@ module AlphaCard
   ##
   # Implementation of Alpha Card Services Order object.
   # Contains all the information about order (id, description, etc).
-  class Order < AlphaCardObject
-    attribute :id, String
-    attribute :description, String
-    attribute :po_number, String
-    attribute :tax, String
+  class Order < Resource
+    attribute :id
+    attribute :description, type: String
+    attribute :po_number, type: String
+    attribute :tax, type: String
     # Format: xxx.xxx.xxx.xxx
-    attribute :ip_address, String
+    attribute :ip_address, format: /\A(?:[0-9]{1,3}\.){3}[0-9]{1,3}\z/.freeze
 
-    attribute :billing, AlphaCard::Billing
-    attribute :shipping, AlphaCard::Shipping
+    attribute :billing, type: AlphaCard::Billing
+    attribute :shipping, type: AlphaCard::Shipping
 
     ##
     # Original AlphaCard transaction variables names

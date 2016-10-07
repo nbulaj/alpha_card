@@ -15,4 +15,8 @@ require 'alpha_card'
 
 RSpec.configure do |config|
   config.order = 'random'
+
+  config.before(:suite) do
+    AlphaCard::Account.use_demo_credentials!
+  end
 end

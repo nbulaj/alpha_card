@@ -1,10 +1,9 @@
 module AlphaCard
   ##
-  # Parent class for each Alpha Card Gateway object, such as
-  # Order, Billing, Sale and others.
-  class AlphaCardObject
+  # Alpha Card resource base class.
+  class Resource
     # Attributes DSL
-    include Virtus.model(nullify_blank: true)
+    include AlphaCard::Attribute
 
     ##
     # Original AlphaCard transaction variables names
@@ -14,36 +13,21 @@ module AlphaCard
     # Returns only filled attributes with the original Alpha Card Services
     # transaction variables names.
     #
-    # @param [Hash] attrs
+    # @param attrs [Hash]
     #   Attributes that must be converted to AlphaCard request params/
     #   Default value is <code>filled_attributes</code>.
     #
     # @example
     #   order = AlphaCard::Order.new(id: '1', tax: nil, po_number: 'PO123')
-    #   order.send(:attributes_for_request)
+    #   order.attributes_for_request
     #
     #   #=> { orderid: '1', ponumber: 'PO123' }
+    #
     def attributes_for_request(attrs = filled_attributes)
       return attrs if self.class::ORIGIN_TRANSACTION_VARIABLES.empty?
 
       attrs.each_with_object({}) do |(attr, value), request_attrs|
         request_attrs[self.class::ORIGIN_TRANSACTION_VARIABLES.fetch(attr, attr)] = value
-      end
-    end
-
-    ##
-    # Deprecate old transaction variables names.
-    def self.deprecate_old_variables!
-      self::ORIGIN_TRANSACTION_VARIABLES.each do |new_attr, old_attr|
-        define_method "#{old_attr}=" do |value|
-          warn "[DEPRECATION] #{old_attr}= is deprecated! Please, use #{new_attr}= instead"
-          self[new_attr] = value
-        end
-
-        define_method old_attr do
-          warn "[DEPRECATION] #{old_attr} is deprecated! Please, use #{new_attr} instead"
-          self[new_attr]
-        end
       end
     end
 
@@ -66,14 +50,16 @@ module AlphaCard
     end
 
     ##
-    # Validate passed attributes for presence. Raises an exception
+    # Validate required attributes to be filled. Raises an exception
     # if one of the attribute is not specified.
     #
-    # @param [Array] attributes
-    #   array of attributes to check
-    def abort_if_attributes_blank!(*attributes)
-      attributes.each do |attr|
-        raise InvalidObjectError, "#{attr} must be present!" if self[attr].nil? || self[attr].empty?
+    # @raise [AlphaCard::InvalidObjectError] error if required attributes not set
+    #
+    def validate_required_attributes!
+      unless required_attributes?
+        blank_attribute = required_attributes.detect { |attr| self[attr].nil? || self[attr].empty? }
+
+        raise ValidationError, "#{blank_attribute} can't be blank"
       end
     end
   end

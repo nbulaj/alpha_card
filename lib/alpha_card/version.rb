@@ -11,7 +11,7 @@ module AlphaCard
     # Major version number
     MAJOR = 0
     # Minor version number
-    MINOR = 3
+    MINOR = 4
     # Smallest version number
     TINY  = 0
 

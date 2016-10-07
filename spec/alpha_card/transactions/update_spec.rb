@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe AlphaCard::Update do
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
-
   context 'with invalid attributes' do
     let(:update) { AlphaCard::Update.new(transaction_id: 'Some ID') }
+    let(:response) { update.process }
 
     it 'response with error' do
-      expect { update.create(account) }.to raise_error(AlphaCard::AlphaCardError)
+      expect(response.error?).to be_truthy
+      expect(response.message).to eq('Transaction was rejected by gateway')
     end
   end
 
@@ -30,7 +30,7 @@ describe AlphaCard::Update do
     let(:update) { AlphaCard::Update.new }
 
     it 'raises an InvalidObject error' do
-      expect { update.create(account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { update.create }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end

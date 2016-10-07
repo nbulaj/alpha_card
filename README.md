@@ -20,7 +20,7 @@ https://secure.alphacardgateway.com/merchants/resources/integration/integration_
 If using bundler, first add 'alpha_card' to your Gemfile:
 
 ```ruby
-gem 'alpha_card', '~> 0.3'
+gem 'alpha_card', '~> 0.4'
 ```
 
 And run:
@@ -32,50 +32,52 @@ bundle install
 Otherwise simply install the gem:
 
 ```sh
-gem install alpha_card
+gem install alpha_card -v '0.4'
 ```
 
 Dependencies required:
 
-*  ruby >= 2.0.0 or jruby >= 9.0.5.0;
+*  ruby >= 2.0.0 or [jruby](https://github.com/jruby/jruby) >= 9.0.5.0;
+
+## Configure
+
+In order to use Alpha Card Gateway API you need to have a Merchant account credentials such as `username` and `password`.
+
+If your project will always use only one account, then you can configure gem as follows:
+
+```ruby
+# config/initializers/alpha_card.rb - for Rails projects
+AlphaCard::Account.username = 'username'
+AlphaCard::Account.password = 'password'
+```
+
+Another way is to pass the credentials as a last argument when creating some transactions or perform operations (it can be useful when you need to operate with multiple Alpha Card accounts):
+
+```ruby
+void = AlphaCard::Void.new(transaction_id: '312110')
+void.process(username: 'demo', password: 'demo')
+```
 
 ## Alpha Card Objects & Transactions
 
 Alpha Card operates with next objects:
 
-*  Account
-*  Order
-    - Billing
-    - Shipping
-*  Sale
-*  Refund
-*  Void
-*  Capture
-*  Update
+*  [Order](#order)
+    - [Billing](#billing)
+    - [Shipping](#shipping)
+*  [Sale](#sale)/[Authorization](#authorization)/[Credit](#credit)/[Validate](#validate)
+*  [Refund](#refund)
+*  [Void](#void)
+*  [Capture](#capture)
+*  [Update](#update)
 
 Let us consider each of them.
-
-### Account
-
-Account represents credentials data to access Alpha Card Gateway.
-All transactions (`sale`, `refund`, etc) will be created for the specified account.
-
-_Required fields_:
-
-*  username : `String`
-*  password : `String`
-
-_Constructor_:
-
-```ruby
-AlphaCard::Account.new(username, password)
-```
 
 ### Order
 
 Order represents itself.
 
-_Optional fields_:
+_Optional attributes_:
 
 *  id : `String`
 *  description : `String`
@@ -88,14 +90,14 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Order.new(field_name: value, ...)
+AlphaCard::Order.new(property: value, ...)
 ```
 
 ### Billing
 
 Specify Billing information for Order.
 
-_Optional fields_:
+_Optional attributes_:
 
 *  first_name : `String`
 *  last_name : `String`
@@ -114,14 +116,14 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Billing.new(field_name: value, ...)
+AlphaCard::Billing.new(property: value, ...)
 ```
 
 ### Shipping
 
-Specify Shipping information for Order.
+Contains Shipping information for the Order.
 
-_Optional fields_:
+_Optional attributes_:
 
 *  first_name : `String`
 *  last_name : `String`
@@ -137,100 +139,105 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Shipping.new(field_name: value, ...)
+AlphaCard::Shipping.new(property: value, ...)
 ```
 
 ### Sale
 
-Sale is the main object of the Alpha Card Services. It processes fees associated with credit cards.
+Sale transaction is the main object of the Alpha Card Services. It is used to processed common payments for orders.
 
-_Required fields_:
+_Required attributes_:
 
 *  card_expiration_date : `String` (format: `MMYY`)
 *  card_number : `String`
 *  amount : `String` (format: `x.xx`)
 
-_Optional fields_:
+_Optional attributes_:
+
 *  cvv : `String`
 *  payment : `String` (default: `'creditcard'`, values: `'creditcard'` or `'check'`)
 *  customer_receipt : `String` (values `'true'` or `'false'`)
+*  check_name : `String`
+*  check_aba : `String`
+*  check_account : `String`
+*  account_holder_type : `String` (values: `'business'` or `'personal'`)
+*  account_type : `String` (values: `'checking'` or `'savings'`)
+*  sec_code : `String` (values: `'PPD'`, `'WEB'`, `'TEL'`, or `'CCD'`)
 
 _Constructor_:
 
 ```ruby
-AlphaCard::Sale.new(field_name: value, ...)
+AlphaCard::Sale.new(property: value, ...)
 ```
 
-To create the payment you must call *create(_alpha_card_order_, _alpha_card_account_)* method:
+To create the payment you must call *create(_alpha_card_order_)* method:
 
 ```ruby
 # ...
 sale = AlphaCard::Sale.new(amount: 10)
-success, alpha_card_response = sale.create(order, account)
+response = sale.process(order)
 
-# => [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
+# => #<AlphaCard::Response:0x1a0fda ...>
 ```
-
-This method returns _true_ if sale was created successfully and raise an `AlphaCardError` exception if some of the fields is invalid.
 
 ### Refund
 
 Represents refund transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
+*  transaction_id : `String` or `Integer`
 
-_Optional fields_:
+_Optional attributes_:
 
 *  amount : `String` (format: `x.xx`)
 
 _Constructor_:
 
 ```ruby
-AlphaCard::Refund.new(field_name: value, ...)
+AlphaCard::Refund.new(property: value, ...)
 ```
 
-To create the refund transaction you must call *create(_alpha_card_account_)* method:
+To create the refund transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 refund = AlphaCard::Refund.new(transaction_id: '12312312', amount: 10)
-refund.create(account)
+refund.process
 ```
 
 ### Void
 
 Represents void transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
+*  transaction_id : `String` or `Integer`
 
 _Constructor_:
 
 ```ruby
-AlphaCard::Void.new(field_name: value, ...)
+AlphaCard::Void.new(property: value, ...)
 ```
 
-To create the void transaction you must call *create(_alpha_card_account_)* method:
+To create the void transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 void = AlphaCard::Void.new(transaction_id: '12312312')
-void.create(account)
+void.create
 ```
 
 ### Capture
 
 Represents capture transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
-*  amount : `String` (format: `x.xx`)
+*  transaction_id : `String` or `Integer`
+*  amount : `String` (format: `xx.xx`)
 
-_Optional fields_:
+_Optional attributes_:
 
 *  tracking_number : `String`
 *  shipping_carrier : `String`
@@ -239,26 +246,26 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Capture.new(field_name: value, ...)
+AlphaCard::Capture.new(property: value, ...)
 ```
 
-To create the capture transaction you must call *create(_alpha_card_account_)* method:
+To create the capture transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 capture = AlphaCard::Capture.new(transaction_id: '12312312', amount: '5.05')
-capture.create(account)
+capture.create
 ```
 
 ### Update
 
 Represents update transaction.
 
-_Required fields_:
+_Required attributes_:
 
-*  transaction_id : `String`
+*  transaction_id : `String` or `Integer`
 
-_Optional fields_:
+_Optional attributes_:
 *  shipping: `String`
 *  shipping_postal: `String`
 *  ship_from_postal: `String`
@@ -285,16 +292,28 @@ _Optional fields_:
 _Constructor_:
 
 ```ruby
-AlphaCard::Update.new(field_name: value, ...)
+AlphaCard::Update.new(property: value, ...)
 ```
 
-To create update transaction you must call *create(_alpha_card_account_)* method:
+To create update transaction you must call *create* or *process* method:
 
 ```ruby
 # ...
 update = AlphaCard::Update.new(tax: '10.02', shipping_carrier: 'ups', transaction_id: '66928')
-update.create(account)
+update.process
 ```
+
+### Authorization
+
+Has the same attributes and methods as `Sale` transaction.
+
+### Credit
+
+Has the same attributes and methods as `Sale` transaction.
+
+### Validate
+
+Has the same attributes and methods as `Sale` transaction, except `amount` — there is no need in it.
 
 ## Example of usage
 
@@ -304,7 +323,9 @@ Create AlphaCard sale (pay for the order):
 require 'alpha_card'
 
 def create_payment
-  account = AlphaCard::Account.new('demo', 'password')
+  # Setup merchant account credentials
+  AlphaCard::Account.username = 'demo'
+  AlphaCard::Account.password = 'password'
 
   billing = AlphaCard::Billing.new(email: 'test@example.com', phone: '+801311313111')
   shipping = AlphaCard::Shipping.new(address_1: '33 N str', city: 'New York', state: 'NY', zip_code: '132')
@@ -313,14 +334,17 @@ def create_payment
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
   sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
-  success, response = sale.create(order, account)
-  #=> [true, #<AlphaCard::AlphaCardResponse:0x1a0fda ...>]
-  puts "Order payed successfully: transaction ID = #{response.transaction_id} if success
-rescue AlphaCard::AlphaCardError => e
-  puts "Error message: #{e.response.message}"
-  puts "CVV response: #{e.response.cvv_response}"
-  puts "AVS response: #{e.response.avs_response}"
-  false
+  response = sale.create(order)
+  #=> #<AlphaCard::Response:0x1a0fda ...>
+  if response.success?
+    puts "Order payed successfully: transaction ID = #{response.transaction_id}"
+    true
+  else
+    puts "Error message: #{e.response.message}"
+    puts "CVV response: #{e.response.cvv_response}"
+    puts "AVS response: #{e.response.avs_response}"
+    false
+  end
 end
 ```
 
@@ -329,26 +353,16 @@ end
 _Note_: take a look at the `amount` of the Order. It's format must be 'xx.xx'. All the information about variables formats 
 can be found on _Alpha Card Payment Gateway Integration Portal_ -> _Direct Post API_ -> _Documentation_ -> _Transaction Variables_
 
-Naming convention of attributes (such as "ccexp" or "orderid") was saved for compatibility with AlphaCard API.
-
-To raise some exceptions do the next:
+To simulate request that returns an error do the next:
 
 *  to cause a declined message, pass an amount less than 1.00;
 *  to trigger a fatal error message, pass an invalid card number;
 *  to simulate an AVS match, pass 888 in the address1 field, 77777 for zip;
 *  to simulate a CVV match, pass 999 in the cvv field.
 
-Example of exception:
-
-```ruby
-...
-2.1.1 :019 >  sale.create(order, account)
-AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
-```
-
 ## AlphaCard Response
 
-`AlphaCardResponse` contains all the necessary information about Alpha Card Gateway response. You can use the following API:
+`AlphaCard::Response` contains all the necessary information about Alpha Card Gateway response. You can use the following API:
 
 *  `.text` — textual response of the Alpha Card Gateway;
 *  `.message` — response message be response code;
@@ -359,6 +373,16 @@ AlphaCard::AlphaCardError: Invalid Credit Card Number REFID:127145481
 *  `.success?`, `.error?`, `.declined?` — state of the request;
 *  `.cvv_response` — CVV response message;
 *  `.avs_response` — AVS response message.
+
+## Testing
+
+It is recommended to mock Alpha Card gem functionality, but if you want to create a "real" specs, then you can use Alpha Card Services testing account:
+
+```ruby
+AlphaCard::Account.use_demo_credentials!
+```
+
+Or you can pass the next credentials with any request: `{ username: 'demo', password: 'password' }`
 
 ## Contributing
 

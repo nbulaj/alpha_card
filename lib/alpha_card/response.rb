@@ -3,7 +3,7 @@ module AlphaCard
   # Implementation of Alpha Card Services response.
   # Contains all the data, that Alpha Card Gateway
   # returned for the request.
-  class AlphaCardResponse
+  class Response
     # Alpha Card Gateway response as a <code>Hash</code>.
     # @attr_reader [Hash] data
     attr_reader :data
@@ -25,17 +25,17 @@ module AlphaCard
     RESPONSE_MESSAGES = YAML.load_file(File.expand_path('../data/response_messages.yml', __FILE__)).freeze
 
     ##
-    # AlphaCardResponse constructor.
+    # Alpha Card Response constructor.
     #
-    # @param [String] response_body
+    # @param response_body [String]
     #   Alpha Card Gateway response body text
     #
-    # @return [AlphaCardResponse] AlphaCardResponse object
+    # @return [Response] Alpha Card Response object
     #
     # @example
-    #   AlphaCard::AlphaCardResponse.new('response=1&responsetext=Test')
+    #   AlphaCard::Response.new('response=1&responsetext=Test')
     #
-    #   #=> #<AlphaCard::AlphaCardResponse:0x00000003f2b568 @data={"response"=>"1", "responsetext"=>"Test"}>
+    #   #=> #<AlphaCard::Response:0x00000003f2b568 @data={"response"=>"1", "responsetext"=>"Test"}>
     def initialize(response_body)
       @data = Rack::Utils.parse_query(response_body)
     end
@@ -128,6 +128,21 @@ module AlphaCard
     #   #=> '083319'
     def auth_code
       @data['authcode']
+    end
+
+    # Credit Card Authorization Message based on returned code in accordance with
+    # the Global Payment Systems Credit Card Authorization Codes (codes.yml).
+    #
+    # @return [String] auth message
+    #
+    # @example
+    #
+    #   response = AlphaCardResponse.new("response_text=AP")
+    #   response.credit_card_auth_message
+    #
+    #   #=> 'Approved or completed successfully'
+    def credit_card_auth_message
+      AlphaCard::CREDIT_CARD_CODES[text]
     end
 
     ##

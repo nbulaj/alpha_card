@@ -1,26 +1,26 @@
 require 'spec_helper'
 
 describe AlphaCard::Void do
-  let(:account) { AlphaCard::Account.new('demo', 'password') }
-
   context 'with invalid attributes' do
     let(:void) { AlphaCard::Void.new(transaction_id: 'Some ID') }
+    let(:response) { void.create }
 
     it 'response with error' do
-      expect { void.create(account) }.to raise_error(AlphaCard::AlphaCardError)
+      expect(response.error?).to be_truthy
+      expect(response.message).to eq('Transaction was rejected by gateway')
     end
   end
 
   context 'with valid attributes' do
-    let(:void) { AlphaCard::Void.new(transaction_id: '2303767426') }
+    let(:void) { AlphaCard::Void.new(transaction_id: 2303767426) }
 
     let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
-    let(:card_exp) { "#{'%02d' % Time.now.month}/#{Time.now.year.next}" }
+    let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'has valid request params' do
       expected_params = {
-        transactionid: '2303767426',
+        transactionid: 2303767426,
         type: 'void'
       }
 
@@ -28,12 +28,12 @@ describe AlphaCard::Void do
     end
 
     it 'processed successfully' do
-      success, response = sale.create(order, account)
-      expect(success).to be_truthy
+      response = sale.create(order)
+      expect(response.success?).to be_truthy
       expect(response.transaction_id).not_to be_nil
 
-      success, response = AlphaCard::Void.new(transaction_id: response.transaction_id).create(account)
-      expect(success).to be_truthy
+      response = AlphaCard::Void.new(transaction_id: response.transaction_id).process
+      expect(response.success?).to be_truthy
       expect(response.text).to eq('Transaction Void Successful')
     end
   end
@@ -42,7 +42,7 @@ describe AlphaCard::Void do
     let(:void) { AlphaCard::Void.new }
 
     it 'raises an InvalidObject error' do
-      expect { void.create(account) }.to raise_error(AlphaCard::InvalidObjectError)
+      expect { void.create }.to raise_error(AlphaCard::ValidationError)
     end
   end
 end
