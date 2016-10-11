@@ -15,6 +15,28 @@ http://www.alphacardservices.com/
 Payment Gateway Integration Portal:
 https://secure.alphacardgateway.com/merchants/resources/integration/integration_portal.php
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Alpha Card Objects & Transactions](#alpha-card-objects--transactions)
+  - [Order](#order)
+    - [Billing](#billing)
+    - [Shipping](#shipping)
+  - [Sale](#sale)
+  - [Refund](#refund)
+  - [Void](#void)
+  - [Capture](#capture)
+  - [Update](#update)
+  - [Authorization](#authorization)
+  - [Credit](#credit)
+  - [Validate](#validate)
+- [Example of usage](#example-of-usage)
+- [AlphaCard Response](#alphacard-response)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Installation
 
 If using bundler, first add 'alpha_card' to your Gemfile:
@@ -39,7 +61,7 @@ Dependencies required:
 
 *  ruby >= 2.0.0 or [jruby](https://github.com/jruby/jruby) >= 9.0.5.0;
 
-## Configure
+## Configuration
 
 In order to use Alpha Card Gateway API you need to have a Merchant account credentials such as `username` and `password`.
 
