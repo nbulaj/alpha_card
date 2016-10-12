@@ -59,7 +59,7 @@ gem install alpha_card -v '0.4'
 
 Dependencies required:
 
-*  ruby >= 2.0.0 or [jruby](https://github.com/jruby/jruby) >= 9.0.5.0;
+*  ruby >= 2.2.2 or [jruby](https://github.com/jruby/jruby) >= 9.0.5.0;
 
 ## Configuration
 
