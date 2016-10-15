@@ -358,6 +358,7 @@ def create_payment
   sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
   response = sale.create(order)
   #=> #<AlphaCard::Response:0x1a0fda ...>
+
   if response.success?
     puts "Order payed successfully: transaction ID = #{response.transaction_id}"
     true
@@ -367,6 +368,10 @@ def create_payment
     puts "AVS response: #{e.response.avs_response}"
     false
   end
+
+  rescue AlphaCard::APIConnectionError => e
+    puts "Connection problems: #{e.message}"
+    false
 end
 ```
 
