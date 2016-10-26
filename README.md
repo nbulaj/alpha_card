@@ -11,7 +11,7 @@ This gem can help your Ruby, JRuby or Ruby on Rails application to integrate wit
 
 Alpha Card Services: 
 http://www.alphacardservices.com/
-     
+
 Payment Gateway Integration Portal:
 https://secure.alphacardgateway.com/merchants/resources/integration/integration_portal.php
 
@@ -355,7 +355,7 @@ def create_payment
   order = AlphaCard::Order.new(id: 1, description: 'Test order', billing: billing, shipping: shipping)
 
   # Format of amount: "XX.XX" ("%.2f" % Float)
-  sale = AlphaCard::Sale.new(card_epiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
+  sale = AlphaCard::Sale.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
   response = sale.create(order)
   #=> #<AlphaCard::Response:0x1a0fda ...>
 
