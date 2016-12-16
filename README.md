@@ -65,12 +65,23 @@ Dependencies required:
 
 In order to use Alpha Card Gateway API you need to have a Merchant account credentials such as `username` and `password`.
 
-If your project will always use only one account, then you can configure gem as follows:
+If your project will always use only one account for processing payments, then you can configure gem as follows:
 
 ```ruby
-# config/initializers/alpha_card.rb - for Rails projects
 AlphaCard::Account.username = 'username'
 AlphaCard::Account.password = 'password'
+```
+
+In Rails applications you can create an initializer:
+
+```ruby
+# config/initializers/alpha_card.rb
+if Rails.env.test? || Rails.env.ci?
+  AlphaCard::Account.use_demo_credentials!
+else
+  AlphaCard::Account.username = 'username'
+  AlphaCard::Account.password = 'password'
+end
 ```
 
 Another way is to pass the credentials as a last argument when creating some transactions or perform operations (it can be useful when you need to operate with multiple Alpha Card accounts):
