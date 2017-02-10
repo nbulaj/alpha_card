@@ -365,7 +365,7 @@ def create_payment
 
   order = AlphaCard::Order.new(id: 1, description: 'Test order', billing: billing, shipping: shipping)
 
-  # Format of amount: "XX.XX" ("%.2f" % Float)
+  # Format of the amount: "XX.XX"
   sale = AlphaCard::Sale.new(card_expiration_date: '0117', card_number: '4111111111111111', amount: '1.50', cvv: '123')
   response = sale.create(order)
   #=> #<AlphaCard::Response:0x1a0fda ...>
@@ -445,4 +445,4 @@ Thanks.
 
 Alpha Card gem is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
-Copyright (c) 2014-2016 Nikita Bulaj (bulajnikita@gmail.com).
+Copyright (c) 2014-2017 Nikita Bulai (bulajnikita@gmail.com).
