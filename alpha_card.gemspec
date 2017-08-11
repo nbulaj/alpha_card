@@ -5,10 +5,10 @@ require 'alpha_card/version'
 Gem::Specification.new do |gem|
   gem.name = 'alpha_card'
   gem.version = AlphaCard.gem_version
-  gem.date = '2016-10-07'
+  gem.date = '2017-08-11'
   gem.summary = 'Alpha Card Services API for Ruby'
   gem.description = 'Gem for creating sales with Alpha Card Services'
-  gem.authors = ['Nikita Bulaj']
+  gem.authors = ['Nikita Bulai']
   gem.email = 'bulajnikita@gmail.com'
   gem.require_paths = ['lib']
   gem.files = `git ls-files`.split($RS)

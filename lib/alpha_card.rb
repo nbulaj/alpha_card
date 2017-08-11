@@ -3,6 +3,7 @@ require 'yaml'
 require 'net/http'
 require 'uri'
 require 'rack/utils'
+require 'openssl'
 
 # Version
 require 'alpha_card/version'

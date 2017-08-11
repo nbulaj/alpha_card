@@ -2,6 +2,13 @@
 
 Reverse Chronological Order:
 
+## `0.4.1` (2017-08-10)
+
+https://github.com/nbulaj/alpha_card/compare/0.4.0...0.4.1
+
+### Changes
+* Fix `OpenSSL` error
+
 ## `0.4.0` (2016-10-07)
 
 https://github.com/nbulaj/alpha_card/compare/0.3.0...0.4.0

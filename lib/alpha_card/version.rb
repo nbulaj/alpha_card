@@ -13,7 +13,7 @@ module AlphaCard
     # Minor version number
     MINOR = 4
     # Smallest version number
-    TINY  = 0
+    TINY  = 1
 
     # Full version number
     STRING = [MAJOR, MINOR, TINY].compact.join('.')
