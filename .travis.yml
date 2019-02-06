@@ -1,16 +1,29 @@
 language: ruby
-before_install: gem install bundler
-bundler_args: --without yard guard benchmarks
 script: "rake spec"
+
+before_install:
+  - "find /home/travis/.rvm/rubies -wholename '*default/bundler-*.gemspec' -delete"
+  - rvm @global do gem uninstall bundler -a -x -I || true
+  - gem install bundler -v '~> 1.10'
+
+bundler_args: --without yard guard benchmarks
+
 rvm:
-  - 2.2.4
-  - 2.3.3
-  - 2.4.0
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
   - jruby-9.0.5.0
   - jruby-9.1.5.0
   - jruby-9.1.6.0
+  - jruby-9.2.1
   - ruby-head
+  - truffleruby
+
 env: JRUBY_OPTS="$JRUBY_OPTS --debug"
+
 matrix:
   allow_failures:
     - rvm: ruby-head
+    - rvm: truffleruby
