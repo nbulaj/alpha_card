@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Capture do
@@ -15,7 +18,7 @@ describe AlphaCard::Capture do
     let(:capture) { AlphaCard::Capture.new(transaction_id: 'Some ID', amount: '10.05', order_id: '1', shipping_carrier: '2') }
 
     let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
-    let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
+    let(:card_exp) { (Time.now + 31_104_000).strftime('%m%y') }
     let(:auth) { AlphaCard::Auth.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
     it 'has valid request params' do
@@ -24,7 +27,7 @@ describe AlphaCard::Capture do
         type: 'capture',
         amount: '10.05',
         shipping_carrier: '2',
-        orderid: '1'
+        orderid: '1',
       }
 
       expect(capture.attributes_for_request).to eq(expected_params)

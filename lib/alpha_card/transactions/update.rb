@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Update transaction.
@@ -19,7 +22,7 @@ module AlphaCard
     attribute :ship_from_postal, type: String
     attribute :shipping_country, type: String
     # Values: 'ups', 'fedex', 'dhl', or 'usps'
-    attribute :shipping_carrier, type: String, values: %w(ups fedex dhl usps).freeze
+    attribute :shipping_carrier, type: String, values: %w[ups fedex dhl usps].freeze
     # Format: YYYYMMDD
     attribute :shipping_date, type: String, format: /\A[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|((1|2)[0-9])|3[0-1])\z/.freeze
     attribute :order_description, type: String
@@ -55,7 +58,7 @@ module AlphaCard
     # Original AlphaCard transaction variables names
     ORIGIN_TRANSACTION_VARIABLES = {
       transaction_id: :transactionid,
-      po_number: :ponumber
+      po_number: :ponumber,
     }.freeze
   end
 end

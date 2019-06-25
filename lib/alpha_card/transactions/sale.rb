@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Sale transaction.
@@ -6,7 +9,7 @@ module AlphaCard
   # Process the Alpha Card Services payment.
   class Sale < Transaction
     # Format: MMYY
-    attribute :card_expiration_date, required: true, format: /\A((0[1-9])|(1[0-2]))\/*\d{2}\z/.freeze
+    attribute :card_expiration_date, required: true, format: %r{\A((0[1-9])|(1[0-2]))/*\d{2}\z}.freeze
     attribute :card_number, required: true
     attribute :amount, required: true
     attribute :cvv
@@ -16,16 +19,16 @@ module AlphaCard
     attribute :check_aba
     attribute :check_account
     # Values: 'business' or 'personal'
-    attribute :account_holder_type, values: %w(business personal).freeze
+    attribute :account_holder_type, values: %w[business personal].freeze
     # Values: 'checking' or 'savings'
-    attribute :account_type, values: %w(checking savings).freeze
+    attribute :account_type, values: %w[checking savings].freeze
     # Values: 'PPD', 'WEB', 'TEL', or 'CCD'
-    attribute :sec_code, values: %w(PPD WEB TEL CCD).freeze
+    attribute :sec_code, values: %w[PPD WEB TEL CCD].freeze
 
     ##
     # Payment type.
     # Values: 'creditcard' or 'check'
-    attribute :payment, default: 'creditcard', values: %w(creditcard check).freeze
+    attribute :payment, default: 'creditcard', values: %w[creditcard check].freeze
 
     ##
     # Transaction type (default is 'sale')
@@ -40,7 +43,7 @@ module AlphaCard
       card_number: :ccnumber,
       check_name: :checkname,
       check_aba: :checkaba,
-      check_account: :checkaccount
+      check_account: :checkaccount,
     }.freeze
 
     ##
@@ -70,7 +73,7 @@ module AlphaCard
       AlphaCard.request(params_for_sale(order), credentials)
     end
 
-    alias_method :create, :process
+    alias create process
 
     private
 

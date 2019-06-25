@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Attribute do
@@ -104,23 +107,23 @@ describe AlphaCard::Attribute do
     end
 
     it 'must not allow to add invalid attributes' do
-      expect {
+      expect do
         Admin.class_eval <<-RUBY.strip
           attribute :some, values: 10
         RUBY
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         Admin.class_eval <<-RUBY.strip
           attribute :some, values: []
         RUBY
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
 
-      expect {
+      expect do
         Admin.class_eval <<-RUBY.strip
           attribute :some, format: 10
         RUBY
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
     end
   end
 end

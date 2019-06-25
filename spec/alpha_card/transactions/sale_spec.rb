@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Sale do
   let(:billing) { AlphaCard::Billing.new(email: 'test@example.com', address_1: 'N', address_2: 'Y', state: 'MN') }
   let(:shipping) { AlphaCard::Shipping.new(first_name: 'John', last_name: 'Doe', address_1: '22 N str.', state: 'MN') }
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test', billing: billing, shipping: shipping) }
-  let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
+  let(:card_exp) { (Time.now + 31_104_000).strftime('%m%y') }
 
   context 'with valid attributes' do
     let(:sale) { AlphaCard::Sale.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
@@ -25,7 +28,7 @@ describe AlphaCard::Sale do
         shipping_address_1: '22 N str.',
         shipping_first_name: 'John',
         shipping_last_name: 'Doe',
-        shipping_state: 'MN'
+        shipping_state: 'MN',
       }
 
       expect(sale.send(:params_for_sale, order)).to eq(expected_params)

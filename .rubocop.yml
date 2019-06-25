@@ -1,0 +1,37 @@
+AllCops:
+  TargetRubyVersion: 2.4
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Metrics/LineLength:
+  Exclude:
+    - spec/**/*
+  Max: 100
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/SymbolArray:
+  MinSize: 3
+Style/WordArray:
+  MinSize: 3
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - spec/**/*
+Style/NumericPredicate:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/TrailingBlankLines:
+  Enabled: true
+Layout/DotPosition:
+  EnforcedStyle: leading

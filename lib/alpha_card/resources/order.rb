@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Order object.
@@ -19,7 +22,7 @@ module AlphaCard
       id: :orderid,
       description: :orderdescription,
       po_number: :ponumber,
-      ip_address: :ipaddress
+      ip_address: :ipaddress,
     }.freeze
 
     ##
@@ -37,8 +40,8 @@ module AlphaCard
     #   order.attributes_for_request
     #
     #   #=>  { orderid: '1', email: 'test@example.com', shipping_first_name: 'John', shipping_last_name: 'Doe' }
-    def attributes_for_request(*)
-      attributes = filled_attributes.dup
+    def attributes_for_request(attrs = filled_attributes)
+      attributes = attrs.dup
 
       billing = attributes.delete(:billing)
       attributes.merge!(billing.attributes_for_request) if billing

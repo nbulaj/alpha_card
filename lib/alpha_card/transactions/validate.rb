@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: strict
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Validate transaction.

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Capture transaction.
@@ -26,7 +29,7 @@ module AlphaCard
     # Original AlphaCard transaction variables names
     ORIGIN_TRANSACTION_VARIABLES = {
       transaction_id: :transactionid,
-      order_id: :orderid
+      order_id: :orderid,
     }.freeze
   end
 end

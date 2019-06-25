@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'rack/test'
 
 if ENV['CI'] || ENV['TRAVIS'] || ENV['COVERALLS'] || ENV['JENKINS_URL']

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
 
 require 'alpha_card/version'
@@ -13,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.files = `git ls-files`.split($RS)
   gem.homepage = 'http://github.com/nbulaj/alpha_card'
   gem.license = 'MIT'
-  gem.required_ruby_version = '>= 2.2.2'
+  gem.required_ruby_version = '>= 2.4'
 
   gem.add_runtime_dependency 'rack', '~> 2.0', '>= 2.0'
 

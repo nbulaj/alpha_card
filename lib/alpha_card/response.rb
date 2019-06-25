@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services response.
@@ -9,20 +12,20 @@ module AlphaCard
     attr_reader :data
 
     # Success response code
-    APPROVED = '1'.freeze
+    APPROVED = '1'
     # Decline response code
-    DECLINED = '2'.freeze
+    DECLINED = '2'
     # Error response code
-    ERROR    = '3'.freeze
+    ERROR    = '3'
 
     # Messages for CVV response codes
-    CVV_RESPONSES = YAML.load_file(File.expand_path('../data/cvv_responses.yml', __FILE__)).freeze
+    CVV_RESPONSES = YAML.load_file(File.expand_path('data/cvv_responses.yml', __dir__)).freeze
 
     # Messages for AVS response codes
-    AVS_RESPONSES = YAML.load_file(File.expand_path('../data/avs_responses.yml', __FILE__)).freeze
+    AVS_RESPONSES = YAML.load_file(File.expand_path('data/avs_responses.yml', __dir__)).freeze
 
     # AlphaCard response messages
-    RESPONSE_MESSAGES = YAML.load_file(File.expand_path('../data/response_messages.yml', __FILE__)).freeze
+    RESPONSE_MESSAGES = YAML.load_file(File.expand_path('data/response_messages.yml', __dir__)).freeze
 
     ##
     # Alpha Card Response constructor.

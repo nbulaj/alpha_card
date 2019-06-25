@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: strong
 module AlphaCard
   ##
   # Exception class for invalid Alpha Card objects.

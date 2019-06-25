@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Auth do
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
-  let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
+  let(:card_exp) { (Time.now + 31_104_000).strftime('%m%y') }
   let(:auth) { AlphaCard::Auth.new(card_expiration_date: card_exp, card_number: '4111111111111111', amount: '5.00') }
 
   context 'with invalid attributes' do
@@ -21,7 +24,7 @@ describe AlphaCard::Auth do
         ccnumber: '4111111111111111',
         amount: '5.00',
         payment: 'creditcard',
-        type: 'auth'
+        type: 'auth',
       }
 
       expect(auth.attributes_for_request).to eq(expected_params)
