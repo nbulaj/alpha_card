@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# typed: true
+#
 module AlphaCard
   # AlphaCard Account class for global credentials settings
   class Account

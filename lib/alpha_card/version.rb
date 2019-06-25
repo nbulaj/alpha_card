@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # AlphaCard gem version.
@@ -11,9 +14,9 @@ module AlphaCard
     # Major version number
     MAJOR = 0
     # Minor version number
-    MINOR = 4
+    MINOR = 5
     # Smallest version number
-    TINY  = 1
+    TINY = 0
 
     # Full version number
     STRING = [MAJOR, MINOR, TINY].compact.join('.')

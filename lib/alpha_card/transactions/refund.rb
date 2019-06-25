@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services Refund transaction.
@@ -21,7 +24,7 @@ module AlphaCard
     ##
     # Original AlphaCard transaction variables names
     ORIGIN_TRANSACTION_VARIABLES = {
-      transaction_id: :transactionid
+      transaction_id: :transactionid,
     }.freeze
   end
 end

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Response do

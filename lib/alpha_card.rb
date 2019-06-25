@@ -1,4 +1,7 @@
-# encoding:utf-8
+# frozen_string_literal: true
+
+# typed: true
+
 require 'yaml'
 require 'net/http'
 require 'uri'
@@ -47,7 +50,7 @@ module AlphaCard
   # Global Payment Systems (NDC) Credit Card Authorization Codes
   #
   # @see http://floristwiki.ftdi.com/images/c/ce/Appendix_A_-_Credit_Card_Authorization_Codes.pdf Credit Card Authorization Codes
-  CREDIT_CARD_CODES = YAML.load_file(File.expand_path('../alpha_card/data/credit_card_codes.yml', __FILE__))
+  CREDIT_CARD_CODES = YAML.load_file(File.expand_path('alpha_card/data/credit_card_codes.yml', __dir__))
 
   class << self
     # @return [String] Alpha Card Gateway DirectPost API URL.
@@ -88,15 +91,16 @@ module AlphaCard
     #       "response_code"=>"100"}>
     #
     def request(params = {}, credentials = Account.credentials)
-      raise ArgumentError, 'You must pass a Hash with Account credentials!' unless Account.valid_credentials?(credentials)
+      unless Account.valid_credentials?(credentials)
+        raise ArgumentError, 'You must pass a Hash with Account credentials!'
+      end
 
       begin
         response = http_post_request(@api_base, params.merge(credentials))
-      rescue => e
+        Response.new(response&.body)
+      rescue StandardError => e
         handle_connection_errors(e)
       end
-
-      Response.new(response.body)
     end
 
     ##
@@ -131,7 +135,7 @@ module AlphaCard
     # @param url [String] URL
     # @param params [Hash] hash of params for the request
     #
-    # @return [HTTPResponse]
+    # @return [Net::HTTPResponse]
     #   Response of the request as HTTPResponse object
     def http_post_request(url, params)
       uri = URI.parse(url)

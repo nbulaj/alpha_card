@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Implementation of Alpha Card Services order shipping information.
@@ -22,7 +25,7 @@ module AlphaCard
       first_name: :firstname,
       last_name: :lastname,
       address_1: :address1,
-      address_2: :address2
+      address_2: :address2,
     }.freeze
 
     protected

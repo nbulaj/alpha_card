@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Refund do
@@ -18,7 +21,7 @@ describe AlphaCard::Refund do
       expected_params = {
         transactionid: 'Some ID',
         type: 'refund',
-        amount: '10.05'
+        amount: '10.05',
       }
 
       expect(refund.attributes_for_request).to eq(expected_params)

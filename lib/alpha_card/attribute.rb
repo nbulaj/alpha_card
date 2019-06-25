@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 module AlphaCard
   # Attribute DSL for Alpha Card transaction variables
   module Attribute
@@ -77,13 +80,12 @@ module AlphaCard
       #
       def remove_attribute(name)
         symbolized_name = name.to_sym
+        return unless attributes_set.keys.include?(symbolized_name)
 
-        if attributes_set.keys.include?(symbolized_name)
-          undef_method(symbolized_name)
-          undef_method("#{name}=") if method_defined?("#{name}=")
+        undef_method(symbolized_name)
+        undef_method("#{name}=") if method_defined?("#{name}=")
 
-          attributes_set.delete(symbolized_name)
-        end
+        attributes_set.delete(symbolized_name)
       end
 
       private
@@ -146,7 +148,10 @@ module AlphaCard
       #
       def extract_values_from(options = {})
         values = options[:values] || return
-        raise ArgumentError, ':values option must be an Array or respond to .to_a!' unless values.is_a?(Array) || values.respond_to?(:to_a)
+
+        unless values.is_a?(Array) || values.respond_to?(:to_a)
+          raise ArgumentError, ':values option must be an Array or respond to #to_a!'
+        end
         raise ArgumentError, ":values option can't be empty!" if values.empty?
 
         values.to_a

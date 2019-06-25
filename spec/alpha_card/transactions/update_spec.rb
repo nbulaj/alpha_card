@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Update do
@@ -19,7 +22,7 @@ describe AlphaCard::Update do
         transactionid: 'Some ID',
         type: 'update',
         ponumber: 'PO1',
-        shipping: 'Test'
+        shipping: 'Test',
       }
 
       expect(update.attributes_for_request).to eq(expected_params)

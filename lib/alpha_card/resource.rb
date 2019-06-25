@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: false
 module AlphaCard
   ##
   # Alpha Card resource base class.
@@ -46,7 +49,7 @@ module AlphaCard
     #
     #   #=> { id: '1', po_number: 'PO123' }
     def filled_attributes
-      attributes.select { |_, value| !value.nil? }
+      attributes.reject { |_, value| value.nil? }
     end
 
     ##

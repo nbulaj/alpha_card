@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# typed: false
 require 'spec_helper'
 
 describe AlphaCard::Validate do
   let(:order) { AlphaCard::Order.new(id: '1', description: 'Test') }
-  let(:card_exp) { (Time.now + 31104000).strftime('%m%y') }
+  let(:card_exp) { (Time.now + 31_104_000).strftime('%m%y') }
 
   context 'with valid attributes' do
     let(:validate) { AlphaCard::Validate.new(card_expiration_date: card_exp, card_number: '4111111111111111') }
@@ -33,7 +36,6 @@ describe AlphaCard::Validate do
       expect(validate.send(:params_for_sale, order)).not_to include(:amount)
     end
   end
-
 
   context 'without attributes' do
     let(:validate) { described_class.new }

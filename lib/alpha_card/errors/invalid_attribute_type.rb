@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # AlphaCard resource attributes value error

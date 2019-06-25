@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# typed: true
 module AlphaCard
   ##
   # Base Alpha Card transaction object.
@@ -25,6 +28,6 @@ module AlphaCard
       AlphaCard.request(attributes_for_request, credentials)
     end
 
-    alias_method :create, :process
+    alias create process
   end
 end
